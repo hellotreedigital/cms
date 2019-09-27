@@ -1,0 +1,32 @@
+@extends('cms/layouts/dashboard')
+
+@section('breadcrumb')
+	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
+		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%') }}">%%display_name_plural%%</a></li>
+		%%show_page_id_breadcrumb%%
+		<li>Show</li>
+	</ul>
+@endsection
+
+@section('dashboard-content')
+
+	<div class="card p-4 mx-2 mx-sm-5">
+
+		<div class="row">
+			<div class="col-lg-6">
+				<p class="font-weight-bold text-uppercase mb-4">Show %%display_name%% #{{ $row['id'] }}</p>
+			</div>
+			<div class="col-lg-6 text-right">
+				<div class="actions p-0">
+					@if (session('admin')['cms_pages']['%%route%%']['permissions']['edit'])
+						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
+					@endif
+					%%delete_button_show_page%%
+				</div>
+			</div>
+		</div>
+
+		%%show_fields%%
+	</div>
+
+@endsection

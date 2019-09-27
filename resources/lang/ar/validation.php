@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'required' => 'حقل :attribute مطلوب.',
+    'mimes' => 'يجب أن تكون  ملف من النوع  :values',
+    'email' => 'يجب أن تكون :attribute عنوان بريد إلكتروني صالحًا.',
+
+    'attributes' => [
+        'entity_name' => 'اسم الجهة الحكومية المطلوبة للانضمام',
+        'entity_president_name' => 'اسم رئيس الكيان',
+        'entity_focal_point_name' => 'اسم جهة الاتصال الخاصة بالكيان',
+        'entity_contact_info' => 'معلومات الاتصال للكيان ورئيسه ونقطة الاتصال به',
+        'attachments' => 'المرفق',
+        'independent' => 'مستقل',
+        'commitment' => 'التزام',
+        'activities' => 'أنشطة',
+        'reputation' => 'سمعة',
+        'status' => 'الحالة',
+        'category' => 'الفئة',
+        'name' => 'اسم',
+        'country' => 'بلد',
+        'contact_info' => 'معلومات الاتصال',
+        'gender' => 'جنس',
+        'age_group' => 'الفئة العمرية',
+        'title' => 'عنوان',
+        'entity' => 'شخصية',
+        'subject' => 'موضوع',
+        'expert' => 'خبير',
+        'duration' => 'المدة الزمنية',
+        'funding' => 'التمويل',
+        'additional_info' => 'معلومات إضافية',
+        'request_details' => 'طلب تفاصيل',
+        'first_name' => 'الاسم الاول',
+        'last_name' => 'اسم العائلة',
+        'email' => 'البريد الإلكتروني',
+    ],
+];
