@@ -134,7 +134,10 @@ class CmsPagesController extends Controller
 		$fields = [];
 		$additional_cms_pages = [];
 		$order_display_form_field = '';
-		for ($i=0; $i < count($request['name']); $i++) { 
+		for ($i=0; $i < count($request['name']); $i++) {
+			// Check if field is unique
+			foreach($fields as $field) if ($field['name'] == $request['name'][$i]) return redirect()->back()->withInput($request->toArray())->withErrors(['Column "' . $request['name'][$i] . '" already exists']);
+
 			$fields[] = [
 				'name' => $request['name'][$i],
 				'migration_type' => $request['migration_type'][$i],
