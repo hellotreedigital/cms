@@ -140,7 +140,7 @@
 				<div class="px-4">
 					<p class="font-weight-bold">Edit:</p>
 					@include('cms/components/form-fields/checkbox', [
-						'label' => 'Migration',
+						'label' => 'Migration (Database rows will be removed)',
 						'name' => 'edit_migration',
 						'value' => old('edit_migration') ? old('edit_migration') : '',
 						'inline_label' => true,
