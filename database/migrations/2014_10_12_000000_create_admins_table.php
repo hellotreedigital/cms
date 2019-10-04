@@ -23,7 +23,7 @@ class CreateAdminsTable extends Migration
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role_id')->references('id')->on('admin_roles');
+            $table->foreign('role_id')->references('id')->on('admin_roles')->onDelete('cascade');
         });
     }
 

@@ -14,7 +14,7 @@
 			</li>
 			@foreach(session('admin')['cms_pages'] as $page)
 				@if ($page['permissions']['browse'])
-					<li class="position-relative {{ request()->is('admin/' . $page['route'] . '*') ? 'active' : '' }}">
+					<li class="position-relative {{ request()->is('admin/' . $page['route']) || request()->is('admin/' . $page['route'] . '/*') ? 'active' : '' }}">
 						<a class="d-block p-3" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
 							<i class="text-center mr-2 fa {{ $page['icon'] }}" aria-hidden="true"></i>
 							{{ $page['display_name_plural'] }}
