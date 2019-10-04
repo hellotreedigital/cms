@@ -581,7 +581,7 @@ class CmsPagesController extends Controller
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$table_body .= '
 								@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-									<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" style="display: inline-block;">
+									<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 										@csrf
 										<input type="hidden" name="_method" value="DELETE">
 										<button class="mb-2 btn btn-danger btn-sm">Delete</button>
@@ -745,7 +745,7 @@ class CmsPagesController extends Controller
 	{
 		$show_page_id_breadcrumb = '<li><a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}">{{ $row[' . "'" . 'id' . "'" . '] }}</a></li>';
 		$delete_button_show_page = '@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-						<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" style="display: inline-block;">
+						<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">
 							<button class="btn btn-danger btn-sm">Delete</button>
