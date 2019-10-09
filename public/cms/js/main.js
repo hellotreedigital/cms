@@ -7,6 +7,10 @@ $(document).ready(function() {
 		}, 3000);
 	});
 
+	$('.menu-dropdown-wrapper > a').on('click', function(){
+		$(this).closest('.menu-dropdown-wrapper').find('.menu-dropdown').slideToggle();
+	});
+
 	$('#burger').on('click', function(){
 		$('#content-overlay').fadeIn('fast', function(){
 			$('body').addClass('menu-open');
@@ -30,7 +34,7 @@ $(document).ready(function() {
     	}
     });
 
-    $('.file-wrapper input').on('change', function(e){
+    $(document).on('change', '.file-wrapper input', function(e){
     	var filesNames = '';
     	for (var i = 0; i < e.target.files.length; i++) filesNames += e.target.files[i].name + ', ';
     	filesNames = filesNames.slice(0, -2);
@@ -51,6 +55,7 @@ $(document).ready(function() {
 		var hour_input = inputs_wrapper.find('input:nth-child(1)');
 		var min_input = inputs_wrapper.find('input:nth-child(2)');
 		var period_input = inputs_wrapper.find('input:nth-child(3)');
+		var value_input = inputs_wrapper.find('input[type="hidden"]');
 
 		var i = $(this).index() + 1;
 		if (i == 1) {
@@ -61,6 +66,7 @@ $(document).ready(function() {
 				next_hour = +hour_input.val() - 1;
 				if (next_hour < 1) next_hour = 12;
 			}
+			if (next_hour.toString().length == 1) next_hour = "0" + next_hour;
 			hour_input.val(next_hour);
 		} else if (i == 2) {
 			if (btns_wrapper.hasClass('upper')) {
@@ -70,10 +76,13 @@ $(document).ready(function() {
 				next_min = +min_input.val() - 1;
 				if (next_min < 0) next_min = 59;
 			}
+			if (next_min.toString().length == 1) next_min = "0" + next_min;
 			min_input.val(next_min);
 		} else {
 			period_input.val(period_input.val() == 'AM' ? 'PM' : 'AM');
 		}
+
+		value_input.val(hour_input.val() + ':' + min_input.val() + ' ' + period_input.val());
 	});
 
 	var timeout = 0;
@@ -96,9 +105,15 @@ $(document).ready(function() {
 	quilljs_textarea('.quill', {
 		modules: {
 			toolbar: [
-			[{ header: [1, 2, 3, 4, 5, false] }],
-			['bold', 'italic', 'underline'],
-			['code-block']
+				[{ header: [1, 2, 3, 4, 5, false] }],
+				['bold', 'italic', 'underline'],
+				[{ 'list': 'ordered'}, { 'list': 'bullet' }],
+				[{ 'align': [] }],
+				['image'],
+				['link'],
+				['clean'],
+				// [{ 'color': [] }, { 'background': [] }],
+				// [{ 'font': [] }],
 			]
 		},
 		theme: 'snow'
@@ -107,7 +122,7 @@ $(document).ready(function() {
 	$('form.bulk-delete').on('submit', function(){
 
 		var form = $(this);
-		
+
 		var ids = '';
 		$('.delete-checkbox input:checked').each(function(e){
 			ids += $(this).val() + ',';
@@ -118,12 +133,14 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$('.remove-current-file input').on('change', function(){
-		if ($(this).is(':checked')) {
-			$(this).closest('.remove-current-file').find('.btn').text('Undo');
+	$('.remove-current-file').on('click', function(){
+		if ($(this).find('input').val() == 0) {
+			$(this).find('input').val('1')
+			$(this).find('.btn').text('Undo');
 			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideUp();
 		} else {
-			$(this).closest('.remove-current-file').find('.btn').text('Remove current file');
+			$(this).find('input').val('0')
+			$(this).find('.btn').text('Remove current file');
 			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideDown();
 		}
 	});

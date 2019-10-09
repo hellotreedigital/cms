@@ -255,7 +255,7 @@ class CmsPagesController extends Controller
 		// Include additional models
 		foreach ($additional_cms_pages as $additional_cms_page) $controller_header .= 'use App\\' . $additional_cms_page['model_name'] . ';
 ';
-		
+
 		// Create view additional variables
 		$create_additional_variables = '';
 		$create_compact = '';
@@ -266,7 +266,7 @@ class CmsPagesController extends Controller
 			$create_compact .= "'" . $additional_cms_page['database_table'] . "', ";
 		}
 		if ($create_compact) $create_compact = substr($create_compact, 0, -2) . ')';
-		
+
 		// Edit view additional variables
 		$edit_additional_variables = '';
 		$edit_compact = '';
@@ -328,6 +328,9 @@ class CmsPagesController extends Controller
 			} elseif ($field['form_field'] == 'checkbox') {
 				$store_query .= '$row->' . $field['name'] . ' = ($request->' . $field['name'] . ') ? 1 : 0;
 		';
+			} elseif ($field['form_field'] == 'time') {
+				$store_query .= '$row->' . $field['name'] . ' = date(' . "'" . 'H:i' . "'" . ', strtotime($request->' . $field['name'] . '));
+		';
 			} elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
 				$store_query .= 'if ($request->' . $field['name'] . ') {
             $image = time() . ' . "'" . '_' . "'" . ' . md5(rand()) . ' . "'" . '.' . "'" . ' . request()->' . $field['name'] . '->getClientOriginalExtension();
@@ -344,6 +347,8 @@ class CmsPagesController extends Controller
 		// Update validations
 		$update_validation = '';
 		foreach ($fields as $key => $field) {
+			if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
+
 			$update_validation .= "'" . $field['name'] . "' => '";
 
 			$validation_fields = '';
@@ -364,11 +369,16 @@ class CmsPagesController extends Controller
 		// Update query
 		$update_query = '';
 		foreach ($fields as $field) {
+			if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
+
 			if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
 				$update_query .= 'if ($request->' . $field['name'] . ') $row->' . $field['name'] . ' = Hash::make($request->' . $field['name'] . ');
 		';
 			} elseif ($field['form_field'] == 'checkbox') {
 				$update_query .= '$row->' . $field['name'] . ' = ($request->' . $field['name'] . ') ? 1 : 0;
+		';
+			} elseif ($field['form_field'] == 'time') {
+				$update_query .= '$row->' . $field['name'] . ' = date(' . "'" . 'H:i' . "'" . ', strtotime($request->' . $field['name'] . '));
 		';
 			} elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
 				$update_query .= 'if ($request->remove_file_' . $field['name'] . ') {
@@ -558,6 +568,9 @@ class CmsPagesController extends Controller
 								@endif
 							</td>
 							';
+			} elseif ($field['form_field'] == 'time') {
+				$table_body .= '<td>{{ date(' . "'" . 'h:i A' . "'" . ', strtotime($row[' . "'" . $field['name'] . "'" . '])) }}</td>
+							';
 			} elseif ($field['form_field'] == 'map coordinates') {
 				$table_body .= '<td>
 								<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $row[' . "'" . $field['name'] . "'" . '] }}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
@@ -581,14 +594,14 @@ class CmsPagesController extends Controller
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$table_body .= '
 								@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-									<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
+									<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 										@csrf
 										<input type="hidden" name="_method" value="DELETE">
 										<button class="mb-2 btn btn-danger btn-sm">Delete</button>
 									</form>
 								@endif';
 		}
-		$table_body .= '								
+		$table_body .= '
 							</td>';
 
 		$add_button = '';
@@ -658,6 +671,9 @@ class CmsPagesController extends Controller
 			} elseif ($field['form_field'] == 'date') {
 				$create_form_inputs .= "@include('cms/components/form-fields/date', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'value' => old('" . $field['name'] . "') ])
 			";
+			} elseif ($field['form_field'] == 'time') {
+				$create_form_inputs .= "@include('cms/components/form-fields/time', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'value' => old('" . $field['name'] . "') ])
+			";
 			} elseif ($field['form_field'] == 'password') {
 				$create_form_inputs .= "@include('cms/components/form-fields/input', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'type' => 'password', 'value' => '' ])
 			";
@@ -706,10 +722,14 @@ class CmsPagesController extends Controller
 				$edit_form_inputs .= "@include('cms/components/form-fields/image', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'value' => " . '$' . "row->" . $field['name'] . " ])
 			";
 			} elseif ($field['form_field'] == 'slug') {
-				$edit_form_inputs .= "@include('cms/components/form-fields/input', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'slug_origin' => '" . $field['form_field_additionals_1'] . "', 'type' => 'text', 'value' => old('" . $field['name'] . "') ? old('" . $field['name'] . "') : " . '$' . "row->" . $field['name'] . " ])
+				if ($field['form_field_additionals_2'])
+					$edit_form_inputs .= "@include('cms/components/form-fields/input', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'slug_origin' => '" . $field['form_field_additionals_1'] . "', 'type' => 'text', 'value' => old('" . $field['name'] . "') ? old('" . $field['name'] . "') : " . '$' . "row->" . $field['name'] . " ])
 			";
 			} elseif ($field['form_field'] == 'date') {
 				$edit_form_inputs .= "@include('cms/components/form-fields/date', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'value' => old('" . $field['name'] . "') ? old('" . $field['name'] . "') : " . '$' . "row->" . $field['name'] . " ])
+			";
+			} elseif ($field['form_field'] == 'time') {
+				$edit_form_inputs .= "@include('cms/components/form-fields/time', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'value' => old('" . $field['name'] . "') ? old('" . $field['name'] . "') : " . '$' . "row->" . $field['name'] . " ])
 			";
 			} elseif ($field['form_field'] == 'password') {
 				$edit_form_inputs .= "@include('cms/components/form-fields/input', ['label' => '" . ucwords(str_replace('_', ' ', $field['name'])) . "', 'name' => '" . $field['name'] . "', 'type' => 'password', 'value' => '' ])
@@ -745,7 +765,7 @@ class CmsPagesController extends Controller
 	{
 		$show_page_id_breadcrumb = '<li><a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}">{{ $row[' . "'" . 'id' . "'" . '] }}</a></li>';
 		$delete_button_show_page = '@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-						<form class="row-delete" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
+						<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}"  onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">
 							<button class="btn btn-danger btn-sm">Delete</button>
@@ -887,7 +907,7 @@ class CmsPagesController extends Controller
 		$this->deleteMigration($cms_page);
 		$this->deleteViews($cms_page);
 		$this->deleteStorage($cms_page);
-	
+
 		CmsPage::destroy($id);
 	}
 
