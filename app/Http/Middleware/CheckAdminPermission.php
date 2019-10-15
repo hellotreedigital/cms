@@ -21,9 +21,7 @@ class CheckAdminPermission
     public function handle($request, Closure $next, $guard = null)
     {
         // Get admin
-        $admin = Auth::guard('admin')->user();
-        if (!$admin) return redirect(route('admin-login')); // Not logged in
-        $admin = $admin->toArray();
+        $admin = session('admin');
 
         // Get CMS pages
         $cms_pages = [];

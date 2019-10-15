@@ -14,8 +14,8 @@ class Authenticate extends Middleware
     {
         if ($guards[0] == 'admin') {
             $admin = Auth::guard('admin')->user();
-            if ($guards[0] == 'admin' && !$admin) return redirect(route('admin-login'));
-            View::share(compact('admin'));
+            if (!$admin) return redirect()->guest(route('admin-login'));
+            session(compact('admin'));
         }
 
 
