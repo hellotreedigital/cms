@@ -498,7 +498,7 @@ class CmsPagesController extends Controller
 			str_replace(
 				['%%database_table%%', '%%model_name_plural%%', '%%columns%%'],
 				[$database_table, $model_name_plural, $columns],
-				file_get_contents(resource_path('stubs/Migration.stub'))
+				file_get_contents(resource_path('stubs/migration.stub'))
 			)
 		);
 
