@@ -19,7 +19,7 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['guest:admin'])->group(fu
 |--------------------------------------------------------------------------
 */
 
-Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['admin'])->group(function () {
+Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->group(function () {
     Route::get('logout', 'Cms\CmsController@logout')->name('admin-logout');
     Route::get('home', 'Cms\CmsController@showHome')->name('admin-home');
     Route::get('profile', 'Cms\CmsController@showProfile')->name('admin-profile');
@@ -37,7 +37,7 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['admin'])->group(function
 |--------------------------------------------------------------------------
 */
 
-Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['admin'])->group(function () {
+Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->group(function () {
     /* Start admin route group */
 	/* End admin route group */
 });
