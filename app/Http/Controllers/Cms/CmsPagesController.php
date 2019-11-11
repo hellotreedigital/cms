@@ -922,7 +922,8 @@ class CmsPagesController extends Controller
 		file_put_contents(
 			base_path('routes/web.php'),
 			str_replace(
-				"Route::resource('/" . $cms_page->route . "', 'Cms\\" . $cms_page->controller_name . "');",
+				"
+	Route::resource('/" . $cms_page->route . "', 'Cms\\" . $cms_page->controller_name . "');",
 				"",
 				$web_routes
 			)

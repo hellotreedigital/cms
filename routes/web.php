@@ -42,7 +42,7 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->
 
 Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->group(function () {
     /* Start admin route group */
-    /* End admin route group */
+	/* End admin route group */
 });
 
 /*
