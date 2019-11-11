@@ -928,6 +928,15 @@ class CmsPagesController extends Controller
 				$web_routes
 			)
 		);
+		file_put_contents(
+			base_path('routes/web.php'),
+			str_replace(
+				"
+	Route::get('/" . $cms_page->route . "/order', 'Cms\\" . $cms_page->controller_name . "@orderIndex');Route::post('/" . $cms_page->route . "/order', 'Cms\\" . $cms_page->controller_name . "@orderSubmit');Route::resource('/" . $cms_page->route . "', 'Cms\\" . $cms_page->controller_name . "');",
+				"",
+				$web_routes
+			)
+		);
 	}
 
 	public function deleteDatabase($cms_page)
