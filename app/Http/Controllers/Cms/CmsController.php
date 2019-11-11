@@ -20,7 +20,7 @@ class CmsController extends Controller
 
 	public function showLoginForm()
     {
-    	return view('cms/pages/login/show');
+    	return view('cms/pages/login/index');
     }
 
     public function login(Request $request)
@@ -88,6 +88,6 @@ class CmsController extends Controller
 
 	public function showHome()
 	{
-		return view('cms/pages/home/show');
+		return view('cms/pages/home/index');
 	}
 }

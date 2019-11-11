@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+@import url('https://fonts.google.com/?query=pop&selection.family=Poppins');
 
 $text_color: #555;
 $nav_width: 250px;
@@ -31,7 +31,7 @@ html {
     body {
         height: 100%;
         color: $text_color;
-        font-family: 'Open Sans', sans-serif;
+        font-family: 'Poppins', sans-serif;
         background-color: #f8f9fe;
         margin: 0;
         * {
@@ -162,6 +162,9 @@ html {
                     }
                 }
             }
+        }
+        .cursor-normal {
+            cursor: default;
         }
         .timepicker {
             .buttons-wrapper {
@@ -322,6 +325,17 @@ html {
                             font-size: 20px;
                             width: 30px;
                         }
+                        .fa-caret-down {
+                           position: absolute;
+                           right: 6px;
+                           top: 20px;
+                           font-size: 14px;
+                           width: auto;
+                       }
+                    }
+                    .menu-dropdown {
+                        display: none;
+                        font-size: .85rem;
                     }
                 }
             }
@@ -489,6 +503,10 @@ html {
                                         min-width: 60px;
                                     }
                                 }
+                                img {
+                                    max-width: 100px;
+                                    max-height: 60px;
+                                }
                             }
                         }
                     }
@@ -597,6 +615,9 @@ html {
                     max-width: 400px;
                 }
             }
+        }
+        #login-footer-wrapper {
+            transform: translateY(-100%);
         }
     }
 }

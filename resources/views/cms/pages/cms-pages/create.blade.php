@@ -62,7 +62,7 @@
 				'value' => old('controller_name') ? old('controller_name') : (isset($cms_page) ? $cms_page['controller_name'] : '')
 			])
 			@include('cms/components/form-fields/input', [
-				'label' => 'Icon',
+				'label' => 'Icon <a href="' . url(env('CMS_PREFIX', 'admin') . '/cms-pages/icons') . '"><i class="fa fa-font-awesome ml-1" aria-hidden="true"></i></a>',
 				'name' => 'icon',
 				'type' => 'text',
 				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : '')
@@ -97,6 +97,11 @@
 				'name' => 'order_display',
 				'type' => 'text',
 				'value' => old('order_display') ? old('order_display') : (isset($cms_page) ? $cms_page['order_display'] : '')
+			])
+			@include('cms/components/form-fields/textarea', [
+				'label' => 'Notes',
+				'name' => 'notes',
+				'value' => old('notes') ? old('notes') : (isset($cms_page) ? $cms_page['notes'] : '')
 			])
 
 		</div>
@@ -232,7 +237,10 @@
 			var additional_input_2 = additional_field.find('input[name="form_field_additionals_2[]"');
 
 			additional_input_1.prop('required', false);
+			additional_input_1.val('');
+
 			additional_input_2.prop('required', false);
+			additional_input_2.val('');
 
 
 			additional_field.slideUp(function(){

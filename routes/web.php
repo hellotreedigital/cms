@@ -25,7 +25,10 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->
     Route::get('profile', 'Cms\CmsController@showProfile')->name('admin-profile');
     Route::get('profile/edit', 'Cms\CmsController@showEditProfile')->name('admin-profile-edit');
     Route::post('profile/edit', 'Cms\CmsController@editProfile');
-    Route::get('/cms-pages/order', 'Cms\CmsPagesController@orderIndex');Route::post('/cms-pages/order', 'Cms\CmsPagesController@orderSubmit');Route::resource('cms-pages', 'Cms\CmsPagesController');
+    Route::get('/cms-pages/icons', 'Cms\CmsPagesController@icons');
+    Route::get('/cms-pages/order', 'Cms\CmsPagesController@orderIndex');
+    Route::post('/cms-pages/order', 'Cms\CmsPagesController@orderSubmit');
+    Route::resource('cms-pages', 'Cms\CmsPagesController');
     Route::resource('/admins', 'Cms\AdminsController');
     Route::resource('/admin-roles', 'Cms\AdminRolesController');
 });
@@ -39,6 +42,16 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->
 
 Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['auth:admin', 'admin'])->group(function () {
     /* Start admin route group */
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/* End admin route group */
 });
 

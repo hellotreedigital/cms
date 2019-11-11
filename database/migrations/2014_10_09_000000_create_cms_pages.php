@@ -25,7 +25,10 @@ class CreateCmsPages extends Migration
             $table->string('migration_name')->unique();
             $table->string('order_display')->nullable();
             $table->longtext('fields');
-            $table->longtext('page_type');
+            $table->string('page_type');
+            $table->string('parent_title')->nullable();
+            $table->string('parent_icon')->nullable();
+            $table->longtext('notes')->nullable();;
             $table->tinyInteger('deletable')->default(1);
             $table->tinyInteger('ht_pos')->nullable();
             $table->timestamps();

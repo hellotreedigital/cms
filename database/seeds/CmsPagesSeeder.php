@@ -19,7 +19,7 @@ class CmsPagesSeeder extends Seeder
     			'database_table' => 'cms_pages',
     			'route' => 'cms-pages',
     			'model_name' => 'CmsPage',
-    			'controller_name' => 'GeneratorController',
+    			'controller_name' => 'CmsPagesController',
     			'migration_name' => '2014_10_12_000000_create_cms_pages_table',
                 'fields' => '[]',
                 'page_type' => 'regular',

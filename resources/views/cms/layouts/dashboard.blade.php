@@ -12,13 +12,28 @@
 					Home
 				</a>
 			</li>
-			@foreach(session('admin')['cms_pages'] as $page)
-				@if ($page['permissions']['browse'])
-					<li class="position-relative {{ request()->is('admin/' . $page['route']) || request()->is('admin/' . $page['route'] . '/*') ? 'active' : '' }}">
-						<a class="d-block p-3" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
-							<i class="text-center mr-2 fa {{ $page['icon'] }}" aria-hidden="true"></i>
-							{{ $page['display_name_plural'] }}
+			@foreach(session('admin')['cms_pages_grouped'] as $group)
+				@if (!$group['icon'] && !$group['title'])
+					@foreach($group['pages'] as$page)
+						<li class="position-relative {{ request()->is('admin/' . $page['route']) || request()->is('admin/' . $page['route'] . '/*') ? 'active' : '' }}">
+							<a class="d-block p-3" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
+								<i class="text-center mr-2 fa {{ $page['icon'] }}" aria-hidden="true"></i>
+								{{ $page['display_name_plural'] }}
+							</a>
+						</li>
+					@endforeach
+				@else
+					<li class="position-relative menu-dropdown-wrapper @foreach($group['pages'] as $page){{ request()->is('admin/' . $page['route'] . '*') ? 'active' : '' }}@endforeach">
+						<a class="d-block p-3" title="{{ $group['title'] }}">
+							<i class="text-center mr-2 fa {{ $group['icon'] }}" aria-hidden="true"></i>
+							{{ $group['title'] }}
+							<i class="fa  fa-caret-down" aria-hidden="true"></i>
 						</a>
+						<div class="menu-dropdown pl-5">
+							@foreach($group['pages'] as $page)
+								<a class="px-3 py-1" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">{{ $page['display_name_plural'] }}</a>
+							@endforeach
+						</div>
 					</li>
 				@endif
 			@endforeach
@@ -71,18 +86,7 @@
 
 	<div id="content-overlay"></div>
 
-	<footer>
-		<div class="py-4 px-3 px-sm-5">
-			<div class="row">
-				<div class="col-md-6 mb-1 mb-md-0 text-center text-md-left">
-					Thank You for Choosing Hellotree <3
-				</div>
-				<div class="col-md-6 text-center text-md-right">
-					Copyright &copy; {{ date('Y') }} <a href="http://hellotree.co/" target="_blank" class="font-weight-bold">HELLOTREE</a>
-				</div>
-			</div>
-		</div>
-	</footer>
+	@include('cms/components/footer')
 
 </div>
 

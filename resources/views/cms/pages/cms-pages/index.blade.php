@@ -17,6 +17,7 @@
 				<input type="hidden" name="_method" value="DELETE">
 				<button type="submit" class="btn btn-danger btn-sm">Bulk Delete</button>
 			</form>
+			<a href="{{ url(env('CMS_PREFIX', 'admin') . '/cms-pages/icons') }}" class="btn btn-primary btn-sm float-right mr-0">Icons</a>
 		</div>
 		<div class="datatable-wrapper">
 			<table class="datatable">
