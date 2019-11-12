@@ -1,0 +1,39 @@
+Installation:
+*************
+-Clone the project: git clone https://lab.hellotreedigital.com/ghadykhoury/ht-cms
+-Rename the 'ht-cms' folder to your project name
+-Delete '.git' hidden folder from the project folder
+-Create database in phpmyadmin
+-Duplicate '.env.example' as '.env ' then, change APP_URL and DB_DATABASE
+-cd project folder and run the below commands:
+composer install
+php artisan key:generate
+php artisan storage:link
+php artisan migrate --seed
+
+
+Login credentials:
+*************
+	Email: support@hellotree.co
+	Password: $h1e2l3#
+
+
+Create new page:
+*************
+-First, type  database table name you want to create.
+-Display name, display name plural, model and controller fields will be autofilled, you can still change them if necessary.
+-Icon field is the name of any icon from: https://fontawesome.com/v4.7.0/icons/
+-Page types:
+	-Regular page: regular pages are pages with browse, read, edit, add and delete
+	-Show page: show pages have only browse and read pages
+	-Fixed records page: these pages will have browse, read, edit
+	-Single records page: only have read and edit
+To create any of these types, you should create the page and regular type page, insert the needed records, then edit the page to the requested type
+-Order display column: this field is optional, if you want to add order to the page, enter the field name that you want the user to see while ordering, the generator will automatically add a new field under 'ht_pos' where the position is stored.
+-Table fields:
+These fields are the database column you wish to create.
+Migration type is the column type in the database. You can read more about migration types here: https://laravel.com/docs/5.7/migrations#creating-columns .
+Form field is how the column will be handled in the front end.
+Nullable, if set to 0, the field is required otherwise the field is optional.
+Unique, if set to 1 the field will be unique in its table.
+You can drag and drop fields to reorder them.
