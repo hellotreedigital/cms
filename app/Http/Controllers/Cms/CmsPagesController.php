@@ -226,7 +226,7 @@ class CmsPagesController extends Controller
 			str_replace(
 				['%%database_table%%', '%%model_name%%'],
 				[$database_table, $model_name],
-				file_get_contents(resource_path('stubs/Model.stub'))
+				file_get_contents(resource_path('stubs/model.stub'))
 			)
 		);
 	}
@@ -469,7 +469,7 @@ class CmsPagesController extends Controller
 					$show_additional_variables,
 					$show_compact,
 				],
-				file_get_contents(resource_path('stubs/Controller.stub'))
+				file_get_contents(resource_path('stubs/controller.stub'))
 			)
 		);
 	}
