@@ -867,9 +867,9 @@ class CmsPagesController extends Controller
 		$route_function .= "Route::resource('/" . $route . "', 'Cms\\" . $controller_name . "');";
 
 		// If route already exists, remove it
-		$web_routes = file_get_contents(base_path('routes/web.php'));
+		$web_routes = file_get_contents(base_path('routes/cms.php'));
 		file_put_contents(
-			base_path('routes/web.php'),
+			base_path('routes/cms.php'),
 			str_replace(
 				["
 	Route::get('/" . $route . "/order', 'Cms\\" . $controller_name . "@orderIndex');Route::post('/" . $route . "/order', 'Cms\\" . $controller_name . "@orderSubmit');",
@@ -881,9 +881,9 @@ class CmsPagesController extends Controller
 		);
 
 		// Create route
-		$web_routes = file_get_contents(base_path('routes/web.php'));
+		$web_routes = file_get_contents(base_path('routes/cms.php'));
 		file_put_contents(
-			base_path('routes/web.php'),
+			base_path('routes/cms.php'),
 			str_replace(
 				"/* End admin route group */",
 				$route_function . "
@@ -918,9 +918,9 @@ class CmsPagesController extends Controller
 
 	public function deleteRoute($cms_page)
 	{
-		$web_routes = file_get_contents(base_path('routes/web.php'));
+		$web_routes = file_get_contents(base_path('routes/cms.php'));
 		file_put_contents(
-			base_path('routes/web.php'),
+			base_path('routes/cms.php'),
 			str_replace(
 				"
 	Route::resource('/" . $cms_page->route . "', 'Cms\\" . $cms_page->controller_name . "');",
@@ -929,7 +929,7 @@ class CmsPagesController extends Controller
 			)
 		);
 		file_put_contents(
-			base_path('routes/web.php'),
+			base_path('routes/cms.php'),
 			str_replace(
 				"
 	Route::get('/" . $cms_page->route . "/order', 'Cms\\" . $cms_page->controller_name . "@orderIndex');Route::post('/" . $cms_page->route . "/order', 'Cms\\" . $cms_page->controller_name . "@orderSubmit');Route::resource('/" . $cms_page->route . "', 'Cms\\" . $cms_page->controller_name . "');",
