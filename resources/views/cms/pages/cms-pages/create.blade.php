@@ -237,10 +237,7 @@
 			var additional_input_2 = additional_field.find('input[name="form_field_additionals_2[]"');
 
 			additional_input_1.prop('required', false);
-			additional_input_1.val('');
-
 			additional_input_2.prop('required', false);
-			additional_input_2.val('');
 
 
 			additional_field.slideUp(function(){
@@ -251,8 +248,17 @@
 					additional_input_1.prop('required', true);
 					additional_input_1.attr('placeholder', 'Slug origin name');
 
+					additional_input_2.prop('required', true);
+					additional_input_2.attr('placeholder', 'Editable');
+					additional_input_2.attr('min', '0');
+					additional_input_2.attr('max', '1');
+					additional_input_2.attr('type', 'number');
+
+					additional_input_1.val('');
+					additional_input_2.val('');
+
 					additional_input_1.show();
-					additional_input_2.hide();
+					additional_input_2.show();
 
 					additional_field.slideDown();
 				} else if (select.val() == 'select') {
@@ -261,6 +267,10 @@
 
 					additional_input_2.prop('required', true);
 					additional_input_2.attr('placeholder', 'Display column');
+					additional_input_2.attr('type', 'text');
+
+					additional_input_1.val('');
+					additional_input_2.val('');
 
 					additional_input_1.show();
 					additional_input_2.show();
