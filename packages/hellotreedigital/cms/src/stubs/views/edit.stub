@@ -1,0 +1,40 @@
+@extends('cms::cms//layouts/dashboard')
+
+@section('breadcrumb')
+	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
+		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%') }}">%%display_name_plural%%</a></li>
+		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%/' . $row['id']) }}">{{ $row['id'] }}</a></li>
+		<li>Edit</li>
+	</ul>
+@endsection
+
+@section('dashboard-content')
+
+	<form method="post" action="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%/' . $row['id']) }}" enctype="multipart/form-data">
+
+		<div class="card p-4 mx-2 mx-sm-5">
+
+			<p class="font-weight-bold text-uppercase mb-4">Edit %%display_name%% #{{ $row['id'] }}</p>
+			
+			@if ($errors->any())
+				<div class="alert alert-danger">
+					@foreach ($errors->all() as $error)
+						<p class="m-0">{{ $error }}</p>
+					@endforeach
+				</div>
+			@endif
+			
+			@csrf
+
+			@method('PUT')
+
+			%%edit_form_inputs%%
+			<div class="text-right">
+				<button type="submit" class="btn btn-sm btn-primary py-2 px-4">Submit</button>
+			</div>
+
+		</div>
+
+	</form>
+
+@endsection

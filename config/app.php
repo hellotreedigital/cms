@@ -166,6 +166,8 @@ return [
          * Package Service Providers...
          */
 
+        Hellotreedigital\Cms\Providers\CmsServiceProvider::class,
+
         /*
          * Application Service Providers...
          */

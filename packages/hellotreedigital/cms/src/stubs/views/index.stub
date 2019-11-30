@@ -1,0 +1,46 @@
+@extends('cms::cms//layouts/dashboard')
+
+@section('breadcrumb')
+	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
+		<li>%%display_name_plural%%</li>
+	</ul>
+@endsection
+
+@section('dashboard-content')
+
+	<div class="card py-4 mx-2 mx-lg-5">
+		<div class="actions">
+			%%add_button%%
+			%%order_button%%
+			%%bulk_delete_button%%
+		</div>
+		<div class="datatable-wrapper">
+			<table class="datatable">
+				<thead>
+					<tr>
+						<th></th>
+						<th>#</th>
+						%%table_header%%
+					</tr>
+				</thead>
+				<tbody>
+					@foreach($rows as $row)
+						<tr>
+							<td>
+								<label class="checkbox-wrapper delete-checkbox">
+									<input type="checkbox" value="{{ $row['id'] }}">
+									<div></div>
+								</label>
+							</td>
+							<td>
+								{{ $row['id'] }}
+							</td>
+							%%table_body%%
+						</tr>
+						@endforeach
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+@endsection

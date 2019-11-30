@@ -1,0 +1,22 @@
+{
+    "name": "hellotreedigital/cms",
+    "description": "HelloTree CMS",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Hellotreedigital\\Cms\\": "src",
+            "Hellotreedigital\\Cms\\Seeds\\": "src/seeds",
+            "Hellotreedigital\\Cms\\Middlewares\\": "src/middlewares"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Hellotreedigital\\Cms\\Providers\\CmsServiceProvider"
+            ]
+        }
+    },
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {}
+}

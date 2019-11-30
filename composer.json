@@ -34,7 +34,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Hellotreedigital\\Cms\\": "packages/hellotreedigital/cms/src"
         },
         "classmap": [
             "database/seeds",
