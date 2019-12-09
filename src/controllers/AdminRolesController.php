@@ -4,9 +4,9 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hellotreedigital\Cms\Model\AdminRolePermission;
-use Hellotreedigital\Cms\Model\AdminRole;
-use Hellotreedigital\Cms\Model\CmsPage;
+use Hellotreedigital\Cms\Models\AdminRolePermission;
+use Hellotreedigital\Cms\Models\AdminRole;
+use Hellotreedigital\Cms\Models\CmsPage;
 
 
 class AdminRolesController extends Controller

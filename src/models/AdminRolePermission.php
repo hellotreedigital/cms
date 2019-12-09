@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Hellotreedigital\Cms\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

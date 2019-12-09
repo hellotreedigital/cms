@@ -4,7 +4,7 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hellotreedigital\Cms\Model\CmsPage;
+use Hellotreedigital\Cms\Models\CmsPage;
 use Artisan;
 use Str;
 use Schema;

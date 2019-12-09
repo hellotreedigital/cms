@@ -6,7 +6,7 @@
 |--------------------------------------------------------------------------
 */
 
-Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'guest:admin'])->group(function () {
+Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'admin'])->group(function () {
     Route::get('/', 'hellotreedigital\cms\controllers\CmsController@redirectToLoginForm');
     Route::get('login', 'hellotreedigital\cms\controllers\CmsController@showLoginForm')->name('admin-login');
     Route::post('login', 'hellotreedigital\cms\controllers\CmsController@login');
@@ -19,7 +19,7 @@ Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'guest:admin'])->g
 |--------------------------------------------------------------------------
 */
 
-Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'auth:admin', 'admin'])->group(function () {
+Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'admin'])->group(function () {
     Route::get('logout', 'hellotreedigital\cms\controllers\CmsController@logout')->name('admin-logout');
     Route::get('home', 'hellotreedigital\cms\controllers\CmsController@showHome')->name('admin-home');
     Route::get('profile', 'hellotreedigital\cms\controllers\CmsController@showProfile')->name('admin-profile');

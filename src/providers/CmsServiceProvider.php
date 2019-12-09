@@ -13,14 +13,9 @@ Class CmsServiceProvider extends ServiceProvider
 		include __DIR__ . '/../routes.php';
 		
 		// Publish cms assets
-		$this->publishes(
-			[
-				__DIR__ . '/../assets' => public_path('cms/'),
-				__DIR__ . '/../models' => app_path('/'),
-			],
-		'cms_assets');
+		$this->publishes([__DIR__ . '/../assets' => public_path('cms/')], 'cms_assets');
 
-		Artisan::call('vendor:publish --tag=cms_assets --force');
+		// Artisan::call('vendor:publish --tag=cms_assets --force');
 	    
 		// Migrations
 	    $this->loadMigrationsFrom(__DIR__ . '/../migrations');

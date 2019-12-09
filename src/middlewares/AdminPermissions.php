@@ -2,9 +2,9 @@
 
 namespace Hellotreedigital\Cms\Middlewares;
 
-use App\AdminRole;
-use App\AdminRolePermission;
-use App\CmsPage;
+use Hellotreedigital\Cms\Models\AdminRole;
+use Hellotreedigital\Cms\Models\AdminRolePermission;
+use Hellotreedigital\Cms\Models\CmsPage;
 use Closure;
 use Auth;
 use View;
