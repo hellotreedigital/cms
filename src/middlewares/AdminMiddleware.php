@@ -10,7 +10,7 @@ use Route;
 use Auth;
 use View;
 
-class AdminPermissions
+class AdminMiddleware
 {
     /**
      * Handle an incoming request.

@@ -10,7 +10,7 @@ Class CmsServiceProvider extends ServiceProvider
 	public function boot()
 	{
 		// Routes
-		include __DIR__ . '/../routes.php';
+		include __DIR__ . '/../routes/web.php';
 	    
 		// Migrations
 		$this->loadMigrationsFrom(__DIR__ . '/../migrations');
@@ -31,7 +31,7 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->loadViewsFrom(__DIR__ . '/../views', 'cms');
 		
 		// Admin middleware
-		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminPermissions::class);
+		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
 	}
 
 	protected function bootForConsole()
