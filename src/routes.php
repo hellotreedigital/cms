@@ -2,13 +2,22 @@
 
 /*
 |--------------------------------------------------------------------------
-| CMS routes for non signed in admins
+| CMS GET routes for non signed in admins
 |--------------------------------------------------------------------------
 */
 
 Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web', 'admin'])->group(function () {
     Route::get('/', 'hellotreedigital\cms\controllers\CmsController@redirectToLoginForm');
     Route::get('login', 'hellotreedigital\cms\controllers\CmsController@showLoginForm')->name('admin-login');
+});
+
+/*
+|--------------------------------------------------------------------------
+| CMS POST routes for non signed in admins
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix(env('CMS_PREFIX', 'admin'))->middleware(['web'])->group(function () {
     Route::post('login', 'hellotreedigital\cms\controllers\CmsController@login');
 });
 
