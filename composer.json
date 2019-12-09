@@ -7,6 +7,7 @@
             "Hellotreedigital\\Cms\\": "src",
             "Hellotreedigital\\Cms\\Seeds\\": "src/seeds",
             "Hellotreedigital\\Cms\\Middlewares\\": "src/middlewares"
+            "Hellotreedigital\\Cms\\Models\\": "src/models"
         }
     },
     "extra": {
