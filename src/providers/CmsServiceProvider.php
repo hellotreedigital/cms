@@ -11,15 +11,12 @@ Class CmsServiceProvider extends ServiceProvider
 	{
 		// Routes
 		include __DIR__ . '/../routes.php';
-
-		// Artisan::call('vendor:publish --tag=cms_assets --force');
 	    
 		// Migrations
 		$this->loadMigrationsFrom(__DIR__ . '/../migrations');
 		
-		if ($this->app->runningInConsole()) {
-			$this->bootForConsole();
-		}
+		// First installation from console
+		if ($this->app->runningInConsole()) $this->bootForConsole();
 	}
 
 	public function register()
@@ -37,28 +34,16 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminPermissions::class);
 	}
 
-	/**
-	 * Console-specific booting.
-	 *
-	 * @return void
-	 */
 	protected function bootForConsole()
 	{
 		// Publish cms assets
 		$this->publishes([__DIR__ . '/../assets' => public_path('cms/')], 'cms_assets');
 		Artisan::call('vendor:publish --tag=cms_assets --force');
+
+		// Migrate
 		Artisan::call('migrate --path=vendor/hellotreedigital/cms/src/migrations');
-		Artisan::call('db:seed --class="Hellotreedigital/cms/src/migrations');
-		// $this->publishes([
-		// 	__DIR__.'/../config/pagereview.php' => config_path('pagereview.php'),
-		// ], 'pagereview.config');
 
-		// $this->publishes([
-		// 	__DIR__.'/../resources/views' => base_path('resources/views/vendor/acme'),
-		// ], 'pagereview.views');
-
-		// $this->publishes([
-		// 	__DIR__ . '/../database/migrations/' => database_path('migrations'),
-		// ], 'migrations');
+		// Add seeds
+		Artisan::call('db:seed --class="Hellotreedigital\\\\Cms\\\\Seeds\\\\DatabaseSeeder"');
 	}
 }
