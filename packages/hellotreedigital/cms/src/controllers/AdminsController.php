@@ -4,8 +4,8 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Admin;
-use App\AdminRole;
+use Hellotreedigital\Cms\Model\Admin;
+use Hellotreedigital\Cms\Model\AdminRole;
 use Hash;
 
 
