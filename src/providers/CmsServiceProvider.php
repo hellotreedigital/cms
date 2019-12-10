@@ -14,7 +14,7 @@ Class CmsServiceProvider extends ServiceProvider
 		include __DIR__ . '/../routes/web.php';
 		
 		// First installation from console
-		if ($this->app->runningInConsole() && !$this->app['config']->get('hellotree.cms_installed')) $this->firstInstallation();
+		if (!$this->app['config']->get('hellotree.cms_installed')) $this->firstInstallation();
 	}
 
 	public function register()
@@ -30,10 +30,6 @@ Class CmsServiceProvider extends ServiceProvider
 		
 		// Admin middleware
 		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
-
-		$this->mergeConfigFrom(
-			__DIR__ . '/../config/hellotree.php', 'hellotree'
-		);
 	}
 
 	protected function firstInstallation()
@@ -53,7 +49,7 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->publishes([
 			__DIR__ . '/../assets' => public_path('cms/'),
 			__DIR__ . '/../config' => config_path('/'),
-			__DIR__ . '/../routes/cms.php' => base_path('routes/'),
+			__DIR__ . '/../routes' => base_path('routes/'),
 		], 'cms_assets');
 		Artisan::call('vendor:publish --tag=cms_assets --force');
 	}
