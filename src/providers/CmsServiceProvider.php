@@ -38,17 +38,23 @@ Class CmsServiceProvider extends ServiceProvider
 
 	protected function firstInstallation()
 	{
-		// Publish cms assets
-		$this->publishes([
-			__DIR__ . '/../assets' => public_path('cms/'),
-			__DIR__ . '/../config' => config_path('/'),
-		], 'cms_assets');
-		Artisan::call('vendor:publish --tag=cms_assets --force');
-
+		// Include cms.php routes in web.php
+		$routes = file_get_contents(base_path('routes/web.php'));
+		$routes = str_replace('<?php', file_get_contents(base_path('vendor/hellotreedigital/cms/src/routes/web.stub')), $routes);
+		file_put_contents(base_path('routes/web.php'), $routes);
+		
 		// Migrate
 		Artisan::call('migrate --path=vendor/hellotreedigital/cms/src/migrations');
 
 		// Add seeds
 		Artisan::call('db:seed --class="Hellotreedigital\\\\Cms\\\\Seeds\\\\DatabaseSeeder"');
+		
+		// Publish cms assets
+		$this->publishes([
+			__DIR__ . '/../assets' => public_path('cms/'),
+			__DIR__ . '/../config' => config_path('/'),
+			__DIR__ . '/../routes/cms.php' => base_path('routes/'),
+		], 'cms_assets');
+		Artisan::call('vendor:publish --tag=cms_assets --force');
 	}
 }

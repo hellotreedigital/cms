@@ -861,8 +861,6 @@ class CmsPagesController extends Controller
 
 	public function generateRoute($route, $controller_name, $order_column)
 	{
-		if (!file_exists(base_path('routes/cms.php'))) file_put_contents(base_path('routes/cms.php'), file_get_contents(base_path('vendor/hellotreedigital/cms/src/stubs/routes.stub')));
-
 		if ($order_column) {
 			$route_function = "Route::get('/" . $route . "/order', 'Cms\\" . $controller_name . "@orderIndex');Route::post('/" . $route . "/order', 'Cms\\" . $controller_name . "@orderSubmit');";
 		} else {
