@@ -13,7 +13,6 @@ Add the below to config/auth.php:
       'provider' => 'admins',
   ],
 ],
-
 'providers' => [
     'admins' => [
         'driver' => 'eloquent',
