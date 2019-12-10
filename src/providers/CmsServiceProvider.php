@@ -4,6 +4,7 @@ namespace Hellotreedigital\Cms\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Artisan;
+use Auth;
 
 Class CmsServiceProvider extends ServiceProvider
 {
@@ -11,12 +12,9 @@ Class CmsServiceProvider extends ServiceProvider
 	{
 		// Routes
 		include __DIR__ . '/../routes/web.php';
-	    
-		// Migrations
-		$this->loadMigrationsFrom(__DIR__ . '/../migrations');
 		
 		// First installation from console
-		if ($this->app->runningInConsole()) $this->bootForConsole();
+		if ($this->app->runningInConsole() && !$this->app['config']->get('hellotree.cms_installed')) $this->firstInstallation();
 	}
 
 	public function register()
@@ -32,12 +30,19 @@ Class CmsServiceProvider extends ServiceProvider
 		
 		// Admin middleware
 		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
+
+		$this->mergeConfigFrom(
+			__DIR__ . '/../config/hellotree.php', 'hellotree'
+		);
 	}
 
-	protected function bootForConsole()
+	protected function firstInstallation()
 	{
 		// Publish cms assets
-		$this->publishes([__DIR__ . '/../assets' => public_path('cms/')], 'cms_assets');
+		$this->publishes([
+			__DIR__ . '/../assets' => public_path('cms/'),
+			__DIR__ . '/../config' => config_path('/'),
+		], 'cms_assets');
 		Artisan::call('vendor:publish --tag=cms_assets --force');
 
 		// Migrate
