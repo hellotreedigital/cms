@@ -15,9 +15,9 @@
 			</div>
 		</div>
 
-		@include('cms::cms/components/show-fields/text', ['label' => 'Name', 'text' => session('admin')['name']])
+		@include('cms::cms/components/show-fields/text', ['label' => 'Name', 'text' => request()->get('admin')['name']])
 
-		@include('cms::cms/components/show-fields/image', ['label' => 'Image', 'image' => session('admin')['image'] ? asset(session('admin')['image']) : asset('cms/images/default.png')])
+		@include('cms::cms/components/show-fields/image', ['label' => 'Image', 'image' => request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : asset('cms/images/default.png')])
 		
 	</div>
 

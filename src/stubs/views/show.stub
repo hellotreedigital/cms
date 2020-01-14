@@ -18,7 +18,7 @@
 			</div>
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
-					@if (session('admin')['cms_pages']['%%route%%']['permissions']['edit'])
+					@if (request()->get('admin')['cms_pages']['%%route%%']['permissions']['edit'])
 						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 					@endif
 					%%delete_button_show_page%%

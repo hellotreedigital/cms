@@ -18,10 +18,10 @@
 			</div>
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
-					@if (session('admin')['cms_pages']['admin-roles']['permissions']['edit'])
+					@if (request()->get('admin')['cms_pages']['admin-roles']['permissions']['edit'])
 						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/admin-roles/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 					@endif
-					@if (session('admin')['cms_pages']['admin-roles']['permissions']['delete'])
+					@if (request()->get('admin')['cms_pages']['admin-roles']['permissions']['delete'])
 						<form class="d-inline" onsubmit="return confirm('Are you sure?')" method="post" action="{{ url(env('CMS_PREFIX', 'admin') . '/admin-roles/' . $row['id']) }}">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">
@@ -46,7 +46,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(session('admin')_role_permissions as $permission)
+				@foreach(request()->get('admin')_role_permissions as $permission)
 					<tr>
 						<td class="text-center">{{ $permission->cms_page->display_name }}</td>
 						<td class="text-center">{{ $permission->browse ? 'true' : 'false' }}</td>

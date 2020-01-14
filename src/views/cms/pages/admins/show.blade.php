@@ -18,10 +18,10 @@
 			</div>
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
-					@if (session('admin')['cms_pages']['admins']['permissions']['edit'])
+					@if (request()->get('admin')['cms_pages']['admins']['permissions']['edit'])
 						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 					@endif
-					@if (session('admin')['cms_pages']['admins']['permissions']['delete'])
+					@if (request()->get('admin')['cms_pages']['admins']['permissions']['delete'])
 						<form class="d-inline" onsubmit="return confirm('Are you sure?')" method="post" action="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id']) }}">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">

@@ -10,7 +10,7 @@
 @section('dashboard-content')
 
 	<div class="card p-4 mx-2 mx-sm-5">
-		@if (count(session('admin')['cms_pages_grouped']))
+		@if (count(request()->get('admin')['cms_pages_grouped']))
 			<div class="mb-4">
 				<form id="add-column">
 					<label><b>Add Dropdown</b></label>
@@ -36,7 +36,7 @@
 			<form method="post" id="order-form">
 				@csrf
 				<ul class="nested-sortable list-unstyled m-0">
-					@foreach(session('admin')['cms_pages_grouped'] as $group)
+					@foreach(request()->get('admin')['cms_pages_grouped'] as $group)
 						@if (!$group['title'] && !$group['icon'])
 							@foreach($group['pages'] as $page)
 								<li class="nested-sortable-row bg-white border px-3 py-2 my-2">

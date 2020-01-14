@@ -21,7 +21,7 @@
 				'label' => 'Name',
 				'name' => 'name',
 				'type' => 'text',
-				'value' => old('name') ? old('name') : session('admin')['name']
+				'value' => old('name') ? old('name') : request()->get('admin')['name']
 			])
 			@include('cms::cms/components/form-fields/input', [
 				'label' => 'Password',
@@ -38,7 +38,7 @@
 			@include('cms::cms/components/form-fields/image', [
 				'label' => 'Image',
 				'name' => 'image',
-				'value' => session('admin')['image']
+				'value' => request()->get('admin')['image']
 			])
 
 			<div class="text-right">

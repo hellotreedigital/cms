@@ -133,7 +133,7 @@ class CmsPagesController extends Controller
 		$order_display_form_field = '';
 		for ($i=0; $i < count($request['name']); $i++) {
 			// Check if field is unique
-			foreach($fields as $field) if ($field['name'] == $request['name'][$i]) return redirect()->back()->withInput($request->toArray())->withErrors(['Column "' . $request['name'][$i] . '" already exists']);
+			foreach($fields as $field) if ($field['name'] == $request['name'][$i]) return redirect()->back()->withInput()->withErrors(['Column "' . $request['name'][$i] . '" already exists']);
 
 			$fields[] = [
 				'name' => $request['name'][$i],
@@ -149,7 +149,7 @@ class CmsPagesController extends Controller
 				if ($request['form_field_additionals_1'][$i] != $database_table) {
 					// Relation to an existing table
 					$additional_cms_page = CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first();
-					if (!$additional_cms_page) return redirect()->back()->withInput($request->toArray())->withErrors(['Database table not found in "' . $request['name'][$i] . '" field']);
+					if (!$additional_cms_page) return redirect()->back()->withInput()->withErrors(['Database table not found in "' . $request['name'][$i] . '" field']);
 					$additional_cms_pages[$additional_cms_page->database_table] = $additional_cms_page->toArray();
 				} else {
 					// Relation to same table
@@ -157,7 +157,7 @@ class CmsPagesController extends Controller
 				}
 			}
 		}
-		if ($order_column && !$order_display_form_field) return redirect()->back()->withInput($request->toArray())->withErrors(['Order display column does not exist in the table fields']);
+		if ($order_column && !$order_display_form_field) return redirect()->back()->withInput()->withErrors(['Order display column does not exist in the table fields']);
 
 		if ($edit) {
 			$old_page = CmsPage::where('database_table', $database_table)->first();
@@ -589,18 +589,18 @@ class CmsPagesController extends Controller
 			}
 		}
 		$table_body .= '<td class="actions-wrapper text-right">
-								@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'read' . "'" . '])
+								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'read' . "'" . '])
 									<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>
 								@endif';
 		if ($page_type != 'show') {
 			$table_body .= '
-								@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
+								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
 									<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . '] . ' . "'" . '/edit' . "'" . ') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
 								@endif';
 		}
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$table_body .= '
-								@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
+								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
 									<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 										@csrf
 										<input type="hidden" name="_method" value="DELETE">
@@ -613,7 +613,7 @@ class CmsPagesController extends Controller
 
 		$add_button = '';
 		if ($page_type != 'show' && $page_type != 'fixed') {
-			$add_button = '@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'add' . "'" . '])
+			$add_button = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'add' . "'" . '])
 				<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/create' . "'" . ') }}" class="btn btn-primary btn-sm">Add</a>
 			@endif';
 		}
@@ -621,7 +621,7 @@ class CmsPagesController extends Controller
 		$bulk_delete_button = '';
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$bulk_delete_button = '
-			@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
+			@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
 				<form method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ') }}" class="d-inline-block bulk-delete" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 					@csrf
 					<input type="hidden" name="_method" value="DELETE">
@@ -631,7 +631,7 @@ class CmsPagesController extends Controller
 		}
 
 		if ($order_column) {
-			$order_button = '@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
+			$order_button = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
 				<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/order' . "'" . ') }}" class="btn btn-secondary btn-sm">Order</a>
 			@endif';
 		} else {
@@ -771,7 +771,7 @@ class CmsPagesController extends Controller
 	public function generateShowView($route, $fields, $display_name_plural, $display_name, $page_type)
 	{
 		$show_page_id_breadcrumb = '<li><a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}">{{ $row[' . "'" . 'id' . "'" . '] }}</a></li>';
-		$delete_button_show_page = '@if (session(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
+		$delete_button_show_page = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
 						<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}"  onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">

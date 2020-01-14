@@ -31,6 +31,7 @@ class AdminMiddleware
         }
 
         if (!$admin) return redirect()->guest(route('admin-login'));
+        $admin = $admin->toArray();
 
         // Get CMS pages
         $cms_pages = [];
@@ -99,10 +100,10 @@ class AdminMiddleware
             }
         }
 
-        // Save $admin in session
+        // Save $admin in request
         $admin['cms_pages'] = $cms_pages;
         $admin['cms_pages_grouped'] = $cms_pages_grouped;
-        session(['admin' => $admin]);
+        $request->attributes->add(compact('admin'));
 
         // If admin have role id then he is not a super then, therefore we should check the permissions
         if ($admin['role_id']) {

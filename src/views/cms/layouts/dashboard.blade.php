@@ -12,7 +12,7 @@
 					Home
 				</a>
 			</li>
-			@foreach(session('admin')['cms_pages_grouped'] as $group)
+			@foreach(request()->get('admin')['cms_pages_grouped'] as $group)
 				@if (!$group['icon'] && !$group['title'])
 					@foreach($group['pages'] as$page)
 						<li class="position-relative {{ request()->is('admin/' . $page['route']) || request()->is('admin/' . $page['route'] . '/*') ? 'active' : '' }}">
@@ -50,8 +50,8 @@
 			</div>
 			<div class="col-2 col-lg-6 text-right">
 				<div class="user-info d-none d-lg-block">
-					<span class="font-weight-bold mr-3">{{ session('admin')['name'] }}</span>
-					<img src="{{ session('admin')['image'] ? asset(session('admin')['image']) : asset('cms/images/default.png') }}">
+					<span class="font-weight-bold mr-3">{{ request()->get('admin')['name'] }}</span>
+					<img src="{{ request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : asset('cms/images/default.png') }}">
 					<ul class="list-group text-left">
 						<li class="list-group-item py-2 px-4">
 							<a href="{{ route('admin-profile') }}">
