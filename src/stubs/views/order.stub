@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%') }}">%%display_name_plural%%</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/%%route%%') }}">%%display_name_plural%%</a></li>
 		<li>order</li>
 	</ul>
 @endsection

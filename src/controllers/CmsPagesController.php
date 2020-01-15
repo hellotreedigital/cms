@@ -198,7 +198,7 @@ class CmsPagesController extends Controller
 		$cms_page->ht_pos = isset($old_page) ? $old_page['ht_pos'] : CmsPage::max('ht_pos') + 1;
 		$cms_page->save();
 
-		return redirect(env('CMS_PREFIX', 'admin') . '/' . $route)->with('success', 'Record added successfully');
+		return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record added successfully');
 	}
 
 	public function edit($id)
@@ -898,9 +898,9 @@ class CmsPagesController extends Controller
 	public function destroy($id)
 	{
 		$array = explode(',', $id);
-		if (!count($array)) return redirect(env('CMS_PREFIX', 'admin') . '/cms-pages')->with('error', 'No record selected');
+		if (!count($array)) return redirect(config('hellotree.cms_route_prefix') . '/cms-pages')->with('error', 'No record selected');
 		foreach ($array as $id) $this->deletePage($id);
-		return redirect(env('CMS_PREFIX', 'admin') . '/cms-pages')->with('success', 'Record deleted successfully');
+		return redirect(config('hellotree.cms_route_prefix') . '/cms-pages')->with('success', 'Record deleted successfully');
 	}
 
 	public function deletePage($id)
@@ -1031,7 +1031,7 @@ class CmsPagesController extends Controller
 	        }
         }
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/cms-pages')->with('success', 'Records ordered successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/cms-pages')->with('success', 'Records ordered successfully');
     }
 
     public function icons()

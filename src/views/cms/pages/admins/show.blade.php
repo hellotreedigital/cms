@@ -2,8 +2,8 @@
 
 @section('breadcrumb')
 	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins') }}">admins</a></li>
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id']) }}">{{ $row['id'] }}</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/admins') }}">admins</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id']) }}">{{ $row['id'] }}</a></li>
 		<li>Show</li>
 	</ul>
 @endsection
@@ -19,10 +19,10 @@
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
 					@if (request()->get('admin')['cms_pages']['admins']['permissions']['edit'])
-						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
+						<a href="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 					@endif
 					@if (request()->get('admin')['cms_pages']['admins']['permissions']['delete'])
-						<form class="d-inline" onsubmit="return confirm('Are you sure?')" method="post" action="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id']) }}">
+						<form class="d-inline" onsubmit="return confirm('Are you sure?')" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id']) }}">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">
 							<button class="btn btn-danger btn-sm">Delete</button>

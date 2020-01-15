@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/cms-pages') }}">CMS Pages</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages') }}">CMS Pages</a></li>
 		@if (isset($cms_page))
 			<li>{{ $cms_page['id'] }}</li>
 			<li>Edit</li>
@@ -14,7 +14,7 @@
 
 @section('dashboard-content')
 
-	<form method="post" action="{{ isset($cms_page) ? url(env('CMS_PREFIX', 'admin') . '/cms-pages/' . $cms_page['id']) : url(env('CMS_PREFIX', 'admin') . '/cms-pages') }}">
+	<form method="post" action="{{ isset($cms_page) ? url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $cms_page['id']) : url(config('hellotree.cms_route_prefix') . '/cms-pages') }}">
 
 		<div class="card p-4 mx-2 mx-sm-5">
 			<p class="font-weight-bold text-uppercase mb-4">{{ isset($cms_page) ? 'Edit CMS page #' . $cms_page['id'] : 'Add CMS page' }}</p>
@@ -62,7 +62,7 @@
 				'value' => old('controller_name') ? old('controller_name') : (isset($cms_page) ? $cms_page['controller_name'] : '')
 			])
 			@include('cms::cms/components/form-fields/input', [
-				'label' => 'Icon <a href="' . url(env('CMS_PREFIX', 'admin') . '/cms-pages/icons') . '"><i class="fa fa-font-awesome ml-1" aria-hidden="true"></i></a>',
+				'label' => 'Icon <a href="' . url(config('hellotree.cms_route_prefix') . '/cms-pages/icons') . '"><i class="fa fa-font-awesome ml-1" aria-hidden="true"></i></a>',
 				'name' => 'icon',
 				'type' => 'text',
 				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : '')

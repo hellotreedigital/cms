@@ -54,7 +54,7 @@ class AdminsController extends Controller
         
         $row->save();
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/admins')->with('success', 'Record added successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record added successfully');
     }
 
     public function show($id)
@@ -103,13 +103,13 @@ class AdminsController extends Controller
         
         $row->save();
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/admins')->with('success', 'Record edited successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record edited successfully');
     }
 
     public function destroy($id)
     {
         $array = explode(',', $id);
         foreach ($array as $id) Admin::destroy($i);
-        return redirect(env('CMS_PREFIX', 'admin') . '/admins')->with('success', 'Record deleted successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record deleted successfully');
     }
 }

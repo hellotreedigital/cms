@@ -32,7 +32,7 @@ class %%controller_name%% extends Controller
         %%store_query%%
         $row->save();
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/%%route%%')->with('success', 'Record added successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/%%route%%')->with('success', 'Record added successfully');
     }
 
     public function show($id)
@@ -60,14 +60,14 @@ class %%controller_name%% extends Controller
         %%update_query%%
         $row->save();
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/%%route%%')->with('success', 'Record edited successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/%%route%%')->with('success', 'Record edited successfully');
     }
 
     public function destroy($id)
     {
         $array = explode(',', $id);
         foreach ($array as $id) %%model_name%%::destroy($id);
-        return redirect(env('CMS_PREFIX', 'admin') . '/%%route%%')->with('success', 'Record deleted successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/%%route%%')->with('success', 'Record deleted successfully');
     }
 
     %%order_methods%%

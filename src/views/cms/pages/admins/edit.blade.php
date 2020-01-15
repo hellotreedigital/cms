@@ -2,15 +2,15 @@
 
 @section('breadcrumb')
 	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins') }}">admins</a></li>
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id']) }}">{{ $row['id'] }}</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/admins') }}">admins</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id']) }}">{{ $row['id'] }}</a></li>
 		<li>Edit</li>
 	</ul>
 @endsection
 
 @section('dashboard-content')
 
-	<form method="post" action="{{ url(env('CMS_PREFIX', 'admin') . '/admins/' . $row['id']) }}" enctype="multipart/form-data">
+	<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id']) }}" enctype="multipart/form-data">
 
 		<div class="card p-4 mx-2 mx-sm-5">
 

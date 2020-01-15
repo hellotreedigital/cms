@@ -2,7 +2,7 @@
 
 @section('breadcrumb')
 	<ul class="breadcrumbs list-inline font-weight-bold text-uppercase m-0">
-		<li><a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%') }}">%%display_name_plural%%</a></li>
+		<li><a href="{{ url(config('hellotree.cms_route_prefix') . '/%%route%%') }}">%%display_name_plural%%</a></li>
 		%%show_page_id_breadcrumb%%
 		<li>Show</li>
 	</ul>
@@ -19,7 +19,7 @@
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
 					@if (request()->get('admin')['cms_pages']['%%route%%']['permissions']['edit'])
-						<a href="{{ url(env('CMS_PREFIX', 'admin') . '/%%route%%/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
+						<a href="{{ url(config('hellotree.cms_route_prefix') . '/%%route%%/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 					@endif
 					%%delete_button_show_page%%
 				</div>

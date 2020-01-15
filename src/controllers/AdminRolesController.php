@@ -53,7 +53,7 @@ class AdminRolesController extends Controller
             }
         }
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/admin-roles')->with('success', 'Record added successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admin-roles')->with('success', 'Record added successfully');
     }
 
     public function show($id)
@@ -120,14 +120,14 @@ class AdminRolesController extends Controller
             $admin_role_permission->save();
         }
 
-        return redirect(env('CMS_PREFIX', 'admin') . '/admin-roles')->with('success', 'Record edited successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admin-roles')->with('success', 'Record edited successfully');
     }
 
     public function destroy($id)
     {
         $array = explode(',', $id);
         foreach ($array as $id) AdminRole::destroy($id);
-        return redirect(env('CMS_PREFIX', 'admin') . '/admin-roles')->with('success', 'Record deleted successfully');
+        return redirect(config('hellotree.cms_route_prefix') . '/admin-roles')->with('success', 'Record deleted successfully');
     }
 
     public function cmsPagesWithPermissions($cms_pages, $permissions)
