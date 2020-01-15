@@ -15,15 +15,15 @@
 			@foreach(request()->get('admin')['cms_pages_grouped'] as $group)
 				@if (!$group['icon'] && !$group['title'])
 					@foreach($group['pages'] as$page)
-						<li class="position-relative {{ request()->is('admin/' . $page['route']) || request()->is('admin/' . $page['route'] . '/*') ? 'active' : '' }}">
-							<a class="d-block p-3" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
+						<li class="position-relative {{ request()->is(env('CMS_PREFIX', 'admin') . '/' . $page['route']) || request()->is(env('CMS_PREFIX', 'admin') . '/' . $page['route'] . '/*') ? 'active' : '' }}">
+							<a class="d-block p-3" href="{{ url(env('CMS_PREFIX', 'admin') . '/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
 								<i class="text-center mr-2 fa {{ $page['icon'] }}" aria-hidden="true"></i>
 								{{ $page['display_name_plural'] }}
 							</a>
 						</li>
 					@endforeach
 				@else
-					<li class="position-relative menu-dropdown-wrapper @foreach($group['pages'] as $page){{ request()->is('admin/' . $page['route'] . '*') ? 'active' : '' }}@endforeach">
+					<li class="position-relative menu-dropdown-wrapper @foreach($group['pages'] as $page){{ request()->is(env('CMS_PREFIX', 'admin') . '/' . $page['route'] . '*') ? 'active' : '' }}@endforeach">
 						<a class="d-block p-3" title="{{ $group['title'] }}">
 							<i class="text-center mr-2 fa {{ $group['icon'] }}" aria-hidden="true"></i>
 							{{ $group['title'] }}
@@ -31,7 +31,7 @@
 						</a>
 						<div class="menu-dropdown pl-5">
 							@foreach($group['pages'] as $page)
-								<a class="px-3 py-1" href="{{ url('admin/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">{{ $page['display_name_plural'] }}</a>
+								<a class="px-3 py-1" href="{{ url(env('CMS_PREFIX', 'admin') . '/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">{{ $page['display_name_plural'] }}</a>
 							@endforeach
 						</div>
 					</li>
