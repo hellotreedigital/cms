@@ -240,7 +240,7 @@ class CmsPagesController extends Controller
 		if ($page_type == 'single') {
 			$index_method_header = '$single_record = ' . $model_name . '::first();
         if (!$single_record) return ' . "'" . 'No record found' . "'" . ';
-        return redirect(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $single_record->id);';
+        return redirect(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $single_record->id);';
 		}
 
 		// Include main model
@@ -418,7 +418,7 @@ class CmsPagesController extends Controller
             $row->save();
         }
 
-        return redirect(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . "'" . ')->with(' . "'" . 'success' . "'" . ', ' . "'" . 'Records ordered successfully' . "'" . ');
+        return redirect(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . "'" . ')->with(' . "'" . 'success' . "'" . ', ' . "'" . 'Records ordered successfully' . "'" . ');
     }';
 		} else {
 			$order_methods = '';
@@ -590,18 +590,18 @@ class CmsPagesController extends Controller
 		}
 		$table_body .= '<td class="actions-wrapper text-right">
 								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'read' . "'" . '])
-									<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>
+									<a href="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>
 								@endif';
 		if ($page_type != 'show') {
 			$table_body .= '
 								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
-									<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . '] . ' . "'" . '/edit' . "'" . ') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
+									<a href="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . '] . ' . "'" . '/edit' . "'" . ') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
 								@endif';
 		}
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$table_body .= '
 								@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-									<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
+									<form class="row-delete d-inline-block" method="post" action="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route .  '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 										@csrf
 										<input type="hidden" name="_method" value="DELETE">
 										<button class="mb-2 btn btn-danger btn-sm">Delete</button>
@@ -614,7 +614,7 @@ class CmsPagesController extends Controller
 		$add_button = '';
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$add_button = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'add' . "'" . '])
-				<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/create' . "'" . ') }}" class="btn btn-primary btn-sm">Add</a>
+				<a href="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/create' . "'" . ') }}" class="btn btn-primary btn-sm">Add</a>
 			@endif';
 		}
 
@@ -622,7 +622,7 @@ class CmsPagesController extends Controller
 		if ($page_type != 'show' && $page_type != 'fixed') {
 			$bulk_delete_button = '
 			@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-				<form method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ') }}" class="d-inline-block bulk-delete" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
+				<form method="post" action="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ') }}" class="d-inline-block bulk-delete" onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 					@csrf
 					<input type="hidden" name="_method" value="DELETE">
 					<button type="submit" class="btn btn-danger btn-sm">Bulk Delete</button>
@@ -632,7 +632,7 @@ class CmsPagesController extends Controller
 
 		if ($order_column) {
 			$order_button = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'edit' . "'" . '])
-				<a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/order' . "'" . ') }}" class="btn btn-secondary btn-sm">Order</a>
+				<a href="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/order' . "'" . ') }}" class="btn btn-secondary btn-sm">Order</a>
 			@endif';
 		} else {
 			$order_button = '';
@@ -770,9 +770,9 @@ class CmsPagesController extends Controller
 
 	public function generateShowView($route, $fields, $display_name_plural, $display_name, $page_type)
 	{
-		$show_page_id_breadcrumb = '<li><a href="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}">{{ $row[' . "'" . 'id' . "'" . '] }}</a></li>';
+		$show_page_id_breadcrumb = '<li><a href="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}">{{ $row[' . "'" . 'id' . "'" . '] }}</a></li>';
 		$delete_button_show_page = '@if (request()->get(' . "'" . 'admin' . "'" . ')[' . "'" . 'cms_pages' . "'" . '][' . "'" . $route . "'" . '][' . "'" . 'permissions' . "'" . '][' . "'" . 'delete' . "'" . '])
-						<form class="row-delete d-inline-block" method="post" action="{{ url(env(' . "'" . 'CMS_PREFIX' . "'" . ', ' . "'" . 'admin' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}"  onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
+						<form class="row-delete d-inline-block" method="post" action="{{ url(config(' . "'" . 'hellotree.cms_route_prefix' . "'" . ') . ' . "'" . '/' . $route . '/' . "'" . ' . $row[' . "'" . 'id' . "'" . ']) }}"  onsubmit="return confirm(' . "'" . 'Are you sure?' . "'" . ')">
 							@csrf
 							<input type="hidden" name="_method" value="DELETE">
 							<button class="btn btn-danger btn-sm">Delete</button>
