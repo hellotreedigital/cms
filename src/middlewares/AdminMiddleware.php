@@ -112,7 +112,7 @@ class AdminMiddleware
             if (!isset($request_path_array[1])) $request_path_array[1] = '';
 
             // Check if the requested page is not the home page nor profile
-            if ($request_path_array[1] != 'home' && $request_path_array[1] != 'profile' && $request_path_array[1] != 'logout') {
+            if ($request_path_array[1] != '' && $request_path_array[1] != 'home' && $request_path_array[1] != 'profile' && $request_path_array[1] != 'logout') {
                 $route = $request_path_array[1];
 
                 // Checking if requested page is available in the CMS pages array
