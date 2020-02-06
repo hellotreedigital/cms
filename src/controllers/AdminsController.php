@@ -109,7 +109,7 @@ class AdminsController extends Controller
     public function destroy($id)
     {
         $array = explode(',', $id);
-        foreach ($array as $id) Admin::destroy($i);
+        foreach ($array as $id) Admin::destroy($id);
         return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record deleted successfully');
     }
 }
