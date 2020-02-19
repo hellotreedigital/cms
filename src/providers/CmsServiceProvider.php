@@ -12,6 +12,9 @@ Class CmsServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{
+        // To prevent key too long error
+        Schema::defaultStringLength(191);
+
 		// First installation from console
 		if (!is_array($this->app['config']->get('hellotree'))) $this->firstInstallation();
 
@@ -60,19 +63,19 @@ Class CmsServiceProvider extends ServiceProvider
 		// Create cms pages
         Schema::create('cms_pages', function ($table) {
             $table->increments('id');
-            $table->string('icon')->nullable();
-            $table->string('display_name');
-            $table->string('display_name_plural');
-            $table->string('database_table')->unique();
-            $table->string('route')->unique();
-            $table->string('model_name')->unique();
-            $table->string('controller_name')->unique();
-            $table->string('migration_name')->unique();
-            $table->string('order_display')->nullable();
+            $table->string('icon', 191)->nullable();
+            $table->string('display_name', 191);
+            $table->string('display_name_plural', 191);
+            $table->string('database_table', 191)->unique();
+            $table->string('route', 191)->unique();
+            $table->string('model_name', 191)->unique();
+            $table->string('controller_name', 191)->unique();
+            $table->string('migration_name', 191)->unique();
+            $table->string('order_display', 191)->nullable();
             $table->longtext('fields');
-            $table->string('page_type');
-            $table->string('parent_title')->nullable();
-            $table->string('parent_icon')->nullable();
+            $table->string('page_type', 191);
+            $table->string('parent_title', 191)->nullable();
+            $table->string('parent_icon', 191)->nullable();
             $table->longtext('notes')->nullable();;
             $table->tinyInteger('deletable')->default(1);
             $table->tinyInteger('ht_pos')->nullable();
@@ -124,7 +127,7 @@ Class CmsServiceProvider extends ServiceProvider
         // Create admin roles table
         Schema::create('admin_roles', function ($table) {
             $table->increments('id');
-            $table->string('title');
+            $table->string('title', 191);
             $table->timestamps();
         });
 
@@ -147,10 +150,10 @@ Class CmsServiceProvider extends ServiceProvider
 		// Create admin table
         Schema::create('admins', function ($table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('image')->nullable();
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->string('name', 191);
+            $table->string('image', 191)->nullable();
+            $table->string('email', 191)->unique();
+            $table->string('password', 191);
             $table->integer('admin_role_id')->nullable()->unsigned();
             $table->rememberToken();
             $table->timestamps();
