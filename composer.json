@@ -19,5 +19,7 @@
     },
     "license": "MIT",
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "doctrine/dbal": "*"
+    }
 }
