@@ -20,7 +20,6 @@ class AdminRolesController extends Controller
     public function create()
     {
         $cms_pages = CmsPage::get()->toArray();
-
         return view('cms::cms/pages/admin-roles/create', compact(
             'cms_pages'
         ));
@@ -40,7 +39,13 @@ class AdminRolesController extends Controller
         foreach ($cms_pages as $key => $cms_page) {
             if ($cms_page->id == 1) continue;
 
-            if (isset($request['browse_' . $cms_page->id])) {
+            if (
+                isset($request['browse_' . $cms_page->id]) ||
+                isset($request['read_' . $cms_page->id]) ||
+                isset($request['edit_' . $cms_page->id]) ||
+                isset($request['add_' . $cms_page->id]) ||
+                isset($request['delete_' . $cms_page->id])
+            ) {
                 $admin_role_permission = new AdminRolePermission;
                 $admin_role_permission->admin_role_id = $admin_role->id;
                 $admin_role_permission->cms_page_id = $cms_page->id;
@@ -60,7 +65,6 @@ class AdminRolesController extends Controller
     {
         $row = AdminRole::findOrFail($id);
         $admin_role_permissions = AdminRolePermission::where('admin_role_id', $id)->get();
-
         return view('cms::cms/pages/admin-roles/show', compact('row', 'admin_role_permissions'));
     }
 
@@ -69,9 +73,7 @@ class AdminRolesController extends Controller
         $row = AdminRole::findOrFail($id);
         $cms_pages = CmsPage::get()->toArray();
         $admin_role_permissions = AdminRolePermission::where('admin_role_id', $id)->get();
-
         $cms_pages_permissions = $this->cmsPagesWithPermissions($cms_pages, $admin_role_permissions);
-
         return view('cms::cms/pages/admin-roles/edit', compact(
             'row',
             'cms_pages_permissions'
@@ -97,13 +99,25 @@ class AdminRolesController extends Controller
             $admin_role_permission = AdminRolePermission::where('admin_role_id', $id)->where('cms_page_id', $cms_page->id)->first();
             if ($admin_role_permission) {
                 // If browse permission is not granted then user cannot see the page so delete it
-                if (!isset($request['browse_' . $cms_page->id])) {
+                if (
+                    !isset($request['browse_' . $cms_page->id]) &&
+                    !isset($request['read_' . $cms_page->id]) &&
+                    !isset($request['edit_' . $cms_page->id]) &&
+                    !isset($request['add_' . $cms_page->id]) &&
+                    !isset($request['delete_' . $cms_page->id])
+                ) {
                     AdminRolePermission::destroy($admin_role_permission->id);
                     continue;
                 }
             } else {
                 // If browse permission is granted create new permission
-                if (isset($request['browse_' . $cms_page->id])) {
+                if (
+                    isset($request['browse_' . $cms_page->id]) ||
+                    isset($request['read_' . $cms_page->id]) ||
+                    isset($request['edit_' . $cms_page->id]) ||
+                    isset($request['add_' . $cms_page->id]) ||
+                    isset($request['delete_' . $cms_page->id])
+                ) {
                     $admin_role_permission = new AdminRolePermission;
                     $admin_role_permission->admin_role_id = $id;
                     $admin_role_permission->cms_page_id = $cms_page->id;

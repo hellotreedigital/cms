@@ -9,4 +9,6 @@ class %%model_name%% extends Model
     protected $table = '%%database_table%%';
 
     protected $guarded = ['id'];
+
+	%%relationships%%
 }

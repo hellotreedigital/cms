@@ -40,4 +40,18 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::resource('cms-pages', 'hellotreedigital\cms\controllers\CmsPagesController');
     Route::resource('/admins', 'hellotreedigital\cms\controllers\AdminsController');
     Route::resource('/admin-roles', 'hellotreedigital\cms\controllers\AdminRolesController');
+
+    // Cms Pages
+    foreach (\Hellotreedigital\Cms\Models\CmsPage::get() as $cms_page) {
+        Route::get('/' . $cms_page->route, 'hellotreedigital\cms\controllers\CmsPageController@index')->defaults('route', 'categories');
+        Route::get('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@order')->defaults('route', 'categories');
+        Route::get('/' . $cms_page->route . '/create', 'hellotreedigital\cms\controllers\CmsPageController@create')->defaults('route', 'categories');
+        Route::get('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@show')->defaults('route', 'categories');
+        Route::get('/' . $cms_page->route . '/{id}/edit', 'hellotreedigital\cms\controllers\CmsPageController@edit')->defaults('route', 'categories');
+
+        Route::post('/' . $cms_page->route, 'hellotreedigital\cms\controllers\CmsPageController@store')->defaults('route', 'categories');
+        Route::post('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@changeOrder')->defaults('route', 'categories');
+        Route::put('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@update')->defaults('route', 'categories');
+        Route::delete('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@destroy')->defaults('route', 'categories');
+    }
 });

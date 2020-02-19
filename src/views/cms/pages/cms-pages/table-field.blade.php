@@ -5,16 +5,16 @@
 		$row_field_form_field = isset(old('form_field')[$field_key]) && old('form_field')[$field_key] ? old('form_field')[$field_key] : '';
 		$row_field_form_field_additionals_1 = isset(old('form_field_additionals_1')[$field_key]) && old('form_field_additionals_1')[$field_key] ? old('form_field_additionals_1')[$field_key] : '';
 		$row_field_form_field_additionals_2 = isset(old('form_field_additionals_2')[$field_key]) && old('form_field_additionals_2')[$field_key] ? old('form_field_additionals_2')[$field_key] : '';
-		$row_field_nullable = isset(old('nullable')[$field_key]) && old('nullable')[$field_key] ? old('nullable')[$field_key] : '';
-		$row_field_unique = isset(old('unique')[$field_key]) && old('unique')[$field_key] ? old('unique')[$field_key] : '';
+		$row_field_nullable = isset(old('nullable')[$field_key]) && old('nullable')[$field_key] ? old('nullable')[$field_key] : 0;
+		$row_field_unique = isset(old('unique')[$field_key]) && old('unique')[$field_key] ? old('unique')[$field_key] : 0;
 	} elseif (isset($cms_page)) {
 		$row_field_name = $field['name'];
 		$row_field_migration_type = $field['migration_type'];
 		$row_field_form_field = $field['form_field'];
 		$row_field_form_field_additionals_1 = $field['form_field_additionals_1'];
 		$row_field_form_field_additionals_2 = $field['form_field_additionals_2'];
-		$row_field_nullable = $field['nullable'];
-		$row_field_unique = $field['unique'];
+		$row_field_nullable = $field['nullable'] ? 1 : 0;
+		$row_field_unique = $field['unique'] ? 1 : 0;
 	} else {
 		$row_field_name = '';
 		$row_field_migration_type = '';
@@ -28,6 +28,7 @@
 
 <tr class="sortable-row position-relative field">
 	<td class="text-center">
+		<input type="hidden" name="old_name[]" value="{{ $row_field_name }}">
 		<input class="form-control" name="name[]" required="" value="{{ $row_field_name }}">
 	</td>
 	<td class="text-center">
@@ -46,6 +47,7 @@
 			@endforeach
 		</select>
 		<div class="form-field-additionals" {!! $row_field_form_field_additionals_1 ? '' : 'style="display: none;"' !!}>
+			<input type="hidden" name="old_form_field_additionals_1[]" value="{{ $row_field_form_field_additionals_1 }}">
 			<input class="form-control mt-2" name="form_field_additionals_1[]" value="{{ $row_field_form_field_additionals_1 }}">
 			<input class="form-control mt-2" name="form_field_additionals_2[]" value="{{ $row_field_form_field_additionals_2 }}" {!! $row_field_form_field_additionals_2 ? '' : 'style="display:none;"' !!}>
 		</div>

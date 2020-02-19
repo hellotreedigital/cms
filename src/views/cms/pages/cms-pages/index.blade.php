@@ -29,8 +29,6 @@
 						<th>Database</th>
 						<th>Route</th>
 						<th>Model</th>
-						<th>Controller</th>
-						<th>Migration</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -50,19 +48,15 @@
 							<td>{{ $row['database_table'] }}</td>
 							<td>{{ $row['route'] }}</td>
 							<td>{{ $row['model_name'] }}</td>
-							<td>{{ $row['controller_name'] }}</td>
-							<td>{{ $row['migration_name'] }}</td>
 							<td class="actions-wrapper text-right">
-								@if ($row['deletable'])
-									@if ($row['fields'])
-										<a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $row['id'] . '/edit') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
-									@endif
-									<form class="d-inline" onsubmit="return confirm('Are you sure?')" action="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $row['id']) }}" method="POST">
-										@csrf
-										@method('DELETE')
-										<button type="submit" class="mb-2 btn btn-danger btn-sm">Delete</button>
-									</form>
+								@if ($row['fields'])
+									<a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $row['id'] . '/edit') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
 								@endif
+								<form class="d-inline" onsubmit="return confirm('Are you sure?')" action="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $row['id']) }}" method="POST">
+									@csrf
+									@method('DELETE')
+									<button type="submit" class="mb-2 btn btn-danger btn-sm">Delete</button>
+								</form>
 							</td>
 						</tr>
 					@endforeach

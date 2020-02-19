@@ -13,20 +13,14 @@ class AdminsController extends Controller
 {
     public function index()
     {
-        $rows = Admin::whereNotNull('role_id')->get();
-        $admin_roles = [];
-        $admin_roles_db = AdminRole::get()->toArray();
-        foreach ($admin_roles_db as $single_admin_roles_db) $admin_roles[$single_admin_roles_db['id']] = $single_admin_roles_db;
-
-        return view('cms::cms/pages/admins/index', compact('rows', 'admin_roles'));
+        $rows = Admin::whereNotNull('admin_role_id')->get();
+        return view('cms::cms/pages/admins/index', compact('rows'));
     }
 
     public function create()
     {
         $admin_roles = [];
-        $admin_roles_db = AdminRole::get()->toArray();
-        foreach ($admin_roles_db as $single_admin_roles_db) $admin_roles[$single_admin_roles_db['id']] = $single_admin_roles_db;
-
+        $admin_roles = AdminRole::get();
         return view('cms::cms/pages/admins/create', compact('admin_roles'));
     }
 
@@ -37,11 +31,10 @@ class AdminsController extends Controller
             'image' => 'image',
             'email' => 'required|unique:admins',
             'password' => 'required|confirmed',
-            'role_id' => 'required',
+            'admin_role_id' => 'required',
         ]);
 
         $row = new Admin;
-        
         $row->name = $request->name;
         if ($request->image) {
             $image = time() . '_' . md5(rand()) . '.' . request()->image->getClientOriginalExtension();
@@ -50,8 +43,7 @@ class AdminsController extends Controller
         }
         $row->email = $request->email;
         $row->password = Hash::make($request->password);
-        $row->role_id = $request->role_id;
-        
+        $row->admin_role_id = $request->admin_role_id;
         $row->save();
 
         return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record added successfully');
@@ -60,11 +52,7 @@ class AdminsController extends Controller
     public function show($id)
     {
         $row = Admin::findOrFail($id);
-        $admin_roles = [];
-        $admin_roles_db = AdminRole::get()->toArray();
-        foreach ($admin_roles_db as $single_admin_roles_db) $admin_roles[$single_admin_roles_db['id']] = $single_admin_roles_db;
-
-        return view('cms::cms/pages/admins/show', compact('row', 'admin_roles'));
+        return view('cms::cms/pages/admins/show', compact('row'));
     }
 
     public function edit($id)
@@ -86,7 +74,7 @@ class AdminsController extends Controller
             'image' => 'image',
             'email' => 'required|unique:admins,email,' . $row->id,
             'password' => 'confirmed',
-            'role_id' => 'required',
+            'admin_role_id' => 'required',
         ]);
 
         $row->name = $request->name;
@@ -99,8 +87,7 @@ class AdminsController extends Controller
         }
         $row->email = $request->email;
         if ($request->password) $row->password = Hash::make($request->password);
-        $row->role_id = $request->role_id;
-        
+        $row->admin_role_id = $request->admin_role_id;
         $row->save();
 
         return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record edited successfully');

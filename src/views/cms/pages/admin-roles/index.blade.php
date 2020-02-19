@@ -28,7 +28,7 @@
 						<th></th>
 						<th>#</th>
 						<th>Title</th>
-		
+
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -45,7 +45,7 @@
 								{{ $row['id'] }}
 							</td>
 							<td>{{ $row['title'] }}</td>
-			
+
 							<td class="actions-wrapper text-right">
 								@if (request()->get('admin')['cms_pages']['admin-roles']['permissions']['read'])
 									<a href="{{ url(config('hellotree.cms_route_prefix') . '/admin-roles/' . $row['id']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>

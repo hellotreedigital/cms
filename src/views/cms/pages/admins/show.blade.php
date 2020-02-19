@@ -35,8 +35,8 @@
 		@include('cms::cms/components/show-fields/text', ['label' => 'Name', 'text' => $row['name']])
 		@include('cms::cms/components/show-fields/image', ['label' => 'Image', 'image' => $row['image']])
 		@include('cms::cms/components/show-fields/text', ['label' => 'Email', 'text' => $row['email']])
-		@include('cms::cms/components/show-fields/text', ['label' => 'Role', 'text' => $admin_roles[$row['role_id']]['title']])
-		
+		@include('cms::cms/components/show-fields/text', ['label' => 'Role', 'text' => $row->role->title])
+
 	</div>
 
 @endsection

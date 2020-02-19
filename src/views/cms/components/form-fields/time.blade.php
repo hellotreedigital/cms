@@ -1,3 +1,6 @@
+@php
+    if ($errors->any()) $value = old($name);
+@endphp
 <div class="form-group">
     <label class="d-block">{{ $label }}</label>
     <div class="timepicker no-selection">

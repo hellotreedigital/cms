@@ -1,7 +1,12 @@
 @php
 $lat = 33.8892527;
 $lng = 35.4867727;
-if ($value) {
+
+if ($errors->any()) {
+    $array = explode(',', old($name));
+    $lat = $array[0];
+    $lng = $array[1];
+} elseif ($value) {
     $array = explode(',', $value);
     $lat = $array[0];
     $lng = $array[1];

@@ -39,10 +39,10 @@ class AdminMiddleware
         foreach ($cms_pages_db as $cms_page_db) $cms_pages[$cms_page_db['route']] = $cms_page_db;
 
         // If admin doesn't have a role id then he is a super admin, otherwise he is not and should get the admin permissions
-        if ($admin['role_id']) {
+        if ($admin['admin_role_id']) {
             // Get role permissions
             $admin_role_permissions = [];
-            $admin_role_permissions_db = AdminRolePermission::where('admin_role_id', $admin['role_id'])->get();
+            $admin_role_permissions_db = AdminRolePermission::where('admin_role_id', $admin['admin_role_id'])->get();
 
             // Add permissions to $cms_pages array
             foreach ($cms_pages as $key => $cms_page) {
@@ -106,7 +106,7 @@ class AdminMiddleware
         $request->attributes->add(compact('admin'));
 
         // If admin have role id then he is not a super then, therefore we should check the permissions
-        if ($admin['role_id']) {
+        if ($admin['admin_role_id']) {
             // Get requested page route
             $request_path_array = explode('/', request()->path());
             if (!isset($request_path_array[1])) $request_path_array[1] = '';

@@ -53,8 +53,8 @@
 								@endif
 							</td>
 							<td>{{ $row['email'] }}</td>
-							<td>{{ $admin_roles[$row['role_id']]['title'] }}</td>
-			
+							<td>{{ $row->role['title'] }}</td>
+
 							<td class="actions-wrapper text-right">
 								@if (request()->get('admin')['cms_pages']['admins']['permissions']['read'])
 									<a href="{{ url(config('hellotree.cms_route_prefix') . '/admins/' . $row['id']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>
