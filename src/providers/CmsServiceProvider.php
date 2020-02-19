@@ -12,11 +12,11 @@ Class CmsServiceProvider extends ServiceProvider
 {
 	public function boot()
 	{
-		// Routes
-		$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-
 		// First installation from console
 		if (!is_array($this->app['config']->get('hellotree'))) $this->firstInstallation();
+
+		// Routes
+		$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
 	}
 
 	public function register()
@@ -57,7 +57,7 @@ Class CmsServiceProvider extends ServiceProvider
 
 	protected function createDatabase()
 	{
-				// Create cms pages
+		// Create cms pages
         Schema::create('cms_pages', function ($table) {
             $table->increments('id');
             $table->string('icon')->nullable();
