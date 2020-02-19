@@ -20,7 +20,7 @@ class CmsController extends Controller
 
 	public function showLoginForm()
     {
-    	return view('cms::cms/pages/login/index');
+    	return view('cms::pages/login/index');
     }
 
     public function login(Request $request)
@@ -49,12 +49,12 @@ class CmsController extends Controller
 
 	public function showProfile()
 	{
-		return view('cms::cms/pages/profile/show');
+		return view('cms::pages/profile/show');
 	}
 
     public function showEditProfile()
     {
-        return view('cms::cms/pages/profile/edit');
+        return view('cms::pages/profile/edit');
     }
 
     public function editProfile(Request $request)
@@ -88,6 +88,6 @@ class CmsController extends Controller
 
 	public function showHome()
 	{
-		return view('cms::cms/pages/home/index');
+		return view('cms::pages/home/index');
 	}
 }

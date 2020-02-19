@@ -30,6 +30,7 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->app->make('Hellotreedigital\Cms\Controllers\CmsController');
 		$this->app->make('Hellotreedigital\Cms\Controllers\CmsPagesController');
         $this->app->make('Hellotreedigital\Cms\Controllers\CmsPageController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\LogsController');
 
 		// Views
 		$this->loadViewsFrom(__DIR__ . '/../views', 'cms');
@@ -64,49 +65,48 @@ Class CmsServiceProvider extends ServiceProvider
         Schema::create('cms_pages', function ($table) {
             $table->increments('id');
             $table->string('icon')->nullable();
-            $table->string('display_name');
+            $table->string('display_name')->nullable();
             $table->string('display_name_plural');
-            $table->string('database_table')->unique();
+            $table->string('database_table')->unique()->nullable();
             $table->string('route')->unique();
-            $table->string('model_name')->unique();
-            $table->string('order_display')->nullable();
-            $table->longtext('fields');
+            $table->string('model_name')->unique()->nullable();
+            $table->string('order_display')->nullable()->nullable();
+            $table->longtext('fields')->nullable();
+            $table->tinyInteger('add')->nullable();
+            $table->tinyInteger('edit')->nullable();
+            $table->tinyInteger('delete')->nullable();
+            $table->tinyInteger('show')->nullable();
+            $table->tinyInteger('single_record')->nullable();
+            $table->tinyInteger('custom_page')->default(0);
             $table->string('parent_title')->nullable();
             $table->string('parent_icon')->nullable();
             $table->integer('ht_pos')->nullable();
-            $table->tinyInteger('custom_page')->default(0);
             $table->timestamps();
         });
 
         DB::table('cms_pages')->insert([
     		[
                 'icon' => 'fa-window-restore',
-    			'display_name' => 'CMS Page',
     			'display_name_plural' => 'CMS Pages',
-    			'database_table' => 'cms_pages',
     			'route' => 'cms-pages',
-    			'model_name' => 'CmsPage',
-                'fields' => '[]',
                 'custom_page' => 1,
     		],
+            [
+                'icon' => 'fa-align-left',
+                'display_name_plural' => 'Logs',
+                'route' => 'logs',
+                'custom_page' => 1,
+            ],
     		[
                 'icon' => ' fa-user-secret',
-    			'display_name' => 'Admin',
     			'display_name_plural' => 'Admins',
-    			'database_table' => 'admins',
     			'route' => 'admins',
-    			'model_name' => 'Admin',
-                'fields' => '[]',
                 'custom_page' => 1,
     		],
     		[
                 'icon' => 'fa-lock',
-    			'display_name' => 'Admin role',
     			'display_name_plural' => 'Admin Roles',
-    			'database_table' => 'admin_roles',
     			'route' => 'admin-roles',
-    			'model_name' => 'adminRole',
-                'fields' => '[]',
                 'custom_page' => 1,
     		],
     	]);
@@ -153,5 +153,18 @@ Class CmsServiceProvider extends ServiceProvider
     		'email' => 'support@hellotree.co',
     		'password' => bcrypt('$h1e2l3#'),
     	]);
+
+        // Create logs table
+        Schema::create('logs', function ($table) {
+            $table->increments('id');
+            $table->integer('admin_id')->unsigned();
+            $table->integer('cms_page_id')->unsigned();
+            $table->integer('record_id')->nullable()->unsigned();
+            $table->string('action');
+            $table->timestamps();
+
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
+            $table->foreign('cms_page_id')->references('id')->on('cms_pages')->onDelete('cascade');
+        });
 	}
 }

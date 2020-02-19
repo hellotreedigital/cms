@@ -14,13 +14,13 @@ class AdminRolesController extends Controller
     public function index()
     {
         $rows = AdminRole::get();
-        return view('cms::cms/pages/admin-roles/index', compact('rows'));
+        return view('cms::pages/admin-roles/index', compact('rows'));
     }
 
     public function create()
     {
         $cms_pages = CmsPage::get()->toArray();
-        return view('cms::cms/pages/admin-roles/create', compact(
+        return view('cms::pages/admin-roles/create', compact(
             'cms_pages'
         ));
     }
@@ -65,7 +65,7 @@ class AdminRolesController extends Controller
     {
         $row = AdminRole::findOrFail($id);
         $admin_role_permissions = AdminRolePermission::where('admin_role_id', $id)->get();
-        return view('cms::cms/pages/admin-roles/show', compact('row', 'admin_role_permissions'));
+        return view('cms::pages/admin-roles/show', compact('row', 'admin_role_permissions'));
     }
 
     public function edit($id)
@@ -74,7 +74,7 @@ class AdminRolesController extends Controller
         $cms_pages = CmsPage::get()->toArray();
         $admin_role_permissions = AdminRolePermission::where('admin_role_id', $id)->get();
         $cms_pages_permissions = $this->cmsPagesWithPermissions($cms_pages, $admin_role_permissions);
-        return view('cms::cms/pages/admin-roles/edit', compact(
+        return view('cms::pages/admin-roles/edit', compact(
             'row',
             'cms_pages_permissions'
         ));

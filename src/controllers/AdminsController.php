@@ -14,14 +14,14 @@ class AdminsController extends Controller
     public function index()
     {
         $rows = Admin::whereNotNull('admin_role_id')->get();
-        return view('cms::cms/pages/admins/index', compact('rows'));
+        return view('cms::pages/admins/index', compact('rows'));
     }
 
     public function create()
     {
         $admin_roles = [];
         $admin_roles = AdminRole::get();
-        return view('cms::cms/pages/admins/create', compact('admin_roles'));
+        return view('cms::pages/admins/create', compact('admin_roles'));
     }
 
     public function store(Request $request)
@@ -52,7 +52,7 @@ class AdminsController extends Controller
     public function show($id)
     {
         $row = Admin::findOrFail($id);
-        return view('cms::cms/pages/admins/show', compact('row'));
+        return view('cms::pages/admins/show', compact('row'));
     }
 
     public function edit($id)
@@ -62,7 +62,7 @@ class AdminsController extends Controller
         $admin_roles_db = AdminRole::get()->toArray();
         foreach ($admin_roles_db as $single_admin_roles_db) $admin_roles[$single_admin_roles_db['id']] = $single_admin_roles_db;
 
-        return view('cms::cms/pages/admins/edit', compact('row', 'admin_roles'));
+        return view('cms::pages/admins/edit', compact('row', 'admin_roles'));
     }
 
     public function update(Request $request, $id)

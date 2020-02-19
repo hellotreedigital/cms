@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Middlewares;
 use Hellotreedigital\Cms\Models\AdminRole;
 use Hellotreedigital\Cms\Models\AdminRolePermission;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Hellotreedigital\Cms\Models\Log;
 use Closure;
 use Route;
 use Auth;
@@ -121,10 +122,27 @@ class AdminMiddleware
                 // Check permissions
                 $admin_page_permission = $admin['cms_pages'][$route]['permissions'];
                 if ($request->isMethod('post')) {
+                    Log::create([
+                        'admin_id' => $admin['id'],
+                        'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                        'action' => 'created',
+                    ]);
                     if (!$admin_page_permission['add']) abort(403);
                 } elseif ($request->isMethod('delete')) {
+                    Log::create([
+                        'admin_id' => $admin['id'],
+                        'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                        'record_id' => $request['id'],
+                        'action' => 'deleted',
+                    ]);
                     if (!$admin_page_permission['delete']) abort(403);
-                } elseif ($request->isMethod('patch')) {
+                } elseif ($request->isMethod('put')) {
+                    Log::create([
+                        'admin_id' => $admin['id'],
+                        'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                        'record_id' => $request['id'],
+                        'action' => 'edited',
+                    ]);
                     if (!$admin_page_permission['edit']) abort(403);
                 } else {
                     // Get Method

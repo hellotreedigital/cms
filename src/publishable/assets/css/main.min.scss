@@ -21,10 +21,10 @@ html {
         height: 5px;
     }
     ::-webkit-scrollbar-track {
-        background: #fff; 
+        background: #fff;
     }
     ::-webkit-scrollbar-thumb {
-        background: #ddd; 
+        background: #ddd;
         border-radius: 15px;
         transition: .5s all;
     }
@@ -71,7 +71,7 @@ html {
                         border-color: $text_color;
                         background-color: $color_yellow;
                     }
-                }                           
+                }
             }
             div {
                 display: inline-block;
@@ -96,7 +96,7 @@ html {
             line-height: 1.5;
             cursor: pointer;
             &:after {
-                content: attr(data-file);
+                content: attr(data-text);
             }
             input {
                 position: absolute;

@@ -34,14 +34,31 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::get('profile', 'hellotreedigital\cms\controllers\CmsController@showProfile')->name('admin-profile');
     Route::get('profile/edit', 'hellotreedigital\cms\controllers\CmsController@showEditProfile')->name('admin-profile-edit');
     Route::post('profile/edit', 'hellotreedigital\cms\controllers\CmsController@editProfile');
-    Route::get('/cms-pages/icons', 'hellotreedigital\cms\controllers\CmsPagesController@icons');
-    Route::get('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@orderIndex');
-    Route::post('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@orderSubmit');
-    Route::resource('cms-pages', 'hellotreedigital\cms\controllers\CmsPagesController');
     Route::resource('/admins', 'hellotreedigital\cms\controllers\AdminsController');
     Route::resource('/admin-roles', 'hellotreedigital\cms\controllers\AdminRolesController');
 
-    // Cms Pages
+    // Cms Pages managment routes
+    Route::get('/cms-pages/icons', 'hellotreedigital\cms\controllers\CmsPagesController@icons');
+    Route::get('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@orderIndex');
+    Route::get('/cms-pages', 'hellotreedigital\cms\controllers\CmsPagesController@index');
+    Route::get('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@order');
+    Route::get('/cms-pages/create', 'hellotreedigital\cms\controllers\CmsPagesController@create');
+    Route::get('/cms-pages/create/custom', 'hellotreedigital\cms\controllers\CmsPagesController@createCustom');
+    Route::get('/cms-pages/{id}/edit', 'hellotreedigital\cms\controllers\CmsPagesController@edit');
+    Route::get('/cms-pages/custom/{id}/edit', 'hellotreedigital\cms\controllers\CmsPagesController@editCustom');
+
+    Route::post('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@orderSubmit');
+    Route::post('/cms-pages', 'hellotreedigital\cms\controllers\CmsPagesController@store');
+    Route::post('/cms-pages/custom', 'hellotreedigital\cms\controllers\CmsPagesController@storeCustom');
+    Route::post('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@changeOrder');
+    Route::put('/cms-pages/{id}', 'hellotreedigital\cms\controllers\CmsPagesController@update');
+    Route::put('/cms-pages/custom/{id}', 'hellotreedigital\cms\controllers\CmsPagesController@updateCustom');
+    Route::delete('/cms-pages/{id}', 'hellotreedigital\cms\controllers\CmsPagesController@destroy');
+
+    //Logs
+    Route::get('/logs', 'hellotreedigital\cms\controllers\LogsController@index');
+
+    // Cms Pages routes
     foreach (\Hellotreedigital\Cms\Models\CmsPage::where('custom_page', 0)->get() as $cms_page) {
         Route::get('/' . $cms_page->route, 'hellotreedigital\cms\controllers\CmsPageController@index')->defaults('route', $cms_page->route);
         Route::get('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@order')->defaults('route', $cms_page->route);
