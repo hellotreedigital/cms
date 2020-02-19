@@ -1,8 +1,7 @@
 <h1>Installation:</h1>
 
 <ul>
-<li>Create the database and add the credentials to your .env file</li>
-<li>Update your website URL inside of the APP_URL variable inside the .env file</li>
+<li>Create the database and update your .env file</li>
 <li>
 Add the below to config/auth.php:
 <pre>
@@ -21,7 +20,7 @@ Add the below to config/auth.php:
 </pre>
 </li>
 <li>
-Finally run:
+Run:
 <pre>composer require hellotreedigital/cms
 </pre>
 </li>
