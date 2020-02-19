@@ -87,7 +87,7 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'cms-pages',
     			'model_name' => 'CmsPage',
                 'fields' => '[]',
-                'custom_page' => 0,
+                'custom_page' => 1,
     		],
     		[
                 'icon' => ' fa-user-secret',
@@ -97,7 +97,7 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'admins',
     			'model_name' => 'Admin',
                 'fields' => '[]',
-                'custom_page' => 0,
+                'custom_page' => 1,
     		],
     		[
                 'icon' => 'fa-lock',
@@ -107,7 +107,7 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'admin-roles',
     			'model_name' => 'adminRole',
                 'fields' => '[]',
-                'custom_page' => 0,
+                'custom_page' => 1,
     		],
     	]);
 
