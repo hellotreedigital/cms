@@ -87,7 +87,6 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'cms-pages',
     			'model_name' => 'CmsPage',
                 'fields' => '[]',
-                'page_type' => 'regular',
                 'custom_page' => 0,
     		],
     		[
@@ -98,7 +97,6 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'admins',
     			'model_name' => 'Admin',
                 'fields' => '[]',
-                'page_type' => 'regular',
                 'custom_page' => 0,
     		],
     		[
@@ -109,7 +107,6 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'admin-roles',
     			'model_name' => 'adminRole',
                 'fields' => '[]',
-                'page_type' => 'regular',
                 'custom_page' => 0,
     		],
     	]);
