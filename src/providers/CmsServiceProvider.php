@@ -158,7 +158,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('role_id')->references('id')->on('admin_roles')->onDelete('cascade');
+            $table->foreign('admin_role_id')->references('id')->on('admin_roles')->onDelete('cascade');
         });
 
     	DB::table('admins')->insert([
