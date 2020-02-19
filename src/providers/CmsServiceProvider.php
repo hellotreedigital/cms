@@ -69,16 +69,12 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('database_table')->unique();
             $table->string('route')->unique();
             $table->string('model_name')->unique();
-            $table->string('controller_name')->unique();
-            $table->string('migration_name')->unique();
             $table->string('order_display')->nullable();
             $table->longtext('fields');
-            $table->string('page_type');
             $table->string('parent_title')->nullable();
             $table->string('parent_icon')->nullable();
-            $table->longtext('notes')->nullable();;
-            $table->tinyInteger('deletable')->default(1);
-            $table->tinyInteger('ht_pos')->nullable();
+            $table->integer('ht_pos')->nullable();
+            $table->tinyInteger('custom_page')->default(0);
             $table->timestamps();
         });
 
@@ -90,11 +86,9 @@ Class CmsServiceProvider extends ServiceProvider
     			'database_table' => 'cms_pages',
     			'route' => 'cms-pages',
     			'model_name' => 'CmsPage',
-    			'controller_name' => 'CmsPagesController',
-    			'migration_name' => '2014_10_12_000000_create_cms_pages_table',
                 'fields' => '[]',
                 'page_type' => 'regular',
-                'deletable' => 0,
+                'custom_page' => 0,
     		],
     		[
                 'icon' => ' fa-user-secret',
@@ -103,11 +97,9 @@ Class CmsServiceProvider extends ServiceProvider
     			'database_table' => 'admins',
     			'route' => 'admins',
     			'model_name' => 'Admin',
-    			'controller_name' => 'AdminsController',
-    			'migration_name' => '2014_10_12_000000_create_admins_table',
                 'fields' => '[]',
                 'page_type' => 'regular',
-                'deletable' => 0,
+                'custom_page' => 0,
     		],
     		[
                 'icon' => 'fa-lock',
@@ -116,11 +108,9 @@ Class CmsServiceProvider extends ServiceProvider
     			'database_table' => 'admin_roles',
     			'route' => 'admin-roles',
     			'model_name' => 'adminRole',
-    			'controller_name' => 'AdminRolesController',
-    			'migration_name' => '2014_10_10_000000_create_admin_roles_table',
                 'fields' => '[]',
                 'page_type' => 'regular',
-                'deletable' => 0,
+                'custom_page' => 0,
     		],
     	]);
 
