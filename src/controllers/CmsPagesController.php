@@ -438,7 +438,7 @@ class CmsPagesController extends Controller
 
 	public function deletePage($id)
 	{
-		$cms_page = CmsPage::whereNotIn('id', [1, 2, 3])->findorfail($id);
+		$cms_page = CmsPage::whereNotIn('id', [1, 2, 3, 4])->findorfail($id);
 
 		$this->deleteDatabase($cms_page);
 		$this->deleteModel($cms_page);

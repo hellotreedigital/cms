@@ -50,7 +50,7 @@
 							<td>{{ $row['model_name'] }}</td>
 							<td class="actions-wrapper text-right">
 								<a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . ($row['custom_page'] ? 'custom/' : '') . $row['id'] . '/edit') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
-								@if (!in_array($row['id'], [1,2,3]))
+								@if (!in_array($row['id'], [1,2,3,4]))
 									<form class="d-inline" onsubmit="return confirm('Are you sure?')" action="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $row['id']) }}" method="POST">
 										@csrf
 										@method('DELETE')
