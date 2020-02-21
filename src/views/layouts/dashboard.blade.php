@@ -14,7 +14,8 @@
 			</li>
 			@foreach(request()->get('admin')['cms_pages_grouped'] as $group)
 				@if (!$group['icon'] && !$group['title'])
-					@foreach($group['pages'] as$page)
+					@foreach($group['pages'] as $page)
+						@if (!$page['display_name_plural']) @continue @endif
 						<li class="position-relative {{ request()->is(config('hellotree.cms_route_prefix') . '/' . $page['route']) || request()->is(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/*') ? 'active' : '' }}">
 							<a class="d-block p-3" href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">
 								<i class="text-center mr-2 fa {{ $page['icon'] }}" aria-hidden="true"></i>
@@ -31,6 +32,7 @@
 						</a>
 						<div class="menu-dropdown pl-5">
 							@foreach($group['pages'] as $page)
+								@if (!$page['display_name_plural']) @continue @endif
 								<a class="px-3 py-1" href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route']) }}" title="{{ $page['display_name_plural'] }}">{{ $page['display_name_plural'] }}</a>
 							@endforeach
 						</div>

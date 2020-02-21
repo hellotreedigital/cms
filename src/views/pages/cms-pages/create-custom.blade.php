@@ -21,7 +21,30 @@
 			<div class="form-group m-0">
 				<label class="m-0">
 					<ul>
-						<li></li>
+						<li>Display name plural is the name you see on the menu and browse pages.</li>
+						<li>The route is used to redirect the user to its custom route from the menu</li>
+						<li>The icon is the class of a font-awesome icon, you will see the icon in the menu <a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/icons') }}" target="_blank" class="text-secondary">click here to see all the icons</a>.</li>
+						<li>The CMS will create only a menu item. The developer will have to create the custom route in the cms.php file, controller, model and view.</li>
+						<li>Every custom page should be added here, even if it's hidden from the menu. If the page is not added here, it won't be accessible by admins because it cannot be added to the permissions</li>
+						<li>If you wish to create a page without showing it on the menu, leave the route field empty.</li>
+						<li>
+							Follow the below steps for the page permissions:
+							<ul>
+								<li>Method post: create</li>
+								<li>Method delete: delete</li>
+								<li>Method put: edit</li>
+								<li>
+									Method get:
+									<ul>
+										<li>/route_name: browse page</li>
+										<li>/route_name/create: create page</li>
+										<li>/route_name/order: order page</li>
+										<li>/route_name/{var}/edit: edit page</li>
+										<li>Everything else starting with `/route_name`: read page</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
 					</ul>
 				</label>
 			</div>
@@ -58,7 +81,7 @@
 				'locale' => null
 			])
 			@include('cms::components/form-fields/input', [
-				'label' => 'Icon <a href="' . url(config('hellotree.cms_route_prefix') . '/cms-pages/icons') . '"><i class="fa fa-font-awesome ml-1" aria-hidden="true"></i></a>',
+				'label' => 'Icon',
 				'name' => 'icon',
 				'type' => 'text',
 				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : ''),

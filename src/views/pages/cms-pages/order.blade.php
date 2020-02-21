@@ -39,6 +39,7 @@
 					@foreach(request()->get('admin')['cms_pages_grouped'] as $group)
 						@if (!$group['title'] && !$group['icon'])
 							@foreach($group['pages'] as $page)
+							@if (!$page['display_name_plural']) @continue @endif
 								<li class="nested-sortable-row bg-white border px-3 py-2 my-2">
 									<input type="hidden" name="id[]" value="{{ $page['id'] }}">
 									<input type="hidden" name="title[]" value="{{ $page['display_name_plural'] }}">
@@ -62,6 +63,7 @@
 								</div>
 								<ul>
 									@foreach($group['pages'] as $page)
+									@if (!$page['display_name_plural']) @continue @endif
 									<li class="nested-sortable-row bg-white border px-3 py-2 my-2">
 										<input type="hidden" name="id[]" value="{{ $page['id'] }}">
 										<input type="hidden" name="title[]" value="{{ $page['display_name_plural'] }}">
