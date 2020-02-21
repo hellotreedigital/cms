@@ -17,7 +17,20 @@
 					@foreach($rows as $row)
 						<li class="sortable-row d-block bg-white border px-3 py-2 mb-2">
 							<input type="hidden" name="ht_pos[{{ $row['id'] }}]" value="{{ $row['ht_pos'] }}">
-							{{ $row[$page['order_display']] }}
+							@foreach($page_fields as $field)
+								@if ($field['name'] == $page['order_display'])
+									@if ($field['form_field'] == 'select')
+										{{ $row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']] }}
+									@elseif ($field['form_field'] == 'select multiple')
+										@foreach($row[$field['form_field_additionals_1']] as $i => $second_table_row)
+											@if ($i) , @endif
+											{{ $second_table_row[$field['form_field_additionals_2']] }}
+										@endforeach
+									@else
+										{{ $row[$page['order_display']] }}
+									@endif
+								@endif
+							@endforeach
 						</li>
 					@endforeach
 				</ul>

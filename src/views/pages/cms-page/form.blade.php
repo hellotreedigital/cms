@@ -32,102 +32,21 @@
 			@endif
 
 			@foreach($page_fields as $field)
-				@if ($field['form_field'] == 'textarea')
-					@include('cms::/components/form-fields/textarea', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'rich-textbox')
-					@include('cms::/components/form-fields/rich-textbox', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'select')
-					@include('cms::/components/form-fields/select', [
-						'label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])),
-						'name' => $field['name'],
-						'options' => $extra_variables[$field['form_field_additionals_1']],
-						'store_column' => 'id',
-						'display_column' => $field['form_field_additionals_2'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'select multiple')
-					@include('cms::/components/form-fields/select-multiple', [
-						'label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])),
-						'name' => $field['name'],
-						'options' => $extra_variables[$field['form_field_additionals_1']],
-						'store_column' => 'id',
-						'display_column' => $field['form_field_additionals_2'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'file')
-					@include('cms::/components/form-fields/file', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'image')
-					@include('cms::/components/form-fields/image', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'slug')
-					@include('cms::/components/form-fields/input', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'slug_origin' => $field['form_field_additionals_1'],
-						'type' => 'text',
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'date')
-					@include('cms::/components/form-fields/date', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'time')
-					@include('cms::/components/form-fields/time', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'password')
-					@include('cms::/components/form-fields/input', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'type' => 'password',
-						'value' => '',
-					])
-				@elseif ($field['form_field'] == 'password with confirmation')
-					@include('cms::/components/form-fields/password-with-confirmation', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => '',
-					])
-				@elseif ($field['form_field'] == 'checkbox')
-					@include('cms::/components/form-fields/checkbox', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'checked' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@elseif ($field['form_field'] == 'map coordinates')
-					@include('cms::/components/form-fields/map', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@else
-					@include('cms::/components/form-fields/input', [
-						'label' => ucwords(str_replace('_', ' ', $field['name'])),
-						'name' => $field['name'],
-						'type' => 'text',
-						'value' => isset($row[$field['name']]) ? $row[$field['name']] : '',
-					])
-				@endif
+				@include('cms::pages/cms-page/form-fields', ['locale' => null])
 			@endforeach
+			@if (count($page_translatable_fields))
+				@foreach (config('translatable.locales') as $locale)
+					@if (is_array($locale)) @continue @endif
+					<div class="form-group">
+						<label>{{ ucfirst($locale) }}</label>
+						<div class="pl-3">
+							@foreach($page_translatable_fields as $field)
+								@include('cms::pages/cms-page/form-fields', compact('locale'))
+							@endforeach
+						</div>
+					</div>
+				@endforeach
+			@endif
 
 			<div class="text-right">
 				@csrf

@@ -17,6 +17,17 @@
 	<form method="post" action="{{ isset($cms_page) ? url(config('hellotree.cms_route_prefix') . '/cms-pages/custom/' . $cms_page['id']) : url(config('hellotree.cms_route_prefix') . '/cms-pages/custom') }}">
 
 		<div class="card p-4 mx-2 mx-sm-5">
+			<p class="font-weight-bold text-uppercase mb-4">Instructions</p>
+			<div class="form-group m-0">
+				<label class="m-0">
+					<ul>
+						<li></li>
+					</ul>
+				</label>
+			</div>
+		</div>
+
+		<div class="card p-4 mx-2 mx-sm-5">
 			<p class="font-weight-bold text-uppercase mb-4">{{ isset($cms_page) ? 'Edit Custom CMS page #' . $cms_page['id'] : 'Add Custom CMS page' }}</p>
 
 			@if (isset($cms_page))
@@ -35,20 +46,23 @@
 				'label' => 'Display name plural',
 				'name' => 'display_name_plural',
 				'type' => 'text',
-				'value' => old('display_name_plural') ? old('display_name_plural') : (isset($cms_page) ? $cms_page['display_name_plural'] : '')
+				'value' => old('display_name_plural') ? old('display_name_plural') : (isset($cms_page) ? $cms_page['display_name_plural'] : ''),
+				'locale' => null
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Route',
 				'name' => 'route',
 				'type' => 'text',
 				'slug_origin' => 'display_name_plural',
-				'value' => old('route') ? old('route') : (isset($cms_page) ? $cms_page['route'] : '')
+				'value' => old('route') ? old('route') : (isset($cms_page) ? $cms_page['route'] : ''),
+				'locale' => null
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Icon <a href="' . url(config('hellotree.cms_route_prefix') . '/cms-pages/icons') . '"><i class="fa fa-font-awesome ml-1" aria-hidden="true"></i></a>',
 				'name' => 'icon',
 				'type' => 'text',
-				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : '')
+				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : ''),
+				'locale' => null
 			])
 
 			<div class="text-right">

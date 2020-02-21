@@ -28,11 +28,11 @@
 
 			@method('PUT')
 
-			@include('cms::components/form-fields/input', ['label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => old('name') ? old('name') : $row->name ])
-			@include('cms::components/form-fields/file', ['label' => 'Image', 'name' => 'image', 'value' => $row->image ])
-			@include('cms::components/form-fields/input', ['label' => 'Email', 'name' => 'email', 'type' => 'text', 'value' => old('email') ? old('email') : $row->email ])
-			@include('cms::components/form-fields/password-with-confirmation', ['label' => 'Password', 'name' => 'password' ])
-			@include('cms::components/form-fields/select', ['label' => 'Role', 'name' => 'admin_role_id', 'options' => $admin_roles, 'store_column' => 'id', 'display_column' => 'title', 'value' => old('role_id') ? old('role_id') : $row->admin_role_id ])
+			@include('cms::components/form-fields/input', ['label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => old('name') ? old('name') : $row->name, 'locale' => null ])
+			@include('cms::components/form-fields/file', ['label' => 'Image', 'name' => 'image', 'value' => $row->image, 'locale' => null ])
+			@include('cms::components/form-fields/input', ['label' => 'Email', 'name' => 'email', 'type' => 'text', 'value' => old('email') ? old('email') : $row->email, 'locale' => null ])
+			@include('cms::components/form-fields/password-with-confirmation', ['label' => 'Password', 'name' => 'password', 'locale' => null ])
+			@include('cms::components/form-fields/select', ['label' => 'Role', 'name' => 'admin_role_id', 'options' => $admin_roles, 'store_column' => 'id', 'display_column' => 'title', 'value' => old('role_id') ? old('role_id') : $row->admin_role_id, 'locale' => null ])
 
 			<div class="text-right">
 				<button type="submit" class="btn btn-sm btn-primary py-2 px-4">Submit</button>

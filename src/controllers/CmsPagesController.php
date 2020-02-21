@@ -78,6 +78,8 @@ class CmsPagesController extends Controller
 			'display_name_plural' => 'required',
 			'name' => 'required|array',
 			'name.*' => 'required',
+			'old_name' => 'array',
+			'migration_type' => 'array',
 			'form_field' => 'required|array',
 			'form_field.*' => 'required',
 			'old_form_field_additionals_1' => 'required|array',
@@ -85,10 +87,21 @@ class CmsPagesController extends Controller
 			'form_field_additionals_2' => 'required|array',
 			'nullable' => 'required|array',
 			'unique' => 'required|array',
+			'translatable_name' => 'array',
+			'translatable_name.*' => 'required',
+			'translatable_old_name' => 'array',
+			'translatable_form_field' => 'array',
+			'translatable_form_field.*' => 'required',
+			'translatable_migration_type' => 'array',
+			'translatable_migration_type.*' => 'required',
+			'translatable_nullable' => 'array',
 		]);
 
 		$fields = $this->beautifyFields($request);
 		if (!is_array($fields)) return $fields;
+
+		$translatable_fields = $this->beautifyTranslatableFields($request);
+		if (!is_array($translatable_fields)) return $translatable_fields;
 
 		$this->createDatabase($request);
 		$this->createModel($request);
@@ -102,6 +115,7 @@ class CmsPagesController extends Controller
 		$cms_page->model_name = $request->model_name;
 		$cms_page->order_display = $request->order_display;
 		$cms_page->fields = json_encode($fields);
+		$cms_page->translatable_fields = json_encode($translatable_fields);
 		$cms_page->add = isset($request->add) ? 1 : 0;
 		$cms_page->edit = isset($request->edit) ? 1 : 0;
 		$cms_page->delete = isset($request->delete) ? 1 : 0;
@@ -176,6 +190,9 @@ class CmsPagesController extends Controller
 		$fields = $this->beautifyFields($request);
 		if (!is_array($fields)) return $fields;
 
+		$translatable_fields = $this->beautifyTranslatableFields($request);
+		if (!is_array($translatable_fields)) return $translatable_fields;
+
 		if (count($request['old_name']) != count($request['name'])) abort(500);
 
 		$r = $this->editDatabse($request, $cms_page);
@@ -192,6 +209,7 @@ class CmsPagesController extends Controller
 		$cms_page->model_name = $request->model_name;
 		$cms_page->order_display = $request->order_display;
 		$cms_page->fields = json_encode($fields);
+		$cms_page->translatable_fields = json_encode($translatable_fields);
 		$cms_page->add = isset($request->add) ? 1 : 0;
 		$cms_page->edit = isset($request->edit) ? 1 : 0;
 		$cms_page->delete = isset($request->delete) ? 1 : 0;
@@ -221,6 +239,7 @@ class CmsPagesController extends Controller
 
 	public function createDatabase($request)
 	{
+		// Create table
 		Schema::create($request['database_table'], function($table) use ($request) {
 		    $table->increments('id');
 		    // Regular database columns
@@ -251,6 +270,24 @@ class CmsPagesController extends Controller
 	    		});
 	    	}
     	}
+
+		// Create translations table
+    	if ($request->translatable_form_field) {
+			Schema::create($request['database_table'] . '_translations', function($table) use ($request) {
+			    $table->increments('id');
+			    $table->string('locale');
+			    $table->integer(Str::singular($request->database_table) . '_id')->unsigned();
+			    // Regular database columns
+			    foreach($request->translatable_form_field as $f => $form_field) {
+			    	if ($form_field == 'select' || $form_field == 'select multiple') continue;
+
+		    		$table->{$request->translatable_migration_type[$f]}($request->translatable_name[$f])->{$form_field == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$f] ? 'nullable' : ''}();
+			    }
+			    $table->timestamps();
+
+			    $table->foreign(Str::singular($request->database_table) . '_id')->references('id')->on($request->database_table)->onDelete('cascade');
+			});
+		}
 	}
 
 	public function editDatabse($request, $old_page)
@@ -264,6 +301,7 @@ class CmsPagesController extends Controller
 				}
 			}
 
+			if ($request['translatable_name']) Schema::rename($old_page['database_table'], $request['database_table'] . '_translations');
 			Schema::rename($old_page['database_table'], $request['database_table']);
 		}
 
@@ -279,6 +317,7 @@ class CmsPagesController extends Controller
 					for ($j = $i - 1; $j >= 0; $j--) {
 						if ($request->form_field[$j] != 'select multiple') {
 							$after_column = $request->name[$j];
+							break;
 						}
 					}
 				}
@@ -399,33 +438,157 @@ class CmsPagesController extends Controller
     			}
     		}
     	}
+
+		// Edit translations table
+    	if ($request['translatable_name']) {
+			for ($i=0; $i < count($request['translatable_name']); $i++) {
+				// Skip select multiple fields
+				if ($request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') continue;
+
+				// New field
+				elseif (!$request['translatable_old_name'][$i]) {
+					// Get previous column that isn't a select multiple field
+					$after_column = 'id';
+					if ($i > 0) {
+						for ($j = $i - 1; $j >= 0; $j--) {
+							if ($request->translatable_form_field[$j] != 'select multiple') {
+								$after_column = $request->translatable_name[$j];
+								break;
+							}
+						}
+					}
+					Schema::table($request['database_table'] . '_translations', function($table) use($request, $i, $after_column){
+					    $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_form_field[$i] == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$i] ? 'nullable' : ''}()->after($after_column);
+					});
+				}
+
+				// Existing field
+				elseif ($request['translatable_name'][$i] != $request['translatable_old_name'][$i]) {
+					// Update name
+					Schema::table($request['database_table'] . '_translations', function($table) use($request, $i){
+					    $table->renameColumn($request['translatable_old_name'][$i], $request['translatable_name'][$i]);
+					});
+				}
+			}
+
+			// Update migration type and nullable for all columns
+			for ($i=0; $i < count($request['translatable_name']); $i++) {
+				// Skip select multiple fields
+				if ($request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') continue;
+
+				Schema::table($request['database_table'] . '_translations', function($table) use($request, $i){
+			        $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_nullable[$i] ? 'nullable' : ''}()->change();
+				});
+			}
+
+	    	// Delete columns
+			foreach(Schema::getColumnListing($request['database_table'] . '_translations') as $db_column) {
+				if ($db_column == 'id' || $db_column == (Str::singular($request->database_table) . '_id') || $db_column == 'created_at' || $db_column == 'updated_at') continue;
+
+				// Check if db column is in requested names
+				$db_column_found = false;
+				foreach($request->translatable_name as $requested_name) {
+					if ($requested_name == $db_column) {
+						$db_column_found = true;
+					}
+				}
+
+    			// Column not found delete it
+				if (!$db_column_found) {
+					Schema::table($request['database_table'] . '_translations', function($table) use($db_column){
+						$table->dropColumn($db_column);
+					});
+				}
+			}
+		}
 	}
 
 	public function createModel($request)
 	{
-		$relationships = '';
+		$head = '';
+		$implements = '';
+		$use = '';
+		$translated_attributes = '';
+		if ($request['translatable_name']) {
+			$head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable;';
+			$implements = ' implements TranslatableContract';
+			$use = 'use Translatable;';
+			$translated_attributes = 'public $translatedAttributes = ' . json_encode($request['translatable_name']) . ';';
+		}
+
+
+		$body = '';
 		foreach($request->form_field as $f => $form_field) {
 			if ($form_field == 'select') {
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
 				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$relationships = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; }';
+				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsTo' . "('App\\" . $second_page['model_name'] . ")" . '; }';
 			} elseif ($form_field == 'select multiple') {
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
 				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$relationships = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; }';
+				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; }';
 			}
 		}
 
 		file_put_contents(
 			app_path('/' . $request->model_name . '.php'),
 			str_replace(
-				['%%database_table%%', '%%model_name%%', '%%relationships%%'],
-				[$request->database_table, $request->model_name, $relationships],
+				[
+					'%%head%%',
+					'%%model_name%%',
+					'%%implements%%',
+					'%%database_table%%',
+					'%%use%%',
+					'%%translated_attributes%%',
+					'%%body%%',
+				],
+				[
+					$head,
+					$request->model_name,
+					$implements,
+					$request->database_table,
+					$use,
+					$translated_attributes,
+					$body,
+				],
 				file_get_contents(base_path('vendor/hellotreedigital/cms/src/stubs/model.stub'))
 			)
 		);
+
+		if ($request['translatable_name']) {
+			$head = '';
+			$implements = '';
+			$use = '';
+			$translated_attributes = '';
+			$body = '';
+
+			file_put_contents(
+				app_path('/' . $request->model_name . 'Translation.php'),
+				str_replace(
+					[
+						'%%head%%',
+						'%%model_name%%',
+						'%%implements%%',
+						'%%database_table%%',
+						'%%use%%',
+						'%%translated_attributes%%',
+						'%%body%%',
+					],
+					[
+						$head,
+						$request->model_name . 'Translation',
+						$implements,
+						$request->database_table . '_translations',
+						$use,
+						$translated_attributes,
+						$body,
+					],
+					file_get_contents(base_path('vendor/hellotreedigital/cms/src/stubs/model.stub'))
+				)
+			);
+		}
 	}
 
 	public function destroy($id)
@@ -454,6 +617,9 @@ class CmsPagesController extends Controller
 					$pivot_table = Str::singular($field['form_field_additionals_1']) . '_' . Str::singular($cms_page->database_table);
 					Schema::drop($pivot_table);
 				}
+			}
+			if (count(json_decode($cms_page['translatable_fields'], true))) {
+				Schema::drop($cms_page->database_table . '_translations');
 			}
 			Schema::drop($cms_page->database_table);
 		}
@@ -496,7 +662,6 @@ class CmsPagesController extends Controller
 	public function beautifyFields($request)
 	{
 		$fields = [];
-		$order_display_column = null;
 		for ($i=0; $i < count($request['name']); $i++) {
 			// Check if field is unique
 			foreach($fields as $field) if ($field['name'] == $request['name'][$i]) return redirect()->back()->withInput()->withErrors(['Column "' . $request['name'][$i] . '" already exists']);
@@ -516,9 +681,6 @@ class CmsPagesController extends Controller
 			// Check database table if exists
 			if ($request['form_field'][$i] == 'select multiple' && !CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first()) return redirect()->back()->withInput()->withErrors(['Database table not found in "' . $request['name'][$i] . '" field']);
 
-			// Check if order display column exists
-			if ($request['order_display'] == $request['name'][$i]) $order_display_column = $field['name'];
-
 			$fields[] = [
 				'name' => $request['name'][$i],
 				'migration_type' => $request['migration_type'][$i],
@@ -530,7 +692,32 @@ class CmsPagesController extends Controller
 			];
 		}
 
-		if ($request['order_display'] && !$order_display_column) return redirect()->back()->withInput()->withErrors(['Order display column does not exist in the table fields']);
+		return $fields;
+	}
+
+	public function beautifyTranslatableFields($request)
+	{
+		$fields = [];
+		if ($request['translatable_name']) {
+			for ($i=0; $i < count($request['translatable_name']); $i++) {
+				// Check if field is unique
+				foreach($fields as $field) if ($field['name'] == $request['translatable_name'][$i]) return redirect()->back()->withInput()->withErrors(['Column "' . $request['translatable_name'][$i] . '" already exists']);
+
+				// Check if migration type does not exist
+				if (!$request['translatable_migration_type'][$i]) return redirect()->back()->withInput()->withErrors(['The translatable_migration_type.' . $i . ' field is required.']);
+				elseif (!in_array($request['translatable_migration_type'][$i], $this->migration_types)) return redirect()->back()->withInput()->withErrors(['The migration_type.' . $i . ' field is not valid.']);
+
+				// Check if form field is valid
+				if (!in_array($request['translatable_form_field'][$i], $this->form_fields) || $request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') return redirect()->back()->withInput()->withErrors(['The form_field.' . $i . ' field is not valid.']);
+
+				$fields[] = [
+					'name' => $request['translatable_name'][$i],
+					'migration_type' => $request['translatable_migration_type'][$i],
+					'form_field' => $request['translatable_form_field'][$i],
+					'nullable' => $request['translatable_nullable'][$i],
+				];
+			}
+		}
 
 		return $fields;
 	}

@@ -28,18 +28,18 @@
 
 			@method('PUT')
 
-			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => old('title') ? old('title') : $row->title ])
+			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => old('title') ? old('title') : $row->title, 'locale' => null ])
 
 			@foreach($cms_pages_permissions as $cms_page)
 				@if ($cms_page['route'] == 'cms-pages') @continue @endif
 
 				<div class="form-group">
 					<label class="admin-role-main-label">{{ $cms_page['display_name_plural'] }}</label><br>
-					@include('cms::components/form-fields/checkbox', [ 'label' => 'Browse', 'inline_label' => true, 'name' => 'browse_' . $cms_page['id'], 'checked' => $cms_page['permissions']['browse'] ])
-					@include('cms::components/form-fields/checkbox', [ 'label' => 'Read', 'inline_label' => true, 'name' => 'read_' . $cms_page['id'], 'checked' => $cms_page['permissions']['read'] ])
-					@include('cms::components/form-fields/checkbox', [ 'label' => 'Edit', 'inline_label' => true, 'name' => 'edit_' . $cms_page['id'], 'checked' => $cms_page['permissions']['edit'] ])
-					@include('cms::components/form-fields/checkbox', [ 'label' => 'Add', 'inline_label' => true, 'name' => 'add_' . $cms_page['id'], 'checked' => $cms_page['permissions']['add'] ])
-					@include('cms::components/form-fields/checkbox', [ 'label' => 'Delete', 'inline_label' => true, 'name' => 'delete_' . $cms_page['id'], 'checked' => $cms_page['permissions']['delete'] ])
+					@include('cms::components/form-fields/checkbox', [ 'label' => 'Browse', 'inline_label' => true, 'name' => 'browse_' . $cms_page['id'], 'checked' => $cms_page['permissions']['browse'], 'locale' => null ])
+					@include('cms::components/form-fields/checkbox', [ 'label' => 'Read', 'inline_label' => true, 'name' => 'read_' . $cms_page['id'], 'checked' => $cms_page['permissions']['read'], 'locale' => null ])
+					@include('cms::components/form-fields/checkbox', [ 'label' => 'Edit', 'inline_label' => true, 'name' => 'edit_' . $cms_page['id'], 'checked' => $cms_page['permissions']['edit'], 'locale' => null ])
+					@include('cms::components/form-fields/checkbox', [ 'label' => 'Add', 'inline_label' => true, 'name' => 'add_' . $cms_page['id'], 'checked' => $cms_page['permissions']['add'], 'locale' => null ])
+					@include('cms::components/form-fields/checkbox', [ 'label' => 'Delete', 'inline_label' => true, 'name' => 'delete_' . $cms_page['id'], 'checked' => $cms_page['permissions']['delete'], 'locale' => null ])
 				</div>
 
 			@endforeach

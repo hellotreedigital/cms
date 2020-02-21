@@ -1,5 +1,14 @@
 @php
-    if ($errors->any()) $value = old($name);
+    if ($errors->any()) {
+        $value = old($name);
+        if ($locale) {
+            $value = old($locale)[$name];
+        }
+    }
+    $input_name = $name;
+    if ($locale) {
+        $input_name = $locale . '[' . $name . ']';
+    }
 @endphp
 <div class="form-group">
     <label class="d-block">{{ $label }}</label>
@@ -10,10 +19,10 @@
             <span></span>
         </div>
         <div class="inputs-wrapper">
-            <input name="{{ $name }}_hour" class="hour" readonly="" value="{{ date('h', strtotime($value)) }}">
-            <input name="{{ $name }}_minutes" class="minutes" readonly="" value="{{ date('i', strtotime($value)) }}">
-            <input name="{{ $name }}_period" class="period" readonly="" value="{{ date('A', strtotime($value)) }}">
-            <input type="hidden" name="{{ $name }}" value="{{ $value ? date('h:i A', strtotime($value)) : '' }}">
+            <input class="hour" readonly="" value="{{ date('h', strtotime($value)) }}">
+            <input class="minutes" readonly="" value="{{ date('i', strtotime($value)) }}">
+            <input class="period" readonly="" value="{{ date('A', strtotime($value)) }}">
+            <input type="hidden" name="{{ $input_name }}" value="{{ $value ? date('h:i A', strtotime($value)) : '' }}">
         </div>
         <div class="buttons-wrapper lower">
             <span></span>

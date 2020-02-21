@@ -25,11 +25,11 @@
 
 			@csrf
 
-			@include('cms::components/form-fields/input', ['label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => old('name') ? old('name') : '' ])
-			@include('cms::components/form-fields/image', ['label' => 'Image', 'name' => 'image' ])
-			@include('cms::components/form-fields/input', ['label' => 'Email', 'name' => 'email', 'type' => 'text', 'value' => old('email') ? old('email') : '' ])
-			@include('cms::components/form-fields/password-with-confirmation', ['label' => 'Password', 'name' => 'password' ])
-			@include('cms::components/form-fields/select', ['label' => 'Admin Role', 'name' => 'admin_role_id', 'options' => $admin_roles, 'store_column' => 'id', 'display_column' => 'title', 'value' => '' ])
+			@include('cms::components/form-fields/input', ['label' => 'Name', 'name' => 'name', 'type' => 'text', 'value' => old('name') ? old('name') : '', 'locale' => null ])
+			@include('cms::components/form-fields/image', ['label' => 'Image', 'name' => 'image', 'locale' => null ])
+			@include('cms::components/form-fields/input', ['label' => 'Email', 'name' => 'email', 'type' => 'text', 'value' => old('email') ? old('email') : '', 'locale' => null ])
+			@include('cms::components/form-fields/password-with-confirmation', ['label' => 'Password', 'name' => 'password', 'locale' => null ])
+			@include('cms::components/form-fields/select', ['label' => 'Admin Role', 'name' => 'admin_role_id', 'options' => $admin_roles, 'store_column' => 'id', 'display_column' => 'title', 'value' => '', 'locale' => null ])
 
 			<div class="text-right">
 				<button type="submit" class="btn btn-sm btn-primary py-2 px-4">Submit</button>

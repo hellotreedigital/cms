@@ -58,6 +58,10 @@
 			@endif
 		@endforeach
 
+		@foreach ($translatable_fields as $field)
+
+		@endforeach
+
 	</div>
 
 @endsection

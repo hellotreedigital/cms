@@ -57,6 +57,7 @@ Class CmsServiceProvider extends ServiceProvider
 			__DIR__ . '/../publishable/routes' => base_path('routes/'),
 		], 'cms_assets');
 		Artisan::call('vendor:publish --tag=cms_assets --force');
+        Artisan::call('vendor:publish --tag=translatable --force');
 	}
 
 	protected function createDatabase()
@@ -72,6 +73,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('model_name')->unique()->nullable();
             $table->string('order_display')->nullable()->nullable();
             $table->longtext('fields')->nullable();
+            $table->longtext('translatable_fields')->nullable();
             $table->tinyInteger('add')->nullable();
             $table->tinyInteger('edit')->nullable();
             $table->tinyInteger('delete')->nullable();

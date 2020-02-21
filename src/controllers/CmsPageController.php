@@ -44,27 +44,75 @@ class CmsPageController extends Controller
     {
         $page = CmsPage::where('route', $route)->where('add', 1)->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
 
-        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'extra_variables'));
+        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'page_translatable_fields', 'extra_variables'));
+    }
+
+    public function storeValidation($page_fields, $page)
+    {
+        $validation_rules = [];
+        foreach($page_fields as $field) {
+            $validation_rules[$field['name']] = '';
+
+            if (!$field['nullable']) $validation_rules[$field['name']] .= 'required|';
+            if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . '|';
+            if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
+            if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
+
+            if (strlen($validation_rules[$field['name']]) > 0)
+            $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
+        }
+        return $validation_rules;
+    }
+
+    public function translateOrNew($translatable_fields, $request, $row)
+    {
+        // Translatable insert query
+        if (count($translatable_fields)) {
+            foreach (config('translatable.locales') as $locale) {
+                foreach($translatable_fields as $field) {
+                    if ($field['form_field'] == 'select multiple') continue;
+                    elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
+                        $row->translateOrNew($locale)->{$field['name']} = Hash::make($request[$locale][$field['name']]);
+                    } elseif ($field['form_field'] == 'checkbox') {
+                        $row->translateOrNew($locale)->{$field['name']} = isset($request[$locale][$field['name']]) ? 1 : 0;
+                    } elseif ($field['form_field'] == 'time') {
+                        $row->translateOrNew($locale)->{$field['name']} = date('H:i', strtotime($request[$locale][$field['name']]));
+                    } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
+                        if ($request[$locale][$field['name']]) {
+                            $file_name = time() . '_' . md5(rand()) . '.' . $request[$locale][$field['name']]->getClientOriginalExtension();
+                            $request[$locale][$field['name']]->move(storage_path('app/public/' . $route), $file_name);
+                            $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $route . '/' . $file_name;
+                        }
+                    } else {
+                        $row->translateOrNew($locale)->{$field['name']} = $request[$locale][$field['name']];
+                    }
+                }
+            }
+            $row->save();
+        }
     }
 
     public function store(Request $request, $route)
     {
         $page = CmsPage::where('route', $route)->where('add', 1)->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $translatable_fields = json_decode($page['translatable_fields'], true);
 
         // Request validation
-        $validation_rules = [];
-        foreach($page_fields as $field) {
-            $validation_rules[$field['name']] = '';
-            if (!$field['nullable']) $validation_rules[$field['name']] .= 'required|';
-            if ($field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . '|';
-            if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
-            if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
-            $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
+        $field_validation_rules = $this->storeValidation($page_fields, $page);
+        $translatable_field_validation_rules = $this->storeValidation($translatable_fields, $page);
+
+        $translatable_field_validation_rules_languages = [];
+        foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
+            foreach (config('translatable.locales') as $locale) {
+                $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
+            }
         }
 
+        $validation_rules = array_merge($field_validation_rules, $translatable_field_validation_rules_languages);
         $request->validate($validation_rules);
 
         // Insert query
@@ -89,13 +137,22 @@ class CmsPageController extends Controller
         }
 
         $model = 'App\\' . $page['model_name'];
+        // Translatable insert query
+        if (count($translatable_fields)) {
+            foreach (config('translatable.locales') as $locale) {
+                $query[$locale] = $request[$locale];
+            }
+        }
         $row = $model::create($query);
 
+        // Select multiple insert query
         foreach($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
                 $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
             }
         }
+
+        // $this->translateOrNew($translatable_fields, $request, $row);
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record added successfully');
     }
@@ -104,31 +161,29 @@ class CmsPageController extends Controller
     {
         $page = CmsPage::where('route', $route)->where('show', 1)->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $translatable_fields = json_decode($page['translatable_fields'], true);
 
         $model = 'App\\' . $page['model_name'];
         $row = $model::findOrFail($id);
 
-        return view('cms::pages/cms-page/show', compact('page', 'page_fields', 'row'));
+        return view('cms::pages/cms-page/show', compact('page', 'page_fields', 'translatable_fields', 'row'));
     }
 
     public function edit($id, $route)
     {
         $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
 
         $model = 'App\\' . $page['model_name'];
         $row = $model::findOrFail($id);
 
-        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'row', 'extra_variables'));
+        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
     }
 
-    public function update(Request $request, $id, $route)
+    public function updateValiation($page_fields)
     {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
-        $page_fields = json_decode($page['fields'], true);
-
-        // Request validations
         $validation_rules = [];
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
@@ -136,13 +191,33 @@ class CmsPageController extends Controller
             $validation_rules[$field['name']] = '';
             if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
             if (!$field['nullable'] && ($field['form_field'] == 'image' || $field['form_field'] == 'file')) $validation_rules[$field['name']] .= 'required_with:remove_file_' . $field['name'] . '|';
-            if ($field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . ',' . $field['name'] . ',' . "' . " . '$row->id|';
+            if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . ',' . $field['name'] . ',' . "' . " . '$row->id|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
 
             if (strlen($validation_rules[$field['name']]) > 0) $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
+        return $validation_rules;
+    }
 
+    public function update(Request $request, $id, $route)
+    {
+        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $page_fields = json_decode($page['fields'], true);$page_translatable_fields = json_decode($page['translatable_fields'], true);
+        $translatable_fields = json_decode($page['translatable_fields'], true);
+
+        // Request validations
+        $field_validation_rules = $this->updateValiation($page_fields);
+        $translatable_field_validation_rules = $this->updateValiation($translatable_fields);
+
+        $translatable_field_validation_rules_languages = [];
+        foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
+            foreach (config('translatable.locales') as $locale) {
+                $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
+            }
+        }
+
+        $validation_rules = array_merge($field_validation_rules, $translatable_field_validation_rules_languages);
         $request->validate($validation_rules);
 
         // Update query
@@ -173,11 +248,15 @@ class CmsPageController extends Controller
         $row = $model::findOrFail($id);
         $row->update($query);
 
+        // Select multiple update query
         foreach($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
                 $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
             }
         }
+
+        // Translatable update query
+        $this->translateOrNew($translatable_fields, $request, $row);
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record edited successfully');
     }
@@ -194,14 +273,16 @@ class CmsPageController extends Controller
 
     public function order($route)
     {
-        $page = CmsPage::where('route', $route)->firstOrFail();
+        $page = CmsPage::where('route', $route)->whereNotNull('order_display')->firstOrFail();
+        $page_fields = json_decode($page['fields'], true);
+
         $model = 'App\\' . $page['model_name'];
 
         if (!$page['order_display']) abort(404);
 
         $rows = $model::orderBy('ht_pos')->get();
 
-        return view('cms::pages/cms-page/order', compact('page', 'rows'));
+        return view('cms::pages/cms-page/order', compact('page', 'page_fields', 'rows'));
     }
 
     public function changeOrder(Request $request, $route)

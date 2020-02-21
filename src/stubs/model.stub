@@ -1,0 +1,19 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+%%head%%
+
+class %%model_name%% extends Model %%implements%%
+{
+	%%use%%
+
+    protected $table = '%%database_table%%';
+
+    protected $guarded = ['id'];
+
+    %%translated_attributes%%
+
+	%%body%%
+}
