@@ -7,20 +7,21 @@
     }
 @endphp
 @php
-$lat = 33.8892527;
-$lng = 35.4867727;
+    $lat = 33.8892527;
+    $lng = 35.4867727;
 
-if ($errors->any()) {
-    $array = explode(',', old($name));
-    $lat = $array[0];
-    $lng = $array[1];
-} elseif ($value) {
-    $array = explode(',', $value);
-    $lat = $array[0];
-    $lng = $array[1];
-}
+    if ($errors->any()) {
+        $array = explode(',', old($name));
+        $lat = $array[0];
+        $lng = $array[1];
+    } elseif ($value) {
+        $array = explode(',', $value);
+        $lat = $array[0];
+        $lng = $array[1];
+    }
 
     $input_name = $name;
+    $input_id = $name;
     if ($locale) {
         $input_name = $locale . '[' . $name . ']';
         $input_id = $locale . '_' . $name;

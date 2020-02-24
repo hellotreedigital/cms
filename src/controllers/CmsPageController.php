@@ -16,6 +16,7 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
         if ($page['single_record']) {
             $row = $model::first();
+            if (!$row) abort(403, "Single record page has no record");
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
         $rows = $model::when($page['order_display'], function($query) use($page){

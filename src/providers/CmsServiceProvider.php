@@ -68,7 +68,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('icon')->nullable();
             $table->string('display_name')->nullable();
             $table->string('display_name_plural')->nullable();
-            $table->string('database_table')->unique();
+            $table->string('database_table')->unique()->nullable();
             $table->string('route')->unique()->nullable();
             $table->string('model_name')->unique()->nullable();
             $table->string('order_display')->nullable()->nullable();

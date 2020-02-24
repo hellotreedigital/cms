@@ -241,6 +241,7 @@
 @section('scripts')
 	<script>
 		var field_html = $('[name="name[]"]').closest('.field').last().html();
+		$('[name="translatable_form_field[]"]').find('[value="slug"]').remove();
 		$('[name="translatable_form_field[]"]').find('[value="select"]').remove();
 		$('[name="translatable_form_field[]"]').find('[value="select multiple"]').remove();
 		var translatable_field_html = $('[name="translatable_name[]"]').closest('.field').last().html();
