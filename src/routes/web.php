@@ -46,7 +46,6 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::get('/cms-pages/create/custom', 'hellotreedigital\cms\controllers\CmsPagesController@createCustom');
     Route::get('/cms-pages/{id}/edit', 'hellotreedigital\cms\controllers\CmsPagesController@edit');
     Route::get('/cms-pages/custom/{id}/edit', 'hellotreedigital\cms\controllers\CmsPagesController@editCustom');
-
     Route::post('/cms-pages/order', 'hellotreedigital\cms\controllers\CmsPagesController@orderSubmit');
     Route::post('/cms-pages', 'hellotreedigital\cms\controllers\CmsPagesController@store');
     Route::post('/cms-pages/custom', 'hellotreedigital\cms\controllers\CmsPagesController@storeCustom');
@@ -70,5 +69,18 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
         Route::post('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@changeOrder')->defaults('route', $cms_page->route);
         Route::put('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@update')->defaults('route', $cms_page->route);
         Route::delete('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@destroy')->defaults('route', $cms_page->route);
+    }
+});
+
+/*
+|--------------------------------------------------------------------------
+| APIs
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix(config('hellotree.api_route_prefix'))->middleware(['api'])->group(function () {
+    foreach (\Hellotreedigital\Cms\Models\CmsPage::where('custom_page', 0)->where('apis', 1)->get() as $cms_page) {
+        Route::post('/' . $cms_page->route, 'hellotreedigital\cms\controllers\ApisController@index')->defaults('route', $cms_page->route);
+        Route::post('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\ApisController@single')->defaults('route', $cms_page->route);
     }
 });

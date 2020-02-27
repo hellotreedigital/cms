@@ -99,7 +99,7 @@
 
 			<div class="form-group">
 				<label class="d-block mb-1">Other options</label>
-				<div class="mb-">
+				<div class="mb-1">
 					<label class="checkbox-wrapper">
 						@php
 						$checked = $errors->any() ? old('add') : (isset($cms_page) ? $cms_page['add'] : 1);
@@ -109,7 +109,7 @@
 						<span class="d-inline-block align-middle mb-0 ml-1">With Add</span>
 					</label>
 				</div>
-				<div class="mb-">
+				<div class="mb-1">
 					<label class="checkbox-wrapper">
 					@php
 					$checked = $errors->any() ? old('edit') : (isset($cms_page) ? $cms_page['edit'] : 1);
@@ -119,7 +119,7 @@
 						<span class="d-inline-block align-middle mb-0 ml-1">With Edit</span>
 					</label>
 				</div>
-				<div class="mb-">
+				<div class="mb-1">
 					<label class="checkbox-wrapper">
 					@php
 					$checked = $errors->any() ? old('delete') : (isset($cms_page) ? $cms_page['delete'] : 1);
@@ -129,7 +129,7 @@
 						<span class="d-inline-block align-middle mb-0 ml-1">With Delete</span>
 					</label>
 				</div>
-				<div class="mb-">
+				<div class="mb-3">
 					<label class="checkbox-wrapper">
 					@php
 					$checked = $errors->any() ? old('show') : (isset($cms_page) ? $cms_page['show'] : 1);
@@ -148,6 +148,17 @@
 					'name' => 'single_record',
 					'inline_label' => true,
 					'checked' => isset($cms_page['single_record']) ? $cms_page['single_record'] : '',
+					'locale' => null,
+				])
+			</div>
+
+			<div class="form-group">
+				<label class="d-block mb-1">With APIs</label>
+				@include('cms::/components/form-fields/checkbox', [
+					'label' => 'Yes',
+					'name' => 'apis',
+					'inline_label' => true,
+					'checked' => isset($cms_page['apis']) ? $cms_page['apis'] : '',
 					'locale' => null,
 				])
 			</div>

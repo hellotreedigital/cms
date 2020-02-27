@@ -85,8 +85,8 @@ class CmsPageController extends Controller
                     } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                         if ($request[$locale][$field['name']]) {
                             $file_name = time() . '_' . md5(rand()) . '.' . $request[$locale][$field['name']]->getClientOriginalExtension();
-                            $request[$locale][$field['name']]->move(storage_path('app/public/' . $route), $file_name);
-                            $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $route . '/' . $file_name;
+                            $request[$locale][$field['name']]->move(storage_path('app/public/' . $request['route']), $file_name);
+                            $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $request['route'] . '/' . $file_name;
                         }
                     } else {
                         $row->translateOrNew($locale)->{$field['name']} = $request[$locale][$field['name']];
@@ -140,14 +140,6 @@ class CmsPageController extends Controller
         }
 
         $model = 'App\\' . $page['model_name'];
-        // Translatable insert query
-        if (count($translatable_fields)) {
-            foreach (config('translatable.locales') as $locale) {
-                if (is_array($locale)) continue;
-                $query[$locale] = $request[$locale];
-            }
-        }
-
         $row = $model::create($query);
 
         // Select multiple insert query
@@ -157,7 +149,7 @@ class CmsPageController extends Controller
             }
         }
 
-        // $this->translateOrNew($translatable_fields, $request, $row);
+        $this->translateOrNew($translatable_fields, $request, $row);
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record added successfully');
     }

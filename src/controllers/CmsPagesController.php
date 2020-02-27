@@ -125,6 +125,7 @@ class CmsPagesController extends Controller
 		$cms_page->delete = isset($request->delete) ? 1 : 0;
 		$cms_page->show = isset($request->show) ? 1 : 0;
 		$cms_page->single_record = isset($request->single_record) ? 1 : 0;
+		$cms_page->apis = isset($request->apis) ? 1 : 0;
 		$cms_page->ht_pos = CmsPage::max('ht_pos') + 1;
 		$cms_page->save();
 
@@ -222,6 +223,7 @@ class CmsPagesController extends Controller
 		$cms_page->delete = isset($request->delete) ? 1 : 0;
 		$cms_page->show = isset($request->show) ? 1 : 0;
 		$cms_page->single_record = isset($request->single_record) ? 1 : 0;
+		$cms_page->apis = isset($request->apis) ? 1 : 0;
 		$cms_page->save();
 
 		return redirect(config('hellotree.cms_route_prefix') . '/' . $cms_page->route)->with('success', 'Page edited successfully');
@@ -533,7 +535,7 @@ class CmsPagesController extends Controller
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
 				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsTo' . "('App\\" . $second_page['model_name'] . ")" . '; }';
+				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsTo' . "('App\\" . $second_page['model_name'] . "')" . '; }';
 			} elseif ($form_field == 'select multiple') {
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();

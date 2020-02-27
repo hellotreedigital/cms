@@ -31,6 +31,7 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->app->make('Hellotreedigital\Cms\Controllers\CmsPagesController');
         $this->app->make('Hellotreedigital\Cms\Controllers\CmsPageController');
         $this->app->make('Hellotreedigital\Cms\Controllers\LogsController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\ApisController');
 
 		// Views
 		$this->loadViewsFrom(__DIR__ . '/../views', 'cms');
@@ -79,6 +80,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->tinyInteger('delete')->nullable();
             $table->tinyInteger('show')->nullable();
             $table->tinyInteger('single_record')->nullable();
+            $table->tinyInteger('apis')->nullable();
             $table->tinyInteger('custom_page')->default(0);
             $table->string('parent_title')->nullable();
             $table->string('parent_icon')->nullable();
