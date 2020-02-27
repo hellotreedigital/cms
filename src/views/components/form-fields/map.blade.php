@@ -63,4 +63,4 @@
     });
 </script>
 
-@endsection
+@append

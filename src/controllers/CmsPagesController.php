@@ -493,7 +493,7 @@ class CmsPagesController extends Controller
 
 	    	// Delete columns
 			foreach(Schema::getColumnListing($request['database_table'] . '_translations') as $db_column) {
-				if ($db_column == 'id' || $db_column == (Str::singular($request->database_table) . '_id') || $db_column == 'created_at' || $db_column == 'updated_at') continue;
+				if ($db_column == 'id' || $db_column == 'locale' || $db_column == (Str::singular($request->database_table) . '_id') || $db_column == 'created_at' || $db_column == 'updated_at') continue;
 
 				// Check if db column is in requested names
 				$db_column_found = false;

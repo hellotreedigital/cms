@@ -73,6 +73,7 @@ class CmsPageController extends Controller
         // Translatable insert query
         if (count($translatable_fields)) {
             foreach (config('translatable.locales') as $locale) {
+                if (is_array($locale)) continue;
                 foreach($translatable_fields as $field) {
                     if ($field['form_field'] == 'select multiple') continue;
                     elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
@@ -109,6 +110,7 @@ class CmsPageController extends Controller
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
             foreach (config('translatable.locales') as $locale) {
+                if (is_array($locale)) continue;
                 $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
             }
         }
@@ -141,13 +143,15 @@ class CmsPageController extends Controller
         // Translatable insert query
         if (count($translatable_fields)) {
             foreach (config('translatable.locales') as $locale) {
+                if (is_array($locale)) continue;
                 $query[$locale] = $request[$locale];
             }
         }
+
         $row = $model::create($query);
 
         // Select multiple insert query
-        foreach($page_fields as $field) {
+        foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
                 $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
             }
@@ -214,6 +218,7 @@ class CmsPageController extends Controller
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
             foreach (config('translatable.locales') as $locale) {
+                if (is_array($locale)) continue;
                 $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
             }
         }
