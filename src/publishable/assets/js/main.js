@@ -37,8 +37,10 @@ $(document).ready(function() {
     	"initComplete": function(settings, json) {
     		$(this).addClass('table-responsive');
     		$('.dt-button').addClass('btn btn-primary btn-sm');
-    		$('.dt-buttons').addClass('py-4');
-    		$('.dt-buttons').appendTo('.datatable-wrapper');
+    		$('.dt-buttons').prependTo('.datatable-wrapper');
+    		if ($(this).closest('.card').find('.actions').children().length > 0) {
+    			$('.dt-buttons').addClass('absolute pt-4');
+			}
     	}
     });
 

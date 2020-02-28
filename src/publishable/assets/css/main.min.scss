@@ -399,14 +399,18 @@ html {
                 }
             }
             .dt-buttons {
+                padding: 0 30px;
+                margin-bottom: 20px;
                 &:before {
                     content: "Export as:";
                     padding-right: 5px;
                 }
-                position: absolute;
-                top: 0;
-                right: 0;
-                padding: 0 30px;
+                &.absolute {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    margin-bottom: 0;
+                }
             }
             table {
                 table-layout: fixed;
