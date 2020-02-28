@@ -96,7 +96,7 @@ html {
             line-height: 1.5;
             cursor: pointer;
             &:after {
-                content: attr(data-text);
+                content: attr(data-file);
             }
             input {
                 position: absolute;
@@ -398,6 +398,16 @@ html {
                     }
                 }
             }
+            .dt-buttons {
+                &:before {
+                    content: "Export as:";
+                    padding-right: 5px;
+                }
+                position: absolute;
+                top: 0;
+                right: 0;
+                padding: 0 30px;
+            }
             table {
                 table-layout: fixed;
                 thead {
@@ -628,7 +638,7 @@ html {
     padding-bottom: 7px;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(50, 50, 93, .11), 0 1px 3px rgba(0, 0, 0, .08);
-    transition: transform .5s, box-shadow .5s;
+    transition: .5s all;
     &.btn-primary {
         color: inherit;
         background-color: $color_yellow;

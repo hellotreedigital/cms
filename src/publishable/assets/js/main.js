@@ -29,24 +29,25 @@ $(document).ready(function() {
     $('.datatable').DataTable({
     	"aaSorting": [], // Disable auto sorting
     	"columnDefs": [{ "targets": 0, "orderable": false }], // Disable sorting for first column (Delete checkbox column)
+    	"dom": "Blfrtip",
+        "buttons": [
+            "excelHtml5",
+            "pdfHtml5"
+        ],
     	"initComplete": function(settings, json) {
     		$(this).addClass('table-responsive');
+    		$('.dt-button').addClass('btn btn-primary btn-sm');
+    		$('.dt-buttons').addClass('py-4');
+    		$('.dt-buttons').appendTo('.datatable-wrapper');
     	}
     });
 
     $(document).on('change', '.file-wrapper input', function(e){
-    	var text = '';
     	var filesNames = '';
     	for (var i = 0; i < e.target.files.length; i++) filesNames += e.target.files[i].name + ', ';
     	filesNames = filesNames.slice(0, -2);
-
-    	if (filesNames) text = filesNames;
-    	else text = $(this).closest('.file-wrapper').attr('data-placeholder');
-
-    	$(this).closest('.file-wrapper').attr('data-text', text);
+    	$(this).closest('.file-wrapper').attr('data-file', filesNames);
     });
-
-    $('.file-wrapper input').change();
 
 	$('.datepicker').datepicker({
 		dateFormat: 'yy-mm-dd',
@@ -140,12 +141,14 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$('.remove-current-file input').on('change', function(){
-		if ($(this).is(':checked')) {
-			$(this).closest('.remove-current-file').find('.btn').text('Undo');
+	$('.remove-current-file').on('click', function(){
+		if ($(this).find('input').val() == 0) {
+			$(this).find('input').val('1')
+			$(this).find('.btn').text('Undo');
 			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideUp();
 		} else {
-			$(this).closest('.remove-current-file').find('.btn').text('Remove current file');
+			$(this).find('input').val('0')
+			$(this).find('.btn').text('Remove current file');
 			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideDown();
 		}
 	});
