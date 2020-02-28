@@ -62,6 +62,13 @@ class ApisController extends Controller
 
     public function single(Request $request, $id, $route)
     {
+        $request->validate([
+            'custom_validation' => 'array',
+            'custom_validation.*.column' => 'required',
+            'custom_validation.*.constraint' => 'required',
+            'custom_validation.*.value' => 'required',
+        ]);
+
     	$page = CmsPage::where('route', $route)->firstOrFail();
 
     	$model = 'App\\' . $page['model_name'];
