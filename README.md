@@ -21,7 +21,8 @@ Add the below to config/auth.php:
 </li>
 <li>
 Run:
-<pre>composer require hellotreedigital/cms
+<pre>
+composer require hellotreedigital/cms
 </pre>
 </li>
 </ul>

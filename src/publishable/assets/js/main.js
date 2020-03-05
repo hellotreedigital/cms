@@ -27,14 +27,14 @@ $(document).ready(function() {
 	});
 
     $('.datatable').DataTable({
-    	"aaSorting": [], // Disable auto sorting
-    	"columnDefs": [{ "targets": 0, "orderable": false }], // Disable sorting for first column (Delete checkbox column)
-    	"dom": "Blfrtip",
-        "buttons": [
+    	aaSorting: [], // Disable auto sorting
+    	columnDefs: [{ targets: 0, orderable: false }], // Disable sorting for first column (Delete checkbox column)
+    	dom: "Blfrtip",
+        buttons: [
             "excelHtml5",
             "pdfHtml5"
         ],
-    	"initComplete": function(settings, json) {
+    	initComplete: function(settings, json) {
     		$(this).addClass('table-responsive');
     		$('.dt-button').addClass('btn btn-primary btn-sm');
     		$('.dt-buttons').prependTo('.datatable-wrapper');
