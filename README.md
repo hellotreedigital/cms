@@ -26,7 +26,7 @@ composer require hellotreedigital/cms
 	</li>
 </ul>
 
-<h1>Publishable:</h1>
+<h1>Publishables:</h1>
 <ul>
 	<li>
 		CMS assets:
