@@ -15,6 +15,11 @@ Class CmsServiceProvider extends ServiceProvider
         // To prevent key too long error
         Schema::defaultStringLength(191);
 
+        // Set publishes
+        $this->publishes([__DIR__ . '/../publishable/assets' => public_path('cms/')], 'cms_assets');
+        $this->publishes([__DIR__ . '/../publishable/config' => config_path('/')], 'cms_config');
+        $this->publishes([__DIR__ . '/../publishable/routes' => base_path('routes/')], 'cms_routes');
+
 		// First installation from console
 		if (!is_array($this->app['config']->get('hellotree'))) $this->firstInstallation();
 
@@ -52,10 +57,6 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->createDatabase();
 
 		// Publish cms assets
-        $this->publishes([__DIR__ . '/../publishable/assets' => public_path('cms/')], 'cms_assets');
-		$this->publishes([__DIR__ . '/../publishable/config' => config_path('/')], 'cms_config');
-        $this->publishes([__DIR__ . '/../publishable/routes' => base_path('routes/')], 'cms_routes');
-
 		Artisan::call('vendor:publish --tag=cms_assets --force');
         Artisan::call('vendor:publish --tag=cms_config --force');
         Artisan::call('vendor:publish --tag=cms_routes --force');
