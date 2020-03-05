@@ -453,6 +453,15 @@ class CmsPagesController extends Controller
 
 		// Edit translations table
     	if ($request['translatable_name']) {
+
+    		// Create table if not exists
+    		if (!Schema::hasTable($request['database_table'] . '_translations')) {
+	    		Schema::create($request['database_table'] . '_translations', function($table) {
+	    			$table->increments('id');
+	    			$table->timestamps();
+	    		});
+	    	}
+
 			for ($i=0; $i < count($request['translatable_name']); $i++) {
 				// Skip select multiple fields
 				if ($request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') continue;
@@ -512,6 +521,9 @@ class CmsPagesController extends Controller
 					});
 				}
 			}
+		} else {
+			// Drop table table if exists
+			Schema::dropIfExists($request['database_table'] . '_translations');
 		}
 	}
 

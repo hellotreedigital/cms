@@ -227,11 +227,16 @@
 							@endforeach
 						@elseif (isset($cms_page))
 							@php
-							$fields = json_decode($cms_page['translatable_fields'], TRUE);
+							$translatable_fields = json_decode($cms_page['translatable_fields'], TRUE);
 							@endphp
-							@foreach($fields as $field_key => $field)
+
+							@foreach($translatable_fields as $field_key => $field)
 								@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
 							@endforeach
+
+							@if (!count($translatable_fields))
+								@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
+							@endif
 						@else
 							@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
 						@endif
@@ -256,7 +261,7 @@
 		$('[name="translatable_form_field[]"]').find('[value="select"]').remove();
 		$('[name="translatable_form_field[]"]').find('[value="select multiple"]').remove();
 		var translatable_field_html = $('[name="translatable_name[]"]').closest('.field').last().html();
-		@if (!isset($cms_page))
+		@if ((!old('translatable_name') && !isset($cms_page)) || (isset($cms_page) && isset($translatable_fields) && !count($translatable_fields)))
 			$('[name="translatable_name[]"]').closest('.field').remove();
 		@endif
 
