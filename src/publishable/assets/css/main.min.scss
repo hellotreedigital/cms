@@ -742,24 +742,31 @@ html {
     }
 }
 
-@media (max-width: 767.98px) {}
-
-@media (max-width: 640px) {
-    .dataTables_length {
+@media (max-width: 767.98px) {
+    .dataTables_length, .dataTables_info {
         padding-left: 0 !important;
+        float: none !important;
+        text-align: center !important;
     }
-    .dataTables_filter {
+    .dataTables_filter, .dataTables_paginate {
         padding-right: 0 !important;
+        float: none !important;
+        text-align: center !important;
     }
-    html body #content .actions {
-        text-align: center;
-        a {
-            display: block;
-            margin-bottom: 10px;
-            margin-right: 0;
-            &:last-child {
-                margin-bottom: 20px;
+    html body #content {
+        .actions {
+            text-align: center;
+            a {
+                display: block;
+                margin-bottom: 10px;
+                margin-right: 0;
+                &:last-child {
+                    margin-bottom: 20px;
+                }
             }
+        }
+        .dt-buttons.absolute {
+            position: relative;
         }
     }
 }

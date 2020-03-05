@@ -17,7 +17,7 @@
 				<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admins/') }}" class="d-block d-md-inline-block bulk-delete" onsubmit="return confirm('Are you sure?')">
 					@csrf
 					<input type="hidden" name="_method" value="DELETE">
-					<button type="submit" class="btn btn-danger btn-sm">Bulk Delete</button>
+					<button type="submit" class="btn btn-danger btn-sm w-100">Bulk Delete</button>
 				</form>
 			@endif
 		</div>
