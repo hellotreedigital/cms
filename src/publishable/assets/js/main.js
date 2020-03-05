@@ -26,22 +26,28 @@ $(document).ready(function() {
 		$(this).closest('.user-info').find('ul').fadeToggle();
 	});
 
-    $('.datatable').DataTable({
-    	aaSorting: [], // Disable auto sorting
-    	columnDefs: [{ targets: 0, orderable: false }], // Disable sorting for first column (Delete checkbox column)
-    	dom: "Blfrtip",
-        buttons: [
-            "excelHtml5",
-            "pdfHtml5"
-        ],
-    	initComplete: function(settings, json) {
-    		$(this).addClass('table-responsive');
-    		$('.dt-button').addClass('btn btn-primary btn-sm');
-    		$('.dt-buttons').prependTo('.datatable-wrapper');
-    		if ($(this).closest('.card').find('.actions').children().length > 0) {
-    			$('.dt-buttons').addClass('absolute pt-4');
-			}
-    	}
+    $('.datatable').each(function(){
+    	var table = $(this);
+    	var options = {
+	    	aaSorting: [], // Disable auto sorting
+	    	columnDefs: [{ targets: 0, orderable: false }], // Disable sorting for first column (Delete checkbox column)
+	    	initComplete: function(settings, json) {
+	    		$(this).addClass('table-responsive');
+	    		$('.dt-button').addClass('btn btn-primary btn-sm');
+	    		$('.dt-buttons').prependTo('.datatable-wrapper');
+	    		if ($(this).closest('.card').find('.actions').children().length > 0) {
+	    			$('.dt-buttons').addClass('absolute pt-4');
+				}
+	    	}
+	    };
+	    if (!table.hasClass('no-export')) {
+	    	options['dom'] = "Blfrtip";
+	        options['buttons'] = [
+	            "excelHtml5",
+	            "pdfHtml5"
+	        ];
+	    }
+	    table.DataTable(options);
     });
 
     $(document).on('change', '.file-wrapper input', function(e){

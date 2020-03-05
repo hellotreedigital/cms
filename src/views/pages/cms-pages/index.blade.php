@@ -20,7 +20,7 @@
 			<a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/create/custom') }}" class="btn btn-primary btn-sm float-right mr-0 px-3">Add Custom Page</a>
 		</div>
 		<div class="datatable-wrapper">
-			<table class="datatable">
+			<table class="datatable no-export">
 				<thead>
 					<tr>
 						<th></th>
