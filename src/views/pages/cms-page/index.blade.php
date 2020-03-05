@@ -89,7 +89,7 @@
 											{{ $pivot[$field['form_field_additionals_2']] }}
 										@endforeach
 									</td>
-								@elseif ($field['form_field'] == 'checkbox') {
+								@elseif ($field['form_field'] == 'checkbox')
 									<td>
 										@if ($row[$field['name']])
 											<i class="fa fa-check" aria-hidden="true"></i>
