@@ -30,8 +30,8 @@ composer require hellotreedigital/cms
 <ul>
 	<li>
 		CMS assets:
-		<pre style="font-size: 0;">
-<span style="font-size: 12px;">php artisan vendor:publish --tag=cms_assets --force</span>
+		<pre>
+<span>php artisan vendor:publish --tag=cms_assets --force</span>
 		</pre>
 	</li>
 	<li>
