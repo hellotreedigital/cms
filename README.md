@@ -22,7 +22,7 @@ Add the below to config/auth.php:
 <li>
 Run:
 <pre>
-composer require hellotreedigital/cms:dev-master
+composer require hellotreedigital/cms
 </pre>
 </li>
 </ul>
