@@ -70,7 +70,7 @@
 											<a href="{{ asset($row[$field['name']]) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a>
 										@endif
 									</td>
-								@elseif ($field['form_field'] == 'textarea') {
+								@elseif ($field['form_field'] == 'textarea')
 									<td>
 										<div class="max-lines">{{ $row[$field['name']] }}</div>
 									</td>
