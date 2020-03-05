@@ -30,7 +30,7 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('cms/css/select2.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('cms/css/quill.snow.min.css') }}">
 	<link rel="stylesheet" type="text/css" href="{{ asset('cms/css/main.min.css') }}">
-	
+
 	@yield('styles')
 
 </head>
@@ -45,6 +45,11 @@
 	<script type="text/javascript" src="{{ asset('cms/js/jquery.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('cms/js/jquery-ui.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('cms/js/dataTables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('cms/js/dataTables.buttons.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('cms/js/jszip.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('cms/js/pdfmake.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('cms/js/vfs_fonts.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('cms/js/buttons.html5.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('cms/js/select2.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('cms/js/quill.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('cms/js/quill-textarea.min.js') }}"></script>
