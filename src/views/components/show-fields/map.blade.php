@@ -21,6 +21,12 @@ if ($value) {
     var map_{{ $name }};
     var marker_{{ $name }};
 
+    if (!$('script[src*="maps.googleapis.com/maps/api/js"]').length) {
+        var google_map_script = document.createElement('script');
+        google_map_script.setAttribute('src','https://maps.googleapis.com/maps/api/js');
+        document.head.appendChild(google_map_script);
+    }
+
     $(window).on('load', function(){
 
         var latlng = { lat: {{ isset($value) ? $lat : '33.89' }}, lng: {{ isset($value) ? $lng : '35.55' }} };
