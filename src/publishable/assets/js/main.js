@@ -35,8 +35,9 @@ $(document).ready(function() {
 	    		$(this).addClass('table-responsive');
 	    		$('.dt-button').addClass('btn btn-primary btn-sm');
 	    		$('.dt-buttons').prependTo('.datatable-wrapper');
+	    		$('.dt-buttons').addClass('text-center  text-md-left');
 	    		if ($(this).closest('.card').find('.actions').children().length > 0) {
-	    			$('.dt-buttons').addClass('absolute pt-4');
+	    			$('.dt-buttons').addClass('absolute pt-0 pb-4 pt-md-4 pb-md-0');
 				}
 	    	}
 	    };
