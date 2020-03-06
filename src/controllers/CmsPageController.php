@@ -204,7 +204,7 @@ class CmsPageController extends Controller
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
         // Request validations
-        $field_validation_rules = $this->updateValiation($page_fields);
+        $field_validation_rules = $this->updateValiation($page, $page_fields);
         $translatable_field_validation_rules = $this->updateValiation($translatable_fields);
 
         $translatable_field_validation_rules_languages = [];
