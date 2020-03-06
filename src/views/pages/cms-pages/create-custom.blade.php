@@ -26,7 +26,7 @@
 						<li>The icon is the class of a font-awesome icon, you will see the icon in the menu <a href="{{ url(config('hellotree.cms_route_prefix') . '/cms-pages/icons') }}" target="_blank" class="text-secondary">click here to see all the icons</a>.</li>
 						<li>The CMS will create only a menu item. The developer will have to create the custom route in the cms.php file, controller, model and view.</li>
 						<li>Every custom page should be added here, even if it's hidden from the menu. If the page is not added here, it won't be accessible by admins because it cannot be added to the permissions</li>
-						<li>If you wish to create a page without showing it on the menu, leave the route field empty.</li>
+						<li>If you wish to create a page without showing it on the menu, leave the 'Display name plural' field empty.</li>
 						<li>
 							Follow the below steps for the page permissions:
 							<ul>
