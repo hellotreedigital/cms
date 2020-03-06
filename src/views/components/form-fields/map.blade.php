@@ -11,9 +11,11 @@
     $lng = 35.4867727;
 
     if ($errors->any()) {
-        $array = explode(',', old($name));
-        $lat = $array[0];
-        $lng = $array[1];
+        if (old($name)) {
+            $array = explode(',', old($name));
+            $lat = $array[0];
+            $lng = $array[1];
+        }
     } elseif ($value) {
         $array = explode(',', $value);
         $lat = $array[0];
@@ -39,6 +41,12 @@
 <script>
     var map_{{ $input_id }};
     var marker_{{ $input_id }};
+
+    if (!$('script[src*="maps.googleapis.com/maps/api/js"]').length) {
+        var google_map_script = document.createElement('script');
+        google_map_script.setAttribute('src','https://maps.googleapis.com/maps/api/js');
+        document.head.appendChild(google_map_script);
+    }
 
     $(window).on('load', function(){
 

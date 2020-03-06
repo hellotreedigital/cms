@@ -189,12 +189,6 @@ $(document).ready(function() {
 		},
 	});
 
-	if ($('.map').length > 0) {
-		var google_map_script = document.createElement('script');
-		google_map_script.setAttribute('src','https://maps.googleapis.com/maps/api/js');
-		document.head.appendChild(google_map_script);
-	}
-
 });
 
 $(document).mouseup(function(e){
