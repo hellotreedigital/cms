@@ -184,10 +184,12 @@
 						</tr>
 					</thead>
 					<tbody class="sortable">
-						@if (old('name'))
-							@foreach(old('name') as $field_key => $field)
-								@include('cms::pages/cms-pages/table-field', ['field_type' => ''])
-							@endforeach
+						@if ($errors->any())
+							@if (old('name'))
+								@foreach(old('name') as $field_key => $field)
+									@include('cms::pages/cms-pages/table-field', ['field_type' => ''])
+								@endforeach
+							@endif
 						@elseif (isset($cms_page))
 							@php
 							$fields = json_decode($cms_page['fields'], TRUE);
@@ -221,10 +223,12 @@
 						</tr>
 					</thead>
 					<tbody class="sortable">
-						@if (old('translatable_name'))
-							@foreach(old('translatable_name') as $field_key => $field)
-								@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
-							@endforeach
+						@if ($errors->any())
+							@if (old('translatable_name'))
+								@foreach(old('translatable_name') as $field_key => $field)
+									@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
+								@endforeach
+							@endif
 						@elseif (isset($cms_page))
 							@php
 							$translatable_fields = json_decode($cms_page['translatable_fields'], TRUE);
