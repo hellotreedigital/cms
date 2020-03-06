@@ -126,6 +126,7 @@ class CmsPagesController extends Controller
 		$cms_page->show = isset($request->show) ? 1 : 0;
 		$cms_page->single_record = isset($request->single_record) ? 1 : 0;
 		$cms_page->apis = isset($request->apis) ? 1 : 0;
+		$cms_page->with_export = isset($request->with_export) ? 1 : 0;
 		$cms_page->ht_pos = CmsPage::max('ht_pos') + 1;
 		$cms_page->save();
 
@@ -224,6 +225,7 @@ class CmsPagesController extends Controller
 		$cms_page->show = isset($request->show) ? 1 : 0;
 		$cms_page->single_record = isset($request->single_record) ? 1 : 0;
 		$cms_page->apis = isset($request->apis) ? 1 : 0;
+		$cms_page->with_export = isset($request->with_export) ? 1 : 0;
 		$cms_page->save();
 
 		return redirect(config('hellotree.cms_route_prefix') . '/' . $cms_page->route)->with('success', 'Page edited successfully');

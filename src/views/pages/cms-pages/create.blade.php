@@ -163,6 +163,17 @@
 				])
 			</div>
 
+			<div class="form-group">
+				<label class="d-block mb-1">With Export</label>
+				@include('cms::/components/form-fields/checkbox', [
+					'label' => 'Yes',
+					'name' => 'with_export',
+					'inline_label' => true,
+					'checked' => isset($cms_page['with_export']) ? $cms_page['with_export'] : '',
+					'locale' => null,
+				])
+			</div>
+
 		</div>
 
 		<div class="card py-4 mx-2 mx-sm-5">

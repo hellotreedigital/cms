@@ -29,7 +29,7 @@
 			@endif
 		</div>
 		<div class="datatable-wrapper">
-			<table class="datatable">
+			<table class="datatable {{ $page['with_export'] ? '' : 'no-export' }}">
 				<thead>
 					<tr>
 						<th></th>

@@ -22,7 +22,7 @@
 			@endif
 		</div>
 		<div class="datatable-wrapper">
-			<table class="datatable">
+			<table class="datatable no-export">
 				<thead>
 					<tr>
 						<th></th>
