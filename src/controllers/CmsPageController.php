@@ -179,7 +179,7 @@ class CmsPageController extends Controller
         return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
     }
 
-    public function updateValiation($page_fields)
+    public function updateValiation($database_table, $page_fields)
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
@@ -188,7 +188,7 @@ class CmsPageController extends Controller
             $validation_rules[$field['name']] = '';
             if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
             if (!$field['nullable'] && ($field['form_field'] == 'image' || $field['form_field'] == 'file')) $validation_rules[$field['name']] .= 'required_with:remove_file_' . $field['name'] . '|';
-            if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . ',' . $field['name'] . ',' . "' . " . '$row->id|';
+            if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $database_table . ',' . $field['name'] . ',' . "' . " . '$row->id|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
 
@@ -204,8 +204,8 @@ class CmsPageController extends Controller
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
         // Request validations
-        $field_validation_rules = $this->updateValiation($page, $page_fields);
-        $translatable_field_validation_rules = $this->updateValiation($translatable_fields);
+        $field_validation_rules = $this->updateValiation($page['database_table'], $page_fields);
+        $translatable_field_validation_rules = $this->updateValiation($page['database_table'] . '_translations', $translatable_fields);
 
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
