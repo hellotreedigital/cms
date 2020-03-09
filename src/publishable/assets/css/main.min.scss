@@ -1,6 +1,6 @@
 @import url('https://fonts.google.com/?query=pop&selection.family=Poppins');
 
-$text_color: #555;
+$color_text: #555;
 $nav_width: 250px;
 $color_yellow: #fbd22f;
 $card_table_padding: 30px;
@@ -30,7 +30,7 @@ html {
     }
     body {
         height: 100%;
-        color: $text_color;
+        color: $color_text;
         font-family: 'Poppins', sans-serif;
         background-color: #f8f9fe;
         margin: 0;
@@ -68,7 +68,7 @@ html {
                 -webkit-appearance: none;
                 &:checked {
                     &+div {
-                        border-color: $text_color;
+                        border-color: $color_text;
                         background-color: $color_yellow;
                     }
                 }
@@ -257,7 +257,7 @@ html {
                 transform: translateY(-50%);
                 height: 2px;
                 width: 100%;
-                background-color: $text_color;
+                background-color: $color_text;
                 opacity: 1;
                 transition: .5s all;
                 &:nth-child(1) {
@@ -271,7 +271,7 @@ html {
                 }
             }
         }
-        nav {
+        nav.main {
             position: fixed;
             top: 0;
             left: 0;
@@ -414,6 +414,19 @@ html {
             }
             table {
                 table-layout: fixed;
+                color: $color_text;
+                thead, tbody {
+                    tr {
+                        th, td {
+                            &:first-child {
+                                padding-left: 30px;
+                            }
+                            &:last-child {
+                                padding-right: 30px;
+                            }
+                        }
+                    }
+                }
                 thead {
                     background-color: #f8f9fe;
                     font-size: .65rem;
@@ -596,6 +609,25 @@ html {
                     }
                 }
             }
+            ul.pagination {
+                -ms-flex-pack: end;
+                justify-content: flex-end;
+                padding: 0 30px;
+                .page-link {
+                    &:focus {
+                        box-shadow: none;
+                    }
+                }
+                .page-item {
+                    &.active {
+                        .page-link {
+                            background: $color_yellow;
+                            border-color: $color_yellow;
+                            color: $color_text;
+                        }
+                    }
+                }
+            }
             .form-group {
                 label {
                     font-size: .9rem;
@@ -715,7 +747,7 @@ html {
 @media (max-width: 991.98px) {
     html body {
         &.menu-open {
-            nav {
+            nav.main {
                 transform: translateX(0);
             }
                 #burger {
@@ -732,7 +764,7 @@ html {
                     }
                 }
         }
-        nav {
+        nav.main {
             transform: translateX(-250px);
             box-shadow: 0 0 30px 0 rgba(0,0,0,0.1);
         }

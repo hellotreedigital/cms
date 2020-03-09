@@ -29,7 +29,7 @@
 			@endif
 		</div>
 		<div class="datatable-wrapper">
-			<table class="datatable {{ $page['with_export'] ? '' : 'no-export' }}">
+			<table class="{{ $page['server_side_pagination'] ? 'table' : 'datatable' }} {{ $page['with_export'] ? '' : 'no-export' }}">
 				<thead>
 					<tr>
 						<th></th>
@@ -134,6 +134,9 @@
 					@endforeach
 				</tbody>
 			</table>
+
+			{{ $page['server_side_pagination'] ? $rows->links() : '' }}
+
 		</div>
 	</div>
 

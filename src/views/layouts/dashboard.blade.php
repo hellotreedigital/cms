@@ -2,7 +2,7 @@
 
 @section('main-content')
 
-<nav class="py-3">
+<nav class="main py-3">
 	<div class="header">
 		<img class="px-3" src="{{ asset('cms/images/logo.png') }}">
 		<ul class="my-5 p-0">
