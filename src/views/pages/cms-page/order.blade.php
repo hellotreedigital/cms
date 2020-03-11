@@ -19,7 +19,9 @@
 							<input type="hidden" name="ht_pos[{{ $row['id'] }}]" value="{{ $row['ht_pos'] }}">
 							@foreach($page_fields as $field)
 								@if ($field['name'] == $page['order_display'])
-									@if ($field['form_field'] == 'select')
+									@if ($field['form_field'] == 'image')
+										<img src="{{ asset($row[$page['order_display']]) }}">
+									@elseif ($field['form_field'] == 'select')
 										{{ $row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']] }}
 									@elseif ($field['form_field'] == 'select multiple')
 										@foreach($row[$field['form_field_additionals_1']] as $i => $second_table_row)

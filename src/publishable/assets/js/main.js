@@ -185,7 +185,7 @@ $(document).ready(function() {
 	$('.sortable').sortable({
 		update: function(event, ui) {
 			$('.sortable .sortable-row').each(function(i){
-				$(this).find('[name="ht_pos[]"]').val(i + 1);
+				$(this).find('[name*="ht_pos"]').val(i + 1);
 			});
 		},
 	});
