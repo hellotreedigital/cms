@@ -97,96 +97,81 @@
 				'locale' => null,
 			])
 
-			<div class="row">
-				<div class="col-lg-4">
-					<div class="form-group">
-						<label class="d-block mb-1">Other options</label>
-						<div class="mb-1">
-							<label class="checkbox-wrapper">
-								@php
-								$checked = $errors->any() ? old('add') : (isset($cms_page) ? $cms_page['add'] : 1);
-								@endphp
-								<input type="checkbox" class="form-control" name="add" {!! $checked ? 'checked=""' : '' !!}>
-								<div></div>
-								<span class="d-inline-block align-middle mb-0 ml-1">With Add</span>
-							</label>
-						</div>
-						<div class="mb-1">
-							<label class="checkbox-wrapper">
-							@php
-							$checked = $errors->any() ? old('edit') : (isset($cms_page) ? $cms_page['edit'] : 1);
-							@endphp
-								<input type="checkbox" class="form-control" name="edit" {!! $checked ? 'checked=""' : '' !!}>
-								<div></div>
-								<span class="d-inline-block align-middle mb-0 ml-1">With Edit</span>
-							</label>
-						</div>
-						<div class="mb-1">
-							<label class="checkbox-wrapper">
-							@php
-							$checked = $errors->any() ? old('delete') : (isset($cms_page) ? $cms_page['delete'] : 1);
-							@endphp
-								<input type="checkbox" class="form-control" name="delete" {!! $checked ? 'checked=""' : '' !!}>
-								<div></div>
-								<span class="d-inline-block align-middle mb-0 ml-1">With Delete</span>
-							</label>
-						</div>
-						<div class="mb-3">
-							<label class="checkbox-wrapper">
-							@php
-							$checked = $errors->any() ? old('show') : (isset($cms_page) ? $cms_page['show'] : 1);
-							@endphp
-								<input type="checkbox" class="form-control" name="show" {!! $checked ? 'checked=""' : '' !!}>
-								<div></div>
-								<span class="d-inline-block align-middle mb-0 ml-1">With Show</span>
-							</label>
-						</div>
-					</div>
+			<div class="form-group">
+				<label class="d-block mb-1">Other options</label>
+				<div class="mb-1">
+					<label class="checkbox-wrapper">
+						@php
+						$checked = $errors->any() ? old('add') : (isset($cms_page) ? $cms_page['add'] : 1);
+						@endphp
+						<input type="checkbox" class="form-control" name="add" {!! $checked ? 'checked=""' : '' !!}>
+						<div></div>
+						<span class="d-inline-block align-middle mb-0 ml-1">With Add</span>
+					</label>
 				</div>
-				<div class="col-lg-4">
-					<div class="form-group">
-						<label class="d-block mb-1">Server side paginate</label>
-						@include('cms::/components/form-fields/checkbox', [
-							'label' => 'Yes',
-							'name' => 'server_side_pagination',
-							'inline_label' => true,
-							'checked' => isset($cms_page['server_side_pagination']) ? $cms_page['server_side_pagination'] : '',
-							'locale' => null,
-						])
-					</div>
-					<div class="form-group">
-						<label class="d-block mb-1">With Export</label>
-						@include('cms::/components/form-fields/checkbox', [
-							'label' => 'Yes',
-							'name' => 'with_export',
-							'inline_label' => true,
-							'checked' => isset($cms_page['with_export']) ? $cms_page['with_export'] : '',
-							'locale' => null,
-						])
-					</div>
+				<div class="mb-1">
+					<label class="checkbox-wrapper">
+					@php
+					$checked = $errors->any() ? old('edit') : (isset($cms_page) ? $cms_page['edit'] : 1);
+					@endphp
+						<input type="checkbox" class="form-control" name="edit" {!! $checked ? 'checked=""' : '' !!}>
+						<div></div>
+						<span class="d-inline-block align-middle mb-0 ml-1">With Edit</span>
+					</label>
 				</div>
-				<div class="col-lg-4">
-					<div class="form-group">
-						<label class="d-block mb-1">Single record page</label>
-						@include('cms::/components/form-fields/checkbox', [
-							'label' => 'Yes',
-							'name' => 'single_record',
-							'inline_label' => true,
-							'checked' => isset($cms_page['single_record']) ? $cms_page['single_record'] : '',
-							'locale' => null,
-						])
-					</div>
-					<div class="form-group">
-						<label class="d-block mb-1">With APIs</label>
-						@include('cms::/components/form-fields/checkbox', [
-							'label' => 'Yes',
-							'name' => 'apis',
-							'inline_label' => true,
-							'checked' => isset($cms_page['apis']) ? $cms_page['apis'] : '',
-							'locale' => null,
-						])
-					</div>
+				<div class="mb-1">
+					<label class="checkbox-wrapper">
+					@php
+					$checked = $errors->any() ? old('delete') : (isset($cms_page) ? $cms_page['delete'] : 1);
+					@endphp
+						<input type="checkbox" class="form-control" name="delete" {!! $checked ? 'checked=""' : '' !!}>
+						<div></div>
+						<span class="d-inline-block align-middle mb-0 ml-1">With Delete</span>
+					</label>
 				</div>
+				<div class="mb-3">
+					<label class="checkbox-wrapper">
+					@php
+					$checked = $errors->any() ? old('show') : (isset($cms_page) ? $cms_page['show'] : 1);
+					@endphp
+						<input type="checkbox" class="form-control" name="show" {!! $checked ? 'checked=""' : '' !!}>
+						<div></div>
+						<span class="d-inline-block align-middle mb-0 ml-1">With Show</span>
+					</label>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="d-block mb-1">Single record page</label>
+				@include('cms::/components/form-fields/checkbox', [
+					'label' => 'Yes',
+					'name' => 'single_record',
+					'inline_label' => true,
+					'checked' => isset($cms_page['single_record']) ? $cms_page['single_record'] : '',
+					'locale' => null,
+				])
+			</div>
+
+			<div class="form-group">
+				<label class="d-block mb-1">With APIs</label>
+				@include('cms::/components/form-fields/checkbox', [
+					'label' => 'Yes',
+					'name' => 'apis',
+					'inline_label' => true,
+					'checked' => isset($cms_page['apis']) ? $cms_page['apis'] : '',
+					'locale' => null,
+				])
+			</div>
+
+			<div class="form-group">
+				<label class="d-block mb-1">With Export</label>
+				@include('cms::/components/form-fields/checkbox', [
+					'label' => 'Yes',
+					'name' => 'with_export',
+					'inline_label' => true,
+					'checked' => isset($cms_page['with_export']) ? $cms_page['with_export'] : '',
+					'locale' => null,
+				])
 			</div>
 
 		</div>

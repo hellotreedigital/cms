@@ -27,7 +27,7 @@
 			$row_field_form_field = '';
 			$row_field_old_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_1 = '';
-			$row_field_form_field_additionals_2 = '';
+			$row_field_form_field_additionals_2 = null;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -59,7 +59,7 @@
 			$row_field_form_field = '';
 			$row_field_old_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_1 = '';
-			$row_field_form_field_additionals_2 = '';
+			$row_field_form_field_additionals_2 = null;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -89,7 +89,7 @@
 		<div class="form-field-additionals" {!! $row_field_form_field_additionals_1 ? '' : 'style="display: none;"' !!}>
 			<input type="hidden" name="{{ $field_type ? ($field_type . '_') : '' }}old_form_field_additionals_1[]" value="{{ $row_field_old_form_field_additionals_1 }}">
 			<input class="form-control mt-2" name="{{ $field_type ? ($field_type . '_') : '' }}form_field_additionals_1[]" value="{{ $row_field_form_field_additionals_1 }}">
-			<input class="form-control mt-2" name="{{ $field_type ? ($field_type . '_') : '' }}form_field_additionals_2[]" value="{{ $row_field_form_field_additionals_2 }}" {!! $row_field_form_field_additionals_2 ? '' : 'style="display:none;"' !!}>
+			<input class="form-control mt-2" name="{{ $field_type ? ($field_type . '_') : '' }}form_field_additionals_2[]" value="{{ $row_field_form_field_additionals_2 }}" {!! $row_field_form_field == 'slug' ? 'type="number"' : '' !!} {!! is_null($row_field_form_field_additionals_2) ? 'style="display:none;"' : '' !!}>
 		</div>
 	</td>
 	<td class="text-center">

@@ -47,14 +47,16 @@
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'slug')
-	@include('cms::/components/form-fields/input', [
-		'label' => ucwords(str_replace('_', ' ', $field['name'])),
-		'name' => $field['name'],
-		'slug_origin' => $field['form_field_additionals_1'],
-		'type' => 'text',
-		'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
-		'locale' => $locale,
-	])
+    @if (!isset($row) || (isset($row) && $field['form_field_additionals_2']))
+    	@include('cms::/components/form-fields/input', [
+    		'label' => ucwords(str_replace('_', ' ', $field['name'])),
+    		'name' => $field['name'],
+    		'slug_origin' => $field['form_field_additionals_1'],
+    		'type' => 'text',
+    		'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+    		'locale' => $locale,
+    	])
+	@endif
 @elseif ($field['form_field'] == 'date')
 	@include('cms::/components/form-fields/date', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
