@@ -355,6 +355,7 @@ class CmsPagesController extends Controller
 		for ($i=0; $i < count($request['name']); $i++) {
 			// Skip select multiple fields
 			if ($request['form_field'][$i] == 'select multiple') continue;
+			if ($request['form_field'][$i] == 'select') continue;
 
 			Schema::table($request['database_table'], function($table) use($request, $i){
 		        $table->{$request->migration_type[$i]}($request->name[$i])->{$request->nullable[$i] ? 'nullable' : ''}()->change();
@@ -551,12 +552,12 @@ class CmsPagesController extends Controller
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
 				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsTo' . "('App\\" . $second_page['model_name'] . "')" . '; }';
+				$body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsTo' . "('App\\" . $second_page['model_name'] . "')" . '; } ';
 			} elseif ($form_field == 'select multiple') {
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
 				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$body = 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; }';
+				$body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; } ';
 			}
 		}
 
