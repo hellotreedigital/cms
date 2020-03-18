@@ -31,13 +31,19 @@ composer require hellotreedigital/cms
 	<li>
 		CMS config:
 		<pre>
-php artisan vendor:publish --tag=cms_config --force
+php artisan vendor:publish --tag=cms_config
 		</pre>
 	</li>
 	<li>
 		CMS routes:
 		<pre>
-php artisan vendor:publish --tag=cms_routes --force
+php artisan vendor:publish --tag=cms_routes
+		</pre>
+	</li>
+	<li>
+		CMS routes:
+		<pre>
+php artisan vendor:publish --tag=translatable
 		</pre>
 	</li>
 </ul>
