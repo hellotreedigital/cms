@@ -4,7 +4,10 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Response;
 use Hash;
+use File;
+use Str;
 use Auth;
 
 class CmsController extends Controller
@@ -90,4 +93,20 @@ class CmsController extends Controller
 	{
 		return view('cms::pages/home/index');
 	}
+
+    /*
+     * Start: Assets methods
+     */
+
+    public function asset(Request $request)
+    {
+        $path = __DIR__ . '/../assets/' . $request['path'];
+        $file = File::get($path);
+
+        if (Str::endsWith($path, '.js')) $mime = 'text/javascript';
+        elseif (Str::endsWith($path, '.css')) $mime = 'text/css';
+        else $mime = File::mimeType($path);
+
+        return response($file, 200, ['Content-Type' => $mime]);
+    }
 }

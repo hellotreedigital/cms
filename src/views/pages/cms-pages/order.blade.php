@@ -93,7 +93,7 @@
 
 @section('scripts')
 
-<script src="{{ asset('cms/js/jquery.mjs.nestedSortable.js') }}"></script>
+<script src="{{ url('asset?path=js/jquery.mjs.nestedSortable.js') }}"></script>
 <script>
 	$(document).ready(function(){
 

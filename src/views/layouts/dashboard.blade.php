@@ -4,7 +4,7 @@
 
 <nav class="main py-3">
 	<div class="header">
-		<img class="px-3" src="{{ asset('cms/images/logo.png') }}">
+		<img class="px-3" src="{{ url('asset?path=images/logo.png') }}">
 		<ul class="my-5 p-0">
 			<li class="position-relative {{ Route::currentRouteName() == 'admin-home' ? 'active' : '' }}">
 				<a class="d-block p-3" href="{{ route('admin-home') }}" title="Home">
@@ -53,7 +53,7 @@
 			<div class="col-2 col-lg-6 text-right">
 				<div class="user-info d-none d-lg-block">
 					<span class="font-weight-bold mr-3">{{ request()->get('admin')['name'] }}</span>
-					<img src="{{ request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : asset('cms/images/default.png') }}">
+					<img src="{{ request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : url('asset?path=images/default.png') }}">
 					<ul class="list-group text-left">
 						<li class="list-group-item py-2 px-4">
 							<a href="{{ route('admin-profile') }}">
@@ -76,10 +76,12 @@
 				</div>
 			</div>
 		</div>
-		<div class="toast {{ Session::has('success') || Session::has('error') ? 'active' : '' }} px-5 py-3">
-			{{ Session::get('success') }}
-			{{ Session::get('error') }}
-		</div>
+		@if (Session::has('success') || Session::has('error'))
+			<div class="toast px-5 py-3">
+				{{ Session::get('success') }}
+				{{ Session::get('error') }}
+			</div>
+		@endif
 	</header>
 
 	<div id="dashboard-content">

@@ -1,9 +1,9 @@
 $(document).ready(function() {
 
 	$('#loader').fadeOut(function(){
-		$('.toast.active').addClass('show');
+		$('.toast').addClass('show transition');
 		setTimeout(function() {
-			$('.toast.active').removeClass('show');
+			$('.toast').removeClass('show');
 		}, 3000);
 	});
 

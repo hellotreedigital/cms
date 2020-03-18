@@ -29,12 +29,6 @@ composer require hellotreedigital/cms
 <h1>Publishables:</h1>
 <ul>
 	<li>
-		CMS assets:
-		<pre>
-<span>php artisan vendor:publish --tag=cms_assets --force</span>
-		</pre>
-	</li>
-	<li>
 		CMS config:
 		<pre>
 php artisan vendor:publish --tag=cms_config --force

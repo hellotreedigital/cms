@@ -28,7 +28,8 @@ class CmsPageController extends Controller
             return $query->get();
         });
 
-        return view('cms::pages/cms-page/index', compact('page', 'page_fields', 'rows'));
+        $view = view()->exists('cms::pages/' . $route . '/index') ? 'cms::pages/' . $route . '/index' : 'cms::pages/cms-page/index';
+        return view($view, compact('page', 'page_fields', 'rows'));
     }
 
     public function getPageExtraVariables($page_fields)
@@ -53,7 +54,8 @@ class CmsPageController extends Controller
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
 
-        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'page_translatable_fields', 'extra_variables'));
+        $view = view()->exists('cms::pages/' . $route . '/form') ? 'cms::pages/' . $route . '/form' : 'cms::pages/cms-page/form';
+        return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'extra_variables'));
     }
 
     public function storeValidation($page_fields, $page)
@@ -168,7 +170,8 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
         $row = $model::findOrFail($id);
 
-        return view('cms::pages/cms-page/show', compact('page', 'page_fields', 'translatable_fields', 'row'));
+        $view = view()->exists('cms::pages/' . $route . '/show') ? 'cms::pages/' . $route . '/show' : 'cms::pages/cms-page/show';
+        return view($view, compact('page', 'page_fields', 'translatable_fields', 'row'));
     }
 
     public function edit($id, $route)
@@ -181,7 +184,8 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
         $row = $model::findOrFail($id);
 
-        return view('cms::pages/cms-page/form', compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
+        $view = view()->exists('cms::pages/' . $route . '/form') ? 'cms::pages/' . $route . '/form' : 'cms::pages/cms-page/form';
+        return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
     }
 
     public function updateValiation($page_fields, $database_table, $id)
@@ -285,7 +289,8 @@ class CmsPageController extends Controller
 
         $rows = $model::orderBy('ht_pos')->get();
 
-        return view('cms::pages/cms-page/order', compact('page', 'page_fields', 'rows'));
+        $view = view()->exists('cms::pages/' . $route . '/order') ? 'cms::pages/' . $route . '/order' : 'cms::pages/cms-page/order';
+        return view($view, compact('page', 'page_fields', 'rows'));
     }
 
     public function changeOrder(Request $request, $route)

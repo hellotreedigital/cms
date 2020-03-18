@@ -11,6 +11,9 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::get('login', 'hellotreedigital\cms\controllers\CmsController@showLoginForm')->name('admin-login');
 });
 
+// Asset
+Route::get('/asset', 'hellotreedigital\cms\controllers\CmsController@asset');
+
 /*
 |--------------------------------------------------------------------------
 | CMS POST routes for non signed in admins

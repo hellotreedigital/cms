@@ -10,6 +10,7 @@ use Closure;
 use Route;
 use Auth;
 use View;
+use Str;
 
 class AdminMiddleware
 {
@@ -108,13 +109,19 @@ class AdminMiddleware
 
         // If admin have role id then he is not a super then, therefore we should check the permissions
         if ($admin['admin_role_id']) {
-            // Get requested page route
-            $request_path_array = explode('/', request()->path());
-            if (!isset($request_path_array[1])) $request_path_array[1] = '';
+            // Get route prefix
+            $cms_route_prefix = config('hellotree.cms_route_prefix');
+
+            // Get requested path route
+            $requested_path = substr(request()->path(), strlen($cms_route_prefix));
+            if (Str::startsWith($requested_path, '/')) $requested_path = substr($requested_path, 1);
+
+            $request_path_array = explode('/', $requested_path);
+            if (!isset($request_path_array[0]) || !$request_path_array[0]) $request_path_array[0] = 'home';
 
             // Check if the requested page is not the home page nor profile
-            if ($request_path_array[1] != '' && $request_path_array[1] != 'home' && $request_path_array[1] != 'profile' && $request_path_array[1] != 'logout') {
-                $route = $request_path_array[1];
+            if ($request_path_array[0] != 'home' && $request_path_array[0] != 'profile' && $request_path_array[0] != 'logout') {
+                $route = $request_path_array[0];
 
                 // Checking if requested page is available in the CMS pages array
                 if (!isset($admin['cms_pages'][$route])) abort(403);
@@ -146,11 +153,11 @@ class AdminMiddleware
                     if (!$admin_page_permission['edit']) abort(403);
                 } else {
                     // Get Method
-                    if (!isset($request_path_array[2])) { // Index page
+                    if (!isset($request_path_array[1])) { // Index page
                         if (!$admin_page_permission['browse']) abort(403);
-                    } elseif ($request_path_array[2] == 'create') { // Create page
+                    } elseif ($request_path_array[1] == 'create') { // Create page
                         if (!$admin_page_permission['add']) abort(403);
-                    } elseif ($request_path_array[2] == 'order') { // Order page
+                    } elseif ($request_path_array[1] == 'order') { // Order page
                         if (!$admin_page_permission['edit']) abort(403);
                     } elseif (isset($request_path_array[3]) && $request_path_array[3] == 'edit') { // Edit page
                         if (!$admin_page_permission['edit']) abort(403);

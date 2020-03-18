@@ -1,4 +1,4 @@
-@import url('https://fonts.google.com/?query=pop&selection.family=Poppins');
+// @import url('https://fonts.google.com/?query=pop&selection.family=Poppins');
 
 $color_text: #555;
 $nav_width: 250px;
@@ -706,7 +706,7 @@ html {
     }
 }
 .toast {
-    position: absolute;
+    position: fixed;
     top: 3rem;
     left: 50%;
     transform: translate(-50%, -3rem);
@@ -714,7 +714,6 @@ html {
     background-color: rgba(40, 167, 69, .7);
     border-radius: 8px;
     z-index: 1;
-    transition: 1s all;
     &.error {
         background-color: rgba(219, 14, 14, .7);
     }
@@ -722,11 +721,38 @@ html {
         transform: translate(-50%, 0);
         opacity: 1;
     }
+    &.transition {
+        transition: 1s all;
+    }
 }
 .list-inline {
     li {
         display: inline-block;
     }
+}
+
+// Select 2
+.select2-selection {
+    padding: .375rem .75rem;
+    border: 1px solid #ced4da !important;
+}
+.select2-selection.select2-selection--single {
+    height: calc(1.5em + .75rem + 2px) !important;
+}
+.select2-selection__rendered {
+    line-height: normal !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+.select2-selection__arrow {
+    display: none;
+    top: 0 !important;
+    right: 0 !important;
+    height: 100% !important;
+}
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: $color_yellow;
+    color: $color_text;
 }
 
 @keyframes jump {

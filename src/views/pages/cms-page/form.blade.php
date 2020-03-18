@@ -34,6 +34,7 @@
 			@foreach($page_fields as $field)
 				@include('cms::pages/cms-page/form-fields', ['locale' => null])
 			@endforeach
+
 			@if (count($page_translatable_fields))
 				@foreach (config('translatable.locales') as $locale)
 					@if (is_array($locale)) @continue @endif
