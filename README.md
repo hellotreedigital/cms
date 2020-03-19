@@ -41,7 +41,7 @@ php artisan vendor:publish --tag=cms_routes
 		</pre>
 	</li>
 	<li>
-		CMS routes:
+		CMS translatables:
 		<pre>
 php artisan vendor:publish --tag=translatable
 		</pre>
