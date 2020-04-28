@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use App;
 
 class ApisController extends Controller
 {
@@ -16,6 +17,8 @@ class ApisController extends Controller
     		'custom_validation.*.constraint' => 'required',
     		'custom_validation.*.value' => 'required',
     	]);
+	    
+    	if ($request['locale']) App::setLocale($request['locale']);
 
     	$page = CmsPage::where('route', $route)->firstOrFail();
 
@@ -30,6 +33,9 @@ class ApisController extends Controller
     			$query = $query->{$validation['constraint']}($validation['column'], $validation['value']);
     		}
     		return $query;
+        })
+    	->when($request['locale'], function($query) use($request){
+    		return $query->withTranslation();
         })
     	->when($request['per_page'], function($query) use($request){
             return $query->paginate($request['per_page']);
