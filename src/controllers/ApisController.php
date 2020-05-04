@@ -90,16 +90,16 @@ class ApisController extends Controller
 
         // Check for images in form fields
         foreach (json_decode($page['fields'], true) as $page_field) {
-            if ($page_field['form_field'] == 'image') {
-                $row[$page_field['name']] = asset($row[$page_field['name']]);
+            if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
+                $row[$page_field['name']] = $row[$page_field['name']] ? asset($row[$page_field['name']]) : null;
             }
         }
 
         // Check for images in translatable form fields
         foreach (json_decode($page['translatable_fields'], true) as $page_field) {
-            if ($page_field['form_field'] == 'image') {
+            if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach (config('translatable.locales') as $locale) {
-                    $row->translate($locale)[$page_field['name']] = asset($row->translate($locale)[$page_field['name']]);
+                    $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? asset($row->translate($locale)[$page_field['name']]) : null;
                 }
             }
         }
