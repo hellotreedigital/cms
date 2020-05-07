@@ -27,10 +27,12 @@ class ApisController extends Controller
 	    $order_by = null;
 	    if ($request['order_by']) $order_by = $request['order_by'];
 	    elseif ($page['order_display']) $order_by = 'ht_pos';
+	    
+	    $order_dir = $request['order_dir'] ? $request['order_dir'] : 'asc';
 
     	$rows = $model::select('*')
-    	->when($order_by, function($query) use($order_by){
-            return $query->orderBy($order_by);
+    	->when($order_by, function($query) use($order_by, $order_dir){
+            return $query->orderBy($order_by, $order_dir);
         })
     	->when($request['custom_validation'], function($query) use($request){
     		foreach ($request['custom_validation'] as $validation) {
