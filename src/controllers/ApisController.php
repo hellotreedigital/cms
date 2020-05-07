@@ -13,7 +13,6 @@ class ApisController extends Controller
     {
     	$request->validate([
     		'custom_validation' => 'array',
-    		'custom_validation.*.column' => 'required',
     		'custom_validation.*.constraint' => 'required',
     		'custom_validation.*.value' => 'required',
     	]);
@@ -36,7 +35,7 @@ class ApisController extends Controller
         })
     	->when($request['custom_validation'], function($query) use($request){
     		foreach ($request['custom_validation'] as $validation) {
-    			$query = $query->{$validation['constraint']}($validation['column'], $validation['value']);
+    			$query = $query->{$validation['constraint']}($validation['value']);
     		}
     		return $query;
         })
