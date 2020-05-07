@@ -23,10 +23,14 @@ class ApisController extends Controller
     	$page = CmsPage::where('route', $route)->firstOrFail();
 
     	$model = 'App\\' . $page['model_name'];
+	    
+	    $order_by = null;
+	    if ($request['order_by']) $order_by = $request['order_by'];
+	    elseif ($page['order_display']) $order_by = 'ht_pos';
 
     	$rows = $model::select('*')
-    	->when($page['order_display'], function($query) use($page){
-            return $query->orderBy('ht_pos');
+    	->when($order_by, function($query) use($page){
+            return $query->orderBy($order_by);
         })
     	->when($request['custom_validation'], function($query) use($request){
     		foreach ($request['custom_validation'] as $validation) {
