@@ -29,7 +29,7 @@ class ApisController extends Controller
 	    elseif ($page['order_display']) $order_by = 'ht_pos';
 
     	$rows = $model::select('*')
-    	->when($order_by, function($query) use($page){
+    	->when($order_by, function($query) use($order_by){
             return $query->orderBy($order_by);
         })
     	->when($request['custom_validation'], function($query) use($request){
