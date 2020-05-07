@@ -35,7 +35,7 @@ class ApisController extends Controller
         })
     	->when($request['custom_validation'], function($query) use($request){
     		foreach ($request['custom_validation'] as $validation) {
-    			$query = $query->{$validation['constraint']}($validation['value']);
+    			$query = $query->{$validation['constraint']}([$validation['value']]);
     		}
     		return $query;
         })
