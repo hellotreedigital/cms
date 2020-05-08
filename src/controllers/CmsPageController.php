@@ -90,7 +90,7 @@ class CmsPageController extends Controller
                     } elseif ($field['form_field'] == 'time') {
                         $row->translateOrNew($locale)->{$field['name']} = date('H:i', strtotime($request[$locale][$field['name']]));
                     } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
-                        if ($request[$locale][$field['name']]) {
+                        if (isset($request[$locale][$field['name']]) && $request[$locale][$field['name']]) {
                             $file_name = time() . '_' . md5(rand()) . '.' . $request[$locale][$field['name']]->getClientOriginalExtension();
                             $request[$locale][$field['name']]->move(storage_path('app/public/' . $request['route']), $file_name);
                             $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $request['route'] . '/' . $file_name;
