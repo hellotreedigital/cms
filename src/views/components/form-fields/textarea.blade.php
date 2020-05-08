@@ -12,5 +12,5 @@
 @endphp
 <div class="form-group">
 	<label>{{ $label }}</label>
-	<textarea class="form-control" name="{{ $name }}" rows="5">{{ $value }}</textarea>
+	<textarea class="form-control" name="{{ $input_name }}" rows="5">{{ $value }}</textarea>
 </div>
