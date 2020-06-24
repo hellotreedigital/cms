@@ -196,7 +196,7 @@
 							<label class="d-block mb-1">Edit model</label>
 							@include('cms::/components/form-fields/checkbox', [
 								'label' => 'Yes',
-								'name' => 'apis',
+								'name' => 'edit_model',
 								'inline_label' => true,
 								'checked' => false,
 								'locale' => null,
