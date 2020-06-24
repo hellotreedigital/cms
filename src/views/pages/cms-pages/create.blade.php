@@ -190,6 +190,20 @@
 						])
 					</div>
 				</div>
+				@if (isset($cms_page))
+					<div class="col-12">
+						<div class="form-group">
+							<label class="d-block mb-1">Edit model</label>
+							@include('cms::/components/form-fields/checkbox', [
+								'label' => 'Yes',
+								'name' => 'apis',
+								'inline_label' => true,
+								'checked' => false,
+								'locale' => null,
+							])
+						</div>
+					</div>
+				@endif
 			</div>
 
 		</div>
