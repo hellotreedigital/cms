@@ -209,7 +209,7 @@ class CmsPagesController extends Controller
 		if (!is_null($r)) return $r;
 
 		if ($cms_page->database_table != $request->database_table) $this->deleteModel($cms_page);
-		$this->createModel($request);
+		if ($request->edit_model) $this->createModel($request);
 
 		$cms_page->icon = $request->icon;
 		$cms_page->display_name = $request->display_name;
