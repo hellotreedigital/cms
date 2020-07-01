@@ -25,7 +25,7 @@
 @elseif ($field['form_field'] == 'select multiple')
 	@include('cms::/components/form-fields/select-multiple', [
 		'label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])),
-		'name' => $field['name'],
+		'name' => $row[ucwords(str_replace(['_id', '_'], ['', ' '], $field['name']))],
 		'options' => $extra_variables[$field['form_field_additionals_1']],
 		'store_column' => 'id',
 		'display_column' => $field['form_field_additionals_2'],
