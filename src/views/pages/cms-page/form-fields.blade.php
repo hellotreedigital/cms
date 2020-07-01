@@ -25,11 +25,11 @@
 @elseif ($field['form_field'] == 'select multiple')
 	@include('cms::/components/form-fields/select-multiple', [
 		'label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])),
-		'name' => $row[ucwords(str_replace(['_id', '_'], ['', ' '], $field['name']))],
+		'name' => $field['name'],
 		'options' => $extra_variables[$field['form_field_additionals_1']],
 		'store_column' => 'id',
 		'display_column' => $field['form_field_additionals_2'],
-		'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+		'value' => isset($row) ? ($locale ? $row->translate($locale)[str_replace(['_id', '_'], ['', ' '], $field['name'])] : $row[str_replace(['_id', '_'], ['', ' '], $field['name'])]) : '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'file')
