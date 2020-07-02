@@ -54,8 +54,15 @@ $(document).ready(function() {
     $(document).on('change', '.file-wrapper input', function(e){
     	var filesNames = '';
     	for (var i = 0; i < e.target.files.length; i++) filesNames += e.target.files[i].name + ', ';
-    	filesNames = filesNames.slice(0, -2);
-    	$(this).closest('.file-wrapper').attr('data-file', filesNames);
+        filesNames = filesNames.slice(0, -2);
+        if (filesNames) {
+            $(this).closest('.file-wrapper').attr('data-text', filesNames);
+            $(this).closest('.file-wrapper').removeClass('placeholder');
+        }
+        else {
+            $(this).closest('.file-wrapper').attr('data-text', $(this).closest('.file-wrapper').attr('data-placeholder'));
+            $(this).closest('.file-wrapper').addClass('placeholder');
+        }
     });
 
 	$('.datepicker').datepicker({
@@ -154,11 +161,11 @@ $(document).ready(function() {
 		if ($(this).find('input').val() == 0) {
 			$(this).find('input').val('1')
 			$(this).find('.btn').text('Undo');
-			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideUp();
+			$(this).closest('.form-group').find('.img-wrapper').slideUp();
 		} else {
 			$(this).find('input').val('0')
-			$(this).find('.btn').text('Remove current file');
-			$(this).closest('.form-group').find('.file-wrapper, .img-wrapper').slideDown();
+			$(this).find('.btn').text('Remove');
+			$(this).closest('.form-group').find('.img-wrapper').slideDown();
 		}
 	});
 
