@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Hash;
 
 class CmsPageController extends Controller
 {
