@@ -25,7 +25,7 @@
 			</div>
 		</div>
 	@endif
-	<label class="file-wrapper placeholder" data-placeholder="Upload image">
+	<label class="file-wrapper placeholder" data-placeholder="Upload image" data-text="Upload image">
 		<input type="file" class="form-control" name="{{ $input_name }}">
 	</label>
 </div>
