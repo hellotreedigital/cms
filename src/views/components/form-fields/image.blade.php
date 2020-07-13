@@ -17,7 +17,7 @@
 			</div>
 			<div class="col-6 mb-2">
 				<div class="text-right">
-					<div class="d-inline-block remove-current-file">
+					<div class="d-inline-block remove-current-image">
 						<a class="btn btn-sm btn-danger py-1">Remove</a>
 						<input type="checkbox" name="{{ $remove_input_name }}" value="0">
 					</div>
