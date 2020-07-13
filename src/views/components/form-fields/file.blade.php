@@ -11,13 +11,15 @@
 	@if (isset($value) && $value)
 		<div class="row">
 			<div class="col-6">
-				<a href="{{ asset($value) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
+                <div class="file-link-wrapper">
+                    <a href="{{ asset($value) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
+                </div>
 			</div>
-			<div class="col-6 text-right">
-				<div class="d-inline-block remove-current-file">
-					<a class="btn btn-sm btn-danger py-1">Remove current file</a>
-					<input type="checkbox" name="{{ $remove_input_name }}">
-				</div>
+			<div class="col-6 mb-2 text-right">
+                <div class="d-inline-block remove-current-file">
+                    <a class="btn btn-sm btn-danger py-1">Remove</a>
+                    <input type="checkbox" name="{{ $remove_input_name }}" value="0">
+                </div>
 			</div>
 		</div>
 	@endif
