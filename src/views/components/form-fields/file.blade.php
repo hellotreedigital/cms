@@ -18,7 +18,7 @@
 			<div class="col-6 mb-2 text-right">
                 <div class="d-inline-block remove-current-file">
                     <a class="btn btn-sm btn-danger py-1">Remove</a>
-                    <input type="checkbox" name="{{ $remove_input_name }}" value="0">
+                    <input name="{{ $remove_input_name }}" value="">
                 </div>
 			</div>
 		</div>
