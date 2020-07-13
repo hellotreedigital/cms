@@ -157,7 +157,7 @@ $(document).ready(function() {
 		return true;
 	});
 
-	$('.remove-current-file').on('click', function(){
+	$('.remove-current-image').on('click', function(){
 		if ($(this).find('input').val() == 0) {
 			$(this).find('input').val('1')
 			$(this).find('.btn').text('Undo');
@@ -166,6 +166,18 @@ $(document).ready(function() {
 			$(this).find('input').val('0')
 			$(this).find('.btn').text('Remove');
 			$(this).closest('.form-group').find('.img-wrapper').slideDown();
+		}
+    });
+
+	$('.remove-current-file').on('click', function(){
+		if ($(this).find('input').val() == 0) {
+			$(this).find('input').val('1')
+			$(this).find('.btn').text('Undo');
+			$(this).closest('.form-group').find('.file-link-wrapper').slideUp();
+		} else {
+			$(this).find('input').val('0')
+			$(this).find('.btn').text('Remove');
+			$(this).closest('.form-group').find('.file-link-wrapper').slideDown();
 		}
 	});
 
