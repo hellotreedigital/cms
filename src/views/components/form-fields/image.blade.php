@@ -19,7 +19,7 @@
 				<div class="text-right">
 					<div class="d-inline-block remove-current-image">
 						<a class="btn btn-sm btn-danger py-1">Remove</a>
-						<input type="checkbox" name="{{ $remove_input_name }}" value="0">
+						<input name="{{ $remove_input_name }}" value="">
 					</div>
 				</div>
 			</div>
