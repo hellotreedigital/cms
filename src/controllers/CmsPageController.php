@@ -283,6 +283,7 @@ class CmsPageController extends Controller
     {
         $page = CmsPage::where('route', $route)->whereNotNull('order_display')->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $page_translatable_fields = json_decode($page['translatable_fields'], true);
 
         $model = 'App\\' . $page['model_name'];
 
@@ -291,7 +292,7 @@ class CmsPageController extends Controller
         $rows = $model::orderBy('ht_pos')->get();
 
         $view = view()->exists('cms::pages/' . $route . '/order') ? 'cms::pages/' . $route . '/order' : 'cms::pages/cms-page/order';
-        return view($view, compact('page', 'page_fields', 'rows'));
+        return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'rows'));
     }
 
     public function changeOrder(Request $request, $route)
