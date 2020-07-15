@@ -21,7 +21,6 @@
     "minimum-stability": "dev",
     "require": {
         "doctrine/dbal": "*",
-        "astrotomic/laravel-translatable": "*",
-        "hellotreedigital/cms": "dev-master"
+        "astrotomic/laravel-translatable": "*"
     }
 }
