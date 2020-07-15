@@ -21,7 +21,7 @@
 	<li>
 		Run:
 		<pre>
-composer require hellotreedigital/cms
+composer require hellotreedigital/cms:dev-master
 		</pre>
 	</li>
 </ul>
