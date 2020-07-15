@@ -743,7 +743,10 @@ html body #login .card img {
 }
 
 html body #login-footer-wrapper {
-  transform: translateY(-100%);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
 }
 
 .btn {
