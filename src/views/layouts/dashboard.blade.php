@@ -4,7 +4,7 @@
 
 <nav class="main py-3">
 	<div class="header">
-		<img class="px-3" src="{{ url('asset?path=images/logo.png') }}">
+		<img class="px-3" src="{{ url(config('hellotree.logo')) }}">
 		<ul class="my-5 p-0">
 			<li class="position-relative {{ Route::currentRouteName() == 'admin-home' ? 'active' : '' }}">
 				<a class="d-block p-3" href="{{ route('admin-home') }}" title="Home">

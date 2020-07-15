@@ -9,7 +9,7 @@
 					<div class="col-md-6 pr-md-5 text-center">
 						<div class="d-table w-100 h-100">
 							<div class="d-table-cell align-middle">
-								<img class="w-100 mb-4 mb-md-3" src="{{ url('asset?path=images/logo.png') }}">
+								<img class="w-100 mb-4 mb-md-3" src="{{ url(config('hellotree.logo')) }}">
 								<p class="font-weight-bold mb-4 mb-md-5 mb-md-0 d-none d-md-block">Thank You for Choosing Hellotree <3</p>
 							</div>
 						</div>
