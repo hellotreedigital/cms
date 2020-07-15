@@ -34,7 +34,9 @@
 <body class="m-0">
 
 	<div id="loader">
-		<img src="{{ url(config('hellotree.loading')) }}">
+        @if (config('hellotree.loading'))
+            <img src="{{ url(config('hellotree.loading')) }}">
+        @endif
 	</div>
 
 	@yield('main-content')
