@@ -1,10 +1,10 @@
 ::-moz-selection {
     color: #000;
-    background: #0e96d3;
+    background: #0e96d3 !important;
 }
 ::selection {
     color: #000;
-    background: #0e96d3;
+    background: #0e96d3 !important;
 }
 html body #login{
 	background-color: #1d1d1d;
