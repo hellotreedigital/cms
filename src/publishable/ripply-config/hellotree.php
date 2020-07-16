@@ -40,8 +40,8 @@ return [
 	    	'asset?path=css/dataTables.min.css',
 	    	'asset?path=css/select2.min.css',
 	    	'asset?path=css/quill.snow.min.css',
-        'asset?path=css/main.min.css',
-        'css/backend.css'
+            'asset?path=css/main.min.css',
+            'asset?path=css/intouch.css'
 	    ],
 
 
@@ -93,11 +93,11 @@ return [
         'msapplication-TileImage' => 'asset?path=favicon/ms-icon-144x144.png',
         'theme-color' => '#ffffff',
     ],
-    'logo' => 'img/logo-cms.png',
-    'loading' => 'img/logo-cms.png',
-    'footer_slogan' => 'intouchmena',
+    'logo' => 'asset?path=images/ripply-logo.png',
+    'loading' => 'asset?path=images/ripply-logo.png',
+    'footer_slogan' => 'ripply',
     'footer_copyright' => 'V0.1 All Right Reserved.</a>',
-    'tab_title' => 'INTOUCH | CMS',
-    'home_title' => 'INTOUCH CMS',
+    'tab_title' => 'RIPPLY | CMS',
+    'home_title' => 'RIPPLY CMS',
     'home_content' => '',
 ];

@@ -17,6 +17,8 @@ Class CmsServiceProvider extends ServiceProvider
 
         // Set publishes
         $this->publishes([__DIR__ . '/../publishable/config' => config_path('/')], 'cms_config');
+        $this->publishes([__DIR__ . '/../publishable/intouch-config' => config_path('/')], 'cms_intouch_config');
+        $this->publishes([__DIR__ . '/../publishable/ripply-config' => config_path('/')], 'cms_ripply_config');
         $this->publishes([__DIR__ . '/../publishable/routes' => base_path('routes/')], 'cms_routes');
 
 		// First installation from console

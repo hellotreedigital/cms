@@ -51,3 +51,7 @@ html body #content .datatable-wrapper .dataTables_filter .paginate_button.previo
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before, html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before{
 	border-left: 8px solid #a6206b;
 }
+.form-control:focus {
+    border-color: #a6206b;
+    box-shadow: 0 0 0 0.2rem rgba(166, 32, 107, .25);
+}

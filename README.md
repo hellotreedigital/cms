@@ -35,6 +35,18 @@ php artisan vendor:publish --tag=cms_config --force
 		</pre>
 	</li>
 	<li>
+		CMS intouch config:
+		<pre>
+php artisan vendor:publish --tag=cms_intouch_config --force
+		</pre>
+	</li>
+	<li>
+		CMS ripply config:
+		<pre>
+php artisan vendor:publish --tag=cms_ripply_config --force
+		</pre>
+	</li>
+	<li>
 		CMS routes:
 		<pre>
 php artisan vendor:publish --tag=cms_routes --force

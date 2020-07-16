@@ -56,6 +56,8 @@ html {
                 left: 50%;
                 transform: translate(-50%, -50%);
                 animation: jump 2s linear infinite;
+                max-width: 200px;
+                max-height: 100px;
             }
         }
         .checkbox-wrapper {
