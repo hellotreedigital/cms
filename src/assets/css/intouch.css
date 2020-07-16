@@ -1,3 +1,11 @@
+::-moz-selection {
+    color: #000;
+    background: #0e96d3;
+}
+::selection {
+    color: #000;
+    background: #0e96d3;
+}
 html body #login{
 	background-color: #1d1d1d;
 	background-image: linear-gradient(to right, #0e96d3, #a6206b);
@@ -52,6 +60,6 @@ html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:b
 	border-left: 8px solid #a6206b;
 }
 .form-control:focus {
-    border-color: #a6206b;
-    box-shadow: 0 0 0 0.2rem rgba(166, 32, 107, .25);
+    border-color: #0e96d3;
+    box-shadow: 0 0 0 0.2rem rgba(14, 150, 211, .25);
 }
