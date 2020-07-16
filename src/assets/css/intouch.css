@@ -1,0 +1,53 @@
+html body #login{
+	background-color: #1d1d1d;
+	background-image: linear-gradient(to right, #0e96d3, #a6206b);
+	min-height: 100%;
+	color: #000;
+}
+html body #content header{
+	background-color: #1d1d1d;
+	background-image: linear-gradient(to right, #0e96d3, #a6206b);
+	height: 300px;
+}
+html body nav.main ul li:before{
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 0;
+	transform: translateY(-50%);
+	height: 0;
+	width: 5px;
+	background: #1d1d1d;
+	transition: .5s all;
+}
+.list-inline li{
+	color: #fff;
+}
+html body .user-info img, html body .user-info span{
+	color: #fff;
+}
+html body #login .card img{
+	max-width: 200px;
+}
+footer{
+	color: #fff;
+}
+.btn.btn-primary{
+	background-image: linear-gradient(to right, #0e96d3, #a6206b);
+	color: #fff !important;
+	border-color: #0e96d3;
+}
+html body .checkbox-wrapper div{
+	border: 2px solid #a6206b;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.current, html body #content .datatable-wrapper .dataTables_paginate .paginate_button.current{
+	background: #a6206b;
+	border-color: #a6206b;
+	color: #fff !important;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.previous:before, html body #content .datatable-wrapper .dataTables_paginate .paginate_button.previous:before{
+	border-right: 8px solid #a6206b;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before, html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before{
+	border-left: 8px solid #a6206b;
+}
