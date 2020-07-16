@@ -63,3 +63,7 @@ html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:b
     border-color: #0e96d3;
     box-shadow: 0 0 0 0.2rem rgba(14, 150, 211, .25);
 }
+html body .checkbox-wrapper input:checked + div {
+    border-color: #A7206B;
+    background-color: #0e96d3;
+}

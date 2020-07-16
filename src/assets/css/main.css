@@ -130,10 +130,7 @@ html body .remove-current-image, html body .remove-current-file {
 }
 
 html body .remove-current-image input, html body .remove-current-file input {
-	position: absolute;
-	width: 0;
-	height: 0;
-	-webkit-appearance: none;
+	display: none;
 }
 
 html body .ui-datepicker {

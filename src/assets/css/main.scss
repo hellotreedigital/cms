@@ -116,10 +116,7 @@ html {
         .remove-current-image, .remove-current-file {
             cursor: pointer;
             input {
-                position: absolute;
-                width: 0;
-                height: 0;
-                -webkit-appearance: none;
+                display: none;
             }
         }
         .ui-datepicker {
