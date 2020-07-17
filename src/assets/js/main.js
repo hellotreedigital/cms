@@ -56,6 +56,16 @@ $(document).ready(function() {
     	for (var i = 0; i < e.target.files.length; i++) filesNames += e.target.files[i].name + ', ';
         filesNames = filesNames.slice(0, -2);
         if (filesNames) {
+            var removeImageInput = $(this).closest('.form-group').find('.remove-current-image input');
+            if (removeImageInput.val()) {
+                removeImageInput.closest('.remove-current-image').click();
+            }
+
+            var removeFileInput = $(this).closest('.form-group').find('.remove-current-file input');
+            if (removeFileInput.val()) {
+                removeFileInput.closest('.remove-current-file').click();
+            }
+
             $(this).closest('.file-wrapper').attr('data-text', filesNames);
             $(this).closest('.file-wrapper').removeClass('placeholder');
         }
