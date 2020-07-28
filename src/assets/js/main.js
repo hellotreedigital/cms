@@ -56,16 +56,6 @@ $(document).ready(function() {
     	for (var i = 0; i < e.target.files.length; i++) filesNames += e.target.files[i].name + ', ';
         filesNames = filesNames.slice(0, -2);
         if (filesNames) {
-            var removeImageInput = $(this).closest('.form-group').find('.remove-current-image input');
-            if (removeImageInput.val()) {
-                removeImageInput.closest('.remove-current-image').click();
-            }
-
-            var removeFileInput = $(this).closest('.form-group').find('.remove-current-file input');
-            if (removeFileInput.val()) {
-                removeFileInput.closest('.remove-current-file').click();
-            }
-
             $(this).closest('.file-wrapper').attr('data-text', filesNames);
             $(this).closest('.file-wrapper').removeClass('placeholder');
         }
@@ -153,17 +143,32 @@ $(document).ready(function() {
 		theme: 'snow'
 	});
 
+    var idsToDelete = [];
+	$(document).on('change', '.delete-checkbox input', function(){
+        var input = $(this);
+
+        if (input.is(':checked')) {
+            idsToDelete.push(input.val());
+        } else {
+            var index = idsToDelete.indexOf(input.val());
+            if (index > -1) {
+                idsToDelete.splice(index, 1);
+            }
+        }
+    });
+
 	$('form.bulk-delete').on('submit', function(){
 
 		var form = $(this);
 
-		var ids = '';
-		$('.delete-checkbox input:checked').each(function(e){
-			ids += $(this).val() + ',';
-		});
+        var ids = '';
+        for (let index = 0; index < idsToDelete.length; index++) {
+            ids += idsToDelete[index] + ',';
+        }
 		ids = ids.slice(0, -1);
 
-		form.attr('action', form.attr('action') + '/' + ids);
+        form.attr('action', form.attr('action') + '/' + ids);
+
 		return true;
 	});
 
