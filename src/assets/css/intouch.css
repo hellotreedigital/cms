@@ -28,7 +28,7 @@ html body nav.main ul li:before{
 	background: #1d1d1d;
 	transition: .5s all;
 }
-.list-inline li{
+.breadcrumbs li{
 	color: #fff;
 }
 html body .user-info img, html body .user-info span{
