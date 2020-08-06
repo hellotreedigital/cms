@@ -59,6 +59,9 @@ html {
                 max-width: 200px;
                 max-height: 100px;
             }
+            &.overlay {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
         }
         .checkbox-wrapper {
             margin: 0;
@@ -113,7 +116,45 @@ html {
                 -webkit-appearance: none;
             }
         }
-        .remove-current-image, .remove-current-file {
+        .multiple-images-wrapper {
+            .images-preview {
+                border: 1px solid #ced4da;
+                border-radius: 0.25rem;
+                .row {
+                    margin-right: -5px;
+                    margin-left: -5px;
+                    .col-auto {
+                        padding-right: 5px;
+                        padding-left: 5px;
+                        &:hover {
+                            .bg-danger {
+                                opacity: 1;
+                            }
+                        }
+                        img {
+                            width: 100px;
+                            height: 100px;
+                            object-fit: contain;
+                        }
+                        .bg-danger {
+                            position: absolute;
+                            top: -5px;
+                            right: 0;
+                            width: 20px;
+                            height: 20px;
+                            border-radius: 50%;
+                            text-align: center;
+                            line-height: 20px;
+                            transition: opacity 0.3s;
+                            opacity: 0;
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+        .remove-current-image,
+        .remove-current-file {
             cursor: pointer;
             input {
                 display: none;
@@ -544,6 +585,11 @@ html {
                                     max-width: 100px;
                                     max-height: 60px;
                                 }
+                                .multiple-image {
+                                    height: 60px;
+                                    width: 60px;
+                                    object-fit: contain;
+                                }
                             }
                         }
                     }
@@ -728,7 +774,7 @@ html {
     border-radius: 8px;
     z-index: 1;
     &.error {
-        background-color: rgba(219, 14, 14, 0.7);
+        background-color: rgb(181, 46, 44);
     }
     &.show {
         transform: translate(-50%, 0);
@@ -736,6 +782,12 @@ html {
     }
     &.transition {
         transition: 1s all;
+    }
+    i {
+        position: absolute;
+        top: 3px;
+        right: 5px;
+        cursor: pointer;
     }
 }
 .list-inline {

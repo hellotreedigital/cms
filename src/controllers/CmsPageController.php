@@ -20,14 +20,14 @@ class CmsPageController extends Controller
             if (!$row) abort(403, "Single record page has no record");
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
-        $rows = $model::when($page['order_display'], function($query) use($page) {
+        $rows = $model::when($page['order_display'], function ($query) use ($page) {
             return $query->orderBy('ht_pos');
         })
-        ->when($page['server_side_pagination'], function($query) {
-            return $query->paginate(10);
-        }, function($query) {
-            return $query->get();
-        });
+            ->when($page['server_side_pagination'], function ($query) {
+                return $query->paginate(10);
+            }, function ($query) {
+                return $query->get();
+            });
 
         $view = view()->exists('cms::pages/' . $route . '/index') ? 'cms::pages/' . $route . '/index' : 'cms::pages/cms-page/index';
         return view($view, compact('page', 'page_fields', 'rows'));
@@ -36,7 +36,7 @@ class CmsPageController extends Controller
     public function getPageExtraVariables($page_fields)
     {
         $extra_variables = [];
-        foreach($page_fields as $field) {
+        foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select' || $field['form_field'] == 'select multiple') {
                 // Get model name from database table
                 $extra_page = CmsPage::where('database_table', $field['form_field_additionals_1'])->first();
@@ -62,7 +62,7 @@ class CmsPageController extends Controller
     public function storeValidation($page_fields, $page)
     {
         $validation_rules = [];
-        foreach($page_fields as $field) {
+        foreach ($page_fields as $field) {
             $validation_rules[$field['name']] = '';
 
             if (!$field['nullable']) $validation_rules[$field['name']] .= 'required|';
@@ -71,7 +71,7 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
 
             if (strlen($validation_rules[$field['name']]) > 0)
-            $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
+                $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
         return $validation_rules;
     }
@@ -82,7 +82,7 @@ class CmsPageController extends Controller
         if (count($translatable_fields)) {
             foreach (config('translatable.locales') as $locale) {
                 if (is_array($locale)) continue;
-                foreach($translatable_fields as $field) {
+                foreach ($translatable_fields as $field) {
                     if ($field['form_field'] == 'select multiple') continue;
                     elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
                         $row->translateOrNew($locale)->{$field['name']} = Hash::make($request[$locale][$field['name']]);
@@ -128,7 +128,7 @@ class CmsPageController extends Controller
 
         // Insert query
         $query = [];
-        foreach($page_fields as $field) {
+        foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') continue;
             elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
                 $query[$field['name']] = Hash::make($request[$field['name']]);
@@ -142,6 +142,16 @@ class CmsPageController extends Controller
                     $request[$field['name']]->move(storage_path('app/public/' . $route), $file_name);
                     $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
                 }
+            } elseif ($field['form_field'] == 'multiple images') {
+                $files = [];
+                if ($request[$field['name']]) {
+                    foreach ($request[$field['name']] as $file) {
+                        $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
+                        $file->move(storage_path('app/public/' . $route), $file_name);
+                        $files[] = 'storage/' . $route . '/' . $file_name;
+                    }
+                }
+                $query[$field['name']] = json_encode($files);
             } else {
                 $query[$field['name']] = $request[$field['name']];
             }
@@ -159,7 +169,8 @@ class CmsPageController extends Controller
 
         $this->translateOrNew($translatable_fields, $request, $row);
 
-        return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record added successfully');
+        $request->session()->flash('success', 'Record added successfully');
+        return url(config('hellotree.cms_route_prefix') . '/' . $route);
     }
 
     public function show($id, $route)
@@ -189,18 +200,28 @@ class CmsPageController extends Controller
         return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
     }
 
-    public function updateValiation($page_fields, $database_table, $id)
+    public function updateValiation($page_fields, $database_table, $id, $row)
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
 
             $validation_rules[$field['name']] = '';
-            if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
+            if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'multiple images' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
             if (!$field['nullable'] && ($field['form_field'] == 'image' || $field['form_field'] == 'file')) $validation_rules[$field['name']] .= 'required_with:remove_file_' . $field['name'] . '|';
             if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $database_table . ',' . $field['name'] . ',' . $id . '|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
+
+            if ($field['form_field'] == 'multiple images') {
+                $validation_rules[$field['name'] . '.*'] = 'image';
+                if (!$field['nullable']) {
+                    $images = $row[$field['name']] ? json_decode($row[$field['name']]) : [];
+                    if (!count($images)) {
+                        $validation_rules[$field['name']] .= 'required|';
+                    }
+                }
+            }
 
             if (strlen($validation_rules[$field['name']]) > 0) $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
@@ -210,12 +231,17 @@ class CmsPageController extends Controller
     public function update(Request $request, $id, $route)
     {
         $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
-        $page_fields = json_decode($page['fields'], true);$page_translatable_fields = json_decode($page['translatable_fields'], true);
+        $page_fields = json_decode($page['fields'], true);
+        $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
+        // Get row
+        $model = 'App\\' . $page['model_name'];
+        $row = $model::findOrFail($id);
+
         // Request validations
-        $field_validation_rules = $this->updateValiation($page_fields, $page['database_table'], $id);
-        $translatable_field_validation_rules = $this->updateValiation($translatable_fields, $page['database_table'] . '_translations', $id);
+        $field_validation_rules = $this->updateValiation($page_fields, $page['database_table'], $id, $row);
+        $translatable_field_validation_rules = $this->updateValiation($translatable_fields, $page['database_table'] . '_translations', $id, $row);
 
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
@@ -247,17 +273,24 @@ class CmsPageController extends Controller
                     $request[$field['name']]->move(storage_path('app/public/' . $route), $file_name);
                     $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
                 }
+            } elseif ($field['form_field'] == 'multiple images') {
+                $files = $row[$field['name']] ? json_decode($row[$field['name']]) : [];
+                if ($request[$field['name']]) {
+                    foreach ($request[$field['name']] as $file) {
+                        $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
+                        $file->move(storage_path('app/public/' . $route), $file_name);
+                        $files[] = 'storage/' . $route . '/' . $file_name;
+                    }
+                }
+                $query[$field['name']] = json_encode($files);
             } else {
                 $query[$field['name']] = $request[$field['name']];
             }
         }
-
-        $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
         $row->update($query);
 
         // Select multiple update query
-        foreach($page_fields as $field) {
+        foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
                 $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
             }
@@ -266,7 +299,77 @@ class CmsPageController extends Controller
         // Translatable update query
         $this->translateOrNew($translatable_fields, $request, $row);
 
-        return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record edited successfully');
+        $request->session()->flash('success', 'Record edited successfully');
+        return url(config('hellotree.cms_route_prefix') . '/' . $route);
+    }
+
+    public function uploadImages(Request $request, $id, $route)
+    {
+        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $model = 'App\\' . $page['model_name'];
+        $row = $model::findOrFail($id);
+
+        $files = $row[$request['name']] ? json_decode($row[$request['name']]) : [];
+        if ($request['images']) {
+            foreach ($request['images'] as $file) {
+                $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
+                $file->move(storage_path('app/public/' . $route), $file_name);
+                $files[] = 'storage/' . $route . '/' . $file_name;
+            }
+        }
+        $row[$request['name']] = json_encode($files);
+        $row->save();
+
+        $response = [];
+        foreach ($files as $file) {
+            $response[] = [
+                'path' => $file,
+                'url' => url($file),
+            ];
+        }
+        return $response;
+    }
+
+    public function orderImages(Request $request, $id, $route)
+    {
+        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $model = 'App\\' . $page['model_name'];
+        $row = $model::findOrFail($id);
+        $row[$request['name']] = json_encode($request->images);
+        $row->save();
+    }
+
+    public function removeImage(Request $request, $id, $route)
+    {
+        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $page_fields = json_decode($page['fields'], true);
+
+        $nullable = false;
+        $name_found = false;
+        foreach ($page_fields as $field) {
+            if ($field['name'] == $request->name) {
+                $name_found = true;
+                $nullable = $field['nullable'];
+                break;
+            }
+        }
+        if (!$name_found) abort(404);
+
+        $model = 'App\\' . $page['model_name'];
+        $row = $model::findOrFail($id);
+
+        $new_images = [];
+        $images_db = $row[$request->name] ? json_decode($row[$request->name]) : [];
+        foreach ($images_db as $image_db) {
+            if ($image_db ==  $request->path) continue;
+            $new_images[] = $image_db;
+        }
+        $row[$request->name] = json_encode($new_images);
+
+        if (count($new_images) == 0 && !$nullable) {
+            return response()->json(['errors' => [$request->name => ['The '. $request->name . ' field is required']]], 422);
+        }
+        $row->save();
     }
 
     public function destroy($id, $route)

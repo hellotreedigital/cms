@@ -46,6 +46,7 @@ class CmsPagesController extends Controller
 		'select multiple',
 		'checkbox',
 		'image',
+		'multiple images',
 		'file',
 		'map coordinates',
 	];

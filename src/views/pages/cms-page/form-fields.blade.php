@@ -46,6 +46,13 @@
 		'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
 		'locale' => $locale,
 	])
+@elseif ($field['form_field'] == 'multiple images')
+	@include('cms::/components/form-fields/images', [
+		'label' => ucwords(str_replace('_', ' ', $field['name'])),
+		'name' => $field['name'],
+		'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+		'locale' => $locale,
+	])
 @elseif ($field['form_field'] == 'slug')
     @if (!isset($row) || (isset($row) && $field['form_field_additionals_2']))
     	@include('cms::/components/form-fields/input', [

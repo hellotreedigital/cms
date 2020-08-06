@@ -14,7 +14,7 @@
 
 @section('dashboard-content')
 
-	<form method="post" enctype="multipart/form-data" action="{{ isset($row) ? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id']) : url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}">
+	<form method="post" enctype="multipart/form-data" action="{{ isset($row) ? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id']) : url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}" ajax>
 
 		<div class="card p-4 mx-2 mx-sm-5">
 			<p class="font-weight-bold text-uppercase mb-4">{{ isset($row) ? 'Edit ' . $page['display_name'] . ' #' . $row['id'] : 'Add ' . $page['display_name'] }}</p>

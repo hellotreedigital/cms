@@ -79,9 +79,12 @@
 		@if (Session::has('success') || Session::has('error'))
 			<div class="toast px-5 py-3">
 				{{ Session::get('success') }}
-				{{ Session::get('error') }}
 			</div>
-		@endif
+        @endif
+        <div class="toast error transition px-5 py-3">
+            <i class="fa fa-times" aria-hidden="true"></i>
+            <ul class="list-unstyled text-center m-0"></ul>
+        </div>
 	</header>
 
 	<div id="dashboard-content">

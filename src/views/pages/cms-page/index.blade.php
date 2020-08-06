@@ -64,6 +64,17 @@
 											<img src="{{ asset($row[$field['name']]) }}" class="img-thumbnail">
 										@endif
 									</td>
+								@elseif ($field['form_field'] == 'multiple images')
+									<td>
+                                        @if ($row[$field['name']])
+                                            @php
+                                                $files = json_decode($row[$field['name']]);
+                                            @endphp
+                                            @foreach ($files as $file)
+											    <img src="{{ asset($file) }}" class="img-thumbnail multiple-image">
+                                            @endforeach
+										@endif
+									</td>
 								@elseif ($field['form_field'] == 'file')
 									<td>
 										@if ($row[$field['name']])
