@@ -386,3 +386,13 @@ $(document).mouseup(function (e) {
         $('.user-info ul').hide();
     }
 });
+
+function readImageSrc(file) {
+    return new Promise(function (resolve, reject) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function (e) {
+            resolve(e.target.result);
+        }
+    });
+}
