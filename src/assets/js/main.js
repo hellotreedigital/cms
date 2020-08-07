@@ -378,6 +378,46 @@ $(document).ready(function () {
         },
     });
 
+    $('form[ajax]').on('submit', function (e) {
+        e.preventDefault();
+
+        if (!$('#loader').hasClass('overlay')) $('#loader').addClass('overlay');
+        $('#loader').fadeIn();
+
+        var form = $(this);
+        var formData = new FormData($(this)[0]);
+
+        $('.toast.error').removeClass('show');
+
+        $.ajax({
+            type: 'post',
+            url: form.attr('action'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (r) {
+                $('#loader').removeClass('overlay');
+                window.location.href = r;
+            },
+            error: function (r) {
+                $('#loader').fadeOut();
+                var ul = '';
+                if (r.status == 422) {
+                    for (let key in r.responseJSON.errors) {
+                        for (let i = 0; i < r.responseJSON.errors[key].length; i++) {
+                            ul += '<li>' + r.responseJSON.errors[key][i] + '</li>';
+                        }
+                    }
+                } else {
+                    ul += '<li>Server Error</li>';
+                }
+                $('.toast.error ul').html(ul);
+                $('.toast.error').addClass('show');
+            }
+        });
+
+    });
+
 });
 
 $(document).mouseup(function (e) {
