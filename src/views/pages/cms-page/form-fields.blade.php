@@ -29,7 +29,7 @@
 		'options' => $extra_variables[$field['form_field_additionals_1']],
 		'store_column' => 'id',
 		'display_column' => $field['form_field_additionals_2'],
-		'value' => isset($row) ? ($locale ? $row->translate($locale)[str_replace(['_id', '_'], ['', ' '], $field['name'])] : $row[str_replace(['_id', '_'], ['', ' '], $field['name'])]) : '',
+		'value' => isset($row) ? ($locale ? $row->translate($locale)[str_replace(['_id'], [''], $field['name'])] : $row[str_replace(['_id'], [''], $field['name'])]) : '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'file')
