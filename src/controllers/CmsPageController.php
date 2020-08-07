@@ -69,6 +69,7 @@ class CmsPageController extends Controller
             if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . '|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
+            if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
 
             if (strlen($validation_rules[$field['name']]) > 0)
                 $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
@@ -212,6 +213,7 @@ class CmsPageController extends Controller
             if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $database_table . ',' . $field['name'] . ',' . $id . '|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
+            if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
 
             if ($field['form_field'] == 'multiple images') {
                 $validation_rules[$field['name'] . '.*'] = 'image';
