@@ -1,5 +1,11 @@
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted || (typeof window.performance != "undefined" && window.performance.navigation.type === 2)) {
+        window.location.reload(); // Refresh page when browser navigates to your page through history traversal
+    }
+});
+
 $(document).ready(function () {
-    
+
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -291,6 +297,7 @@ $(document).ready(function () {
             toolbar: [
                 [{ header: [1, 2, 3, 4, 5, false] }],
                 ['bold', 'italic', 'underline'],
+                [{ 'script': 'sub' }, { 'script': 'super' }],
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                 [{ 'align': [] }],
                 ['image'],
