@@ -47,7 +47,7 @@
                                             {{ $second_table_row[$order_field['form_field_additionals_2']] }}
                                         @endforeach
                                     @else
-                                        {{ $row[$page['order_display']] }}
+                                        {!! $row[$page['order_display']] !!}
                                     @endif
                                 @endif
                             @endif
