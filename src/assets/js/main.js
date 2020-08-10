@@ -297,6 +297,7 @@ $(document).ready(function () {
             toolbar: [
                 [{ header: [1, 2, 3, 4, 5, false] }],
                 ['bold', 'italic', 'underline'],
+                ['blockquote'],
                 [{ 'script': 'sub' }, { 'script': 'super' }],
                 [{ 'list': 'ordered' }, { 'list': 'bullet' }],
                 [{ 'align': [] }],
