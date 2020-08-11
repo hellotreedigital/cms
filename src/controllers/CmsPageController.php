@@ -70,6 +70,7 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
+            if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
 
             if (strlen($validation_rules[$field['name']]) > 0)
                 $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
@@ -214,6 +215,7 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
+            if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
 
             if ($field['form_field'] == 'multiple images') {
                 $validation_rules[$field['name'] . '.*'] = 'image';
@@ -261,8 +263,10 @@ class CmsPageController extends Controller
         foreach ($page_fields as $field) {
             if (($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) || $field['form_field'] == 'select multiple') continue;
 
-            if (($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') && $request[$field['name']]) {
-                $query[$field['name']] = Hash::make($request[$field['name']]);
+            if (($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation')) {
+                if ($request[$field['name']]) {
+                    $query[$field['name']] = Hash::make($request[$field['name']]);
+                }
             } elseif ($field['form_field'] == 'checkbox') {
                 $query[$field['name']] = isset($request[$field['name']]) ? 1 : 0;
             } elseif ($field['form_field'] == 'time') {
