@@ -91,7 +91,9 @@
 									</td>
 								@elseif ($field['form_field'] == 'select')
 									<td>
-										{{ strip_tags($row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']]) }}
+										@if ($row[str_replace('_id', '', $field['name'])])
+											{{ strip_tags($row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']]) }}
+										@endif
 									</td>
 								@elseif ($field['form_field'] == 'select multiple')
 									<td>
