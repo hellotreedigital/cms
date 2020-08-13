@@ -275,14 +275,16 @@ class CmsPagesController extends Controller
 		// Create pivot tables
 		foreach ($request->form_field as $f => $form_field) {
 			if ($form_field == 'select multiple') {
-				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				Schema::create($pivot_table, function ($table) use ($request, $f) {
+                $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                $column_name = $pivot_table == $request->database_table ? Str::singular($request->form_field_additionals_1[$f]) . '_id' : 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id';
+
+				Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
 					$table->increments('id');
-					$table->integer(Str::singular($request->form_field_additionals_1[$f]) . '_id')->unsigned();
+					$table->integer($column_name)->unsigned();
 					$table->integer(Str::singular($request->database_table) . '_id')->unsigned();
 					$table->timestamps();
 
-					$table->foreign(Str::singular($request->form_field_additionals_1[$f]) . '_id')->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
+					$table->foreign($column_name)->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
 					$table->foreign(Str::singular($request->database_table) . '_id')->references('id')->on($request->database_table)->onDelete('cascade');
 				});
 			}
@@ -389,14 +391,16 @@ class CmsPagesController extends Controller
 			if ($form_field == 'select multiple') {
 				// New field
 				if (!$request->old_form_field_additionals_1[$f]) {
-					$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-					Schema::create($pivot_table, function ($table) use ($request, $f) {
+                    $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                    $column_name = $pivot_table == $request->database_table ? Str::singular($request->form_field_additionals_1[$f]) . '_id' : 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id';
+
+					Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
 						$table->increments('id');
-						$table->integer(Str::singular($request->form_field_additionals_1[$f]) . '_id')->unsigned();
+						$table->integer($column_name)->unsigned();
 						$table->integer(Str::singular($request->database_table) . '_id')->unsigned();
 						$table->timestamps();
 
-						$table->foreign(Str::singular($request->form_field_additionals_1[$f]) . '_id')->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
+						$table->foreign($column_name)->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
 						$table->foreign(Str::singular($request->database_table) . '_id')->references('id')->on($request->database_table)->onDelete('cascade');
 					});
 				}
@@ -405,14 +409,16 @@ class CmsPagesController extends Controller
 					$old_pivot_table = Str::singular($request->old_form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
 					Schema::drop($old_pivot_table);
 
-					$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-					Schema::create($pivot_table, function ($table) use ($request, $f) {
+                    $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                    $column_name = $pivot_table == $request->database_table ? Str::singular($request->form_field_additionals_1[$f]) . '_id' : 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id';
+
+					Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
 						$table->increments('id');
-						$table->integer(Str::singular($request->form_field_additionals_1[$f]) . '_id')->unsigned();
+						$table->integer($column_name)->unsigned();
 						$table->integer(Str::singular($request->database_table) . '_id')->unsigned();
 						$table->timestamps();
 
-						$table->foreign(Str::singular($request->form_field_additionals_1[$f]) . '_id')->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
+						$table->foreign($column_name)->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
 						$table->foreign(Str::singular($request->database_table) . '_id')->references('id')->on($request->database_table)->onDelete('cascade');
 					});
 				}
@@ -561,8 +567,10 @@ class CmsPagesController extends Controller
 			} elseif ($form_field == 'select multiple') {
 				$second_database_table = $request->form_field_additionals_1[$f];
 				$second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
-				$pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
-				$body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "')" . '; } ';
+                $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                $column_name = $pivot_table == $request->database_table ? Str::singular($request->form_field_additionals_1[$f]) . '_id' : 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id';
+
+				$body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "', '" . $column_name . "')" . '; } ';
 			}
 		}
 

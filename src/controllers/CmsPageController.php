@@ -165,7 +165,7 @@ class CmsPageController extends Controller
         // Select multiple insert query
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
-                $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
+                $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
             }
         }
 
@@ -298,7 +298,7 @@ class CmsPageController extends Controller
         // Select multiple update query
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
-                $row->{str_replace('_id', '', $field['form_field_additionals_1'])}()->sync($request[$field['name']]);
+                $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
             }
         }
 
