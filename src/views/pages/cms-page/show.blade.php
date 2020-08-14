@@ -19,12 +19,12 @@
 			<div class="col-lg-6 text-right">
 				<div class="actions p-0">
 					@if ($page['edit'])
-						@if (request()->get('admin')['cms_pages']['admins']['permissions']['edit'])
+						@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['edit'])
 							<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . '/edit') }}" class="btn btn-sm btn-primary">Edit</a>
 						@endif
 					@endif
 					@if ($page['delete'])
-						@if (request()->get('admin')['cms_pages']['admins']['permissions']['delete'])
+						@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['delete'])
 							<form class="d-inline" onsubmit="return confirm('Are you sure?')" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id']) }}">
 								@csrf
 								<input type="hidden" name="_method" value="DELETE">
