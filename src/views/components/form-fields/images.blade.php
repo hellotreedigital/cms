@@ -4,7 +4,7 @@ else $value = json_decode($value);
 @endphp
 
 <div class="form-group multiple-images-wrapper {{ isset($row) ? 'edit' : '' }}">
-    <label class="d-block">{{ $label }}</label>
+    @include('cms::components/form-fields/label')
     <label class="file-wrapper placeholder" data-text="Upload images">
         <input type="file" class="form-control" name="{{ $name }}[]" multiple="">
     </label>

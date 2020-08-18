@@ -12,7 +12,7 @@
 @endphp
 <div class="form-group">
 	@if (!isset($inline_label))
-		<label class="d-block">{{ $label }}</label>
+        @include('cms::components/form-fields/label')
 	@endif
 	<label class="checkbox-wrapper">
 		<input type="checkbox" class="form-control" name="{{ $input_name }}" {!! $checked ? 'checked=""' : '' !!}>

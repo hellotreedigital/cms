@@ -7,7 +7,7 @@
 	}
 @endphp
 <div class="form-group">
-	<label class="d-block">{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	@if (isset($value) && $value)
 		<div class="row">
 			<div class="col-6">

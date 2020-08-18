@@ -8,6 +8,7 @@
 			$row_field_old_form_field_additionals_1 = isset(old('translatable_old_form_field_additionals_1')[$field_key]) && old('translatable_old_form_field_additionals_1')[$field_key] ? old('translatable_old_form_field_additionals_1')[$field_key] : '';
 			$row_field_form_field_additionals_1 = isset(old('translatable_form_field_additionals_1')[$field_key]) && old('translatable_form_field_additionals_1')[$field_key] ? old('translatable_form_field_additionals_1')[$field_key] : '';
 			$row_field_form_field_additionals_2 = isset(old('translatable_form_field_additionals_2')[$field_key]) && old('translatable_form_field_additionals_2')[$field_key] ? old('translatable_form_field_additionals_2')[$field_key] : '';
+			$row_field_description = isset(old('translatable_description')[$field_key]) && old('translatable_description')[$field_key] ? old('translatable_description')[$field_key] : null;
 			$row_field_nullable = isset(old('translatable_nullable')[$field_key]) && old('translatable_nullable')[$field_key] ? old('translatable_nullable')[$field_key] : 0;
 			$row_field_unique = isset(old('translatable_unique')[$field_key]) && old('translatable_unique')[$field_key] ? old('translatable_unique')[$field_key] : 0;
 		} elseif (isset($cms_page)) {
@@ -18,6 +19,7 @@
 			$row_field_old_form_field_additionals_1 = null;
 			$row_field_form_field_additionals_1 = null;
 			$row_field_form_field_additionals_2 = null;
+			$row_field_description = $field['description'] ?? '';
 			$row_field_nullable = $field['nullable'] ? 1 : 0;
 			$row_field_unique = null;
 		} else {
@@ -28,6 +30,7 @@
 			$row_field_old_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_2 = null;
+			$row_field_description = null;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -40,6 +43,7 @@
 			$row_field_old_form_field_additionals_1 = isset(old('form_old_field_additionals_1')[$field_key]) && old('form_old_field_additionals_1')[$field_key] ? old('form_old_field_additionals_1')[$field_key] : '';
 			$row_field_form_field_additionals_1 = isset(old('form_field_additionals_1')[$field_key]) && old('form_field_additionals_1')[$field_key] ? old('form_field_additionals_1')[$field_key] : '';
 			$row_field_form_field_additionals_2 = isset(old('form_field_additionals_2')[$field_key]) && old('form_field_additionals_2')[$field_key] ? old('form_field_additionals_2')[$field_key] : '';
+			$row_field_description = isset(old('description')[$field_key]) && old('description')[$field_key] ? old('description')[$field_key] : '';
 			$row_field_nullable = isset(old('nullable')[$field_key]) && old('nullable')[$field_key] ? old('nullable')[$field_key] : 0;
 			$row_field_unique = isset(old('unique')[$field_key]) && old('unique')[$field_key] ? old('unique')[$field_key] : 0;
 		} elseif (isset($cms_page)) {
@@ -50,6 +54,7 @@
 			$row_field_old_form_field_additionals_1 = $field['form_field_additionals_1'];
 			$row_field_form_field_additionals_1 = $field['form_field_additionals_1'];
 			$row_field_form_field_additionals_2 = $field['form_field_additionals_2'];
+			$row_field_description = $field['description'] ?? '';
 			$row_field_nullable = $field['nullable'] ? 1 : 0;
 			$row_field_unique = $field['unique'] ? 1 : 0;
 		} else {
@@ -60,6 +65,7 @@
 			$row_field_old_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_2 = null;
+			$row_field_description = null;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -91,6 +97,9 @@
 			<input class="form-control mt-2" name="{{ $field_type ? ($field_type . '_') : '' }}form_field_additionals_1[]" value="{{ $row_field_form_field_additionals_1 }}">
 			<input class="form-control mt-2" name="{{ $field_type ? ($field_type . '_') : '' }}form_field_additionals_2[]" value="{{ $row_field_form_field_additionals_2 }}" {!! $row_field_form_field == 'slug' ? 'type="number"' : '' !!} {!! is_null($row_field_form_field_additionals_2) ? 'style="display:none;"' : '' !!}>
 		</div>
+	</td>
+	<td class="text-center">
+		<input class="form-control" name="{{ $field_type ? ($field_type . '_') : '' }}description[]" value="{{ $row_field_description }}">
 	</td>
 	<td class="text-center">
 		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}nullable[]" min="0" max="1" value="{{ $row_field_nullable }}">

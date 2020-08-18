@@ -11,6 +11,6 @@
 	}
 @endphp
 <div class="form-group">
-	<label class="d-block">{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	<input class="form-control datepicker" name="{{ $input_name }}" value="{{ $value }}">
 </div>

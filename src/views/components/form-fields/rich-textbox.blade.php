@@ -11,6 +11,6 @@
 	}
 @endphp
 <div class="form-group">
-	<label>{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	<textarea name="{{ $input_name }}" class="quill">{{ $value }}</textarea>
 </div>

@@ -62,42 +62,54 @@
 				'name' => 'database_table',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['database_table'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => true,
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Model',
 				'name' => 'model_name',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['model_name'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => true,
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Display name',
 				'name' => 'display_name',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['display_name'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => true,
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Display name plural',
 				'name' => 'display_name_plural',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['display_name_plural'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => true,
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Icon',
 				'name' => 'icon',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['icon'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => false,
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Order display column',
 				'name' => 'order_display',
 				'type' => 'text',
 				'value' => isset($cms_page) ? $cms_page['order_display'] : '',
-				'locale' => null,
+                'locale' => null,
+                'description' => '',
+                'required' => false,
 			])
 
 			<div class="row">
@@ -218,11 +230,12 @@
 				<table class="fields table">
 					<thead>
 						<tr>
-							<th class="text-center">NAME</th>
-							<th class="text-center">Migration Type</th>
-							<th class="text-center">Form Field</th>
-							<th class="text-center">Nullable</th>
-							<th class="text-center">Unique</th>
+							<th class="text-center">NAME <span class="text-danger">*</span></th>
+							<th class="text-center">Migration Type <span class="text-danger">*</span></th>
+							<th class="text-center">Form Field <span class="text-danger">*</span></th>
+                            <th class="text-center">Description</th>
+							<th class="text-center">Nullable <span class="text-danger">*</span></th>
+							<th class="text-center">Unique <span class="text-danger">*</span></th>
 							<th class="text-center">Remove</th>
 						</tr>
 					</thead>
@@ -258,10 +271,11 @@
 				<table class="fields table">
 					<thead>
 						<tr>
-							<th class="text-center">NAME</th>
-							<th class="text-center">Migration Type</th>
-							<th class="text-center">Form Field</th>
-							<th class="text-center">Nullable</th>
+							<th class="text-center">NAME <span class="text-danger">*</span></th>
+							<th class="text-center">Migration Type <span class="text-danger">*</span></th>
+                            <th class="text-center">Form Field <span class="text-danger">*</span></th>
+                            <th class="text-center">Description</th>
+							<th class="text-center">Nullable <span class="text-danger">*</span></th>
 							<th class="text-center">Remove</th>
 						</tr>
 					</thead>

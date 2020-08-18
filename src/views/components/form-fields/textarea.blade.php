@@ -11,6 +11,6 @@
 	}
 @endphp
 <div class="form-group">
-	<label>{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	<textarea class="form-control" name="{{ $input_name }}" rows="5">{{ $value }}</textarea>
 </div>

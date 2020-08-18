@@ -11,6 +11,6 @@
 	}
 @endphp
 <div class="form-group">
-	<label class="d-block">{!! $label !!}</label>
+    @include('cms::components/form-fields/label')
 	<input class="form-control" name="{{ $input_name }}" type="{{ $type }}" value="{{ $value }}" {!! isset($slug_origin) ? 'data-slug-origin="' . $slug_origin . '"' : '' !!}>
 </div>

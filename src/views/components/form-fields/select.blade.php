@@ -2,7 +2,7 @@
 	if ($errors->any()) $value = old($name);
 @endphp
 <div class="form-group">
-	<label class="d-block">{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	<select class="form-control" name="{{ $name }}">
 		@foreach($options as $option)
 			<option value="{{ $option[$store_column] }}" {{ $value == $option[$store_column] ? 'selected' : '' }}>{{ $option[$display_column] }}</option>

@@ -729,6 +729,7 @@ class CmsPagesController extends Controller
                 'form_field' => $request['form_field'][$i],
                 'form_field_additionals_1' => $request['form_field_additionals_1'][$i],
                 'form_field_additionals_2' => $request['form_field_additionals_2'][$i],
+                'description' => $request['description'][$i],
                 'nullable' => $request['nullable'][$i],
                 'unique' => $request['unique'][$i],
             ];
@@ -756,6 +757,7 @@ class CmsPagesController extends Controller
                     'name' => $request['translatable_name'][$i],
                     'migration_type' => $request['translatable_migration_type'][$i],
                     'form_field' => $request['translatable_form_field'][$i],
+                    'description' => $request['translatable_description'][$i],
                     'nullable' => $request['translatable_nullable'][$i],
                 ];
             }

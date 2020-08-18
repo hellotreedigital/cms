@@ -11,7 +11,7 @@ if ($errors->any()) {
 @endphp
 
 <div class="form-group">
-	<label class="d-block">{{ $label }}</label>
+	@include('cms::components/form-fields/label')
 	<select class="form-control" name="{{ $name }}[]" multiple="">
 		@foreach($options as $option)
 			<option value="{{ $option[$store_column] }}" {{ in_array($option[$store_column], $selected) ? 'selected' : '' }}>

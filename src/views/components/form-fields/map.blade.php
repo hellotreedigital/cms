@@ -31,7 +31,7 @@
 @endphp
 
 <div class="form-group">
-	<label class="d-block">{{ $label }}</label>
+	@include('cms::components/form-fields/label')
     <div class="map" id="map_{{ $input_id }}" style="height: 500px;"></div>
 	<input type="hidden" name="{{ $input_name }}" value="{{ $value }}">
 </div>

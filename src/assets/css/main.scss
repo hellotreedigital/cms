@@ -461,7 +461,6 @@ html {
                 }
             }
             table {
-                table-layout: fixed;
                 color: $color_text;
                 thead,
                 tbody {
@@ -497,6 +496,10 @@ html {
                             box-sizing: border-box;
                             .fa {
                                 font-size: 1.5rem;
+                            }
+                            input,
+                            select {
+                                min-width: 110px;
                             }
                         }
                     }
@@ -687,6 +690,30 @@ html {
             .form-group {
                 label {
                     font-size: 0.9rem;
+                }
+            }
+            .form-field-description-wrapper {
+                position: relative;
+                &:hover {
+                    .form-field-description {
+                        opacity: 1;
+                        transform: translateY(0px);
+                    }
+                }
+                .form-field-description {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    background: $color_yellow;
+                    padding: 3px 10px;
+                    border-radius: 5px;
+                    opacity: 0;
+                    transform: translateY(-20px);
+                    transition: transform 1s, opacity 0.5s;
+                    z-index: 1;
+                }
+                .fa {
+                    font-size: 1rem;
                 }
             }
             .sortable {

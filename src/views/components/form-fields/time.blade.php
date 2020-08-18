@@ -11,7 +11,7 @@
     }
 @endphp
 <div class="form-group">
-    <label class="d-block">{{ $label }}</label>
+    @include('cms::components/form-fields/label')
     <div class="timepicker no-selection">
         <div class="buttons-wrapper upper">
             <span></span>
