@@ -18,6 +18,7 @@
 						<th>CMS Page</th>
 						<th>Record #</th>
 						<th>Action</th>
+						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -28,6 +29,7 @@
 							<td>{{ $row->page->route }}</td>
 							<td>{{ $row->record_id }}</td>
 							<td>{{ $row->action }}</td>
+							<td>{{ $row->created_at }}</td>
 						</tr>
 					@endforeach
 				</tbody>
