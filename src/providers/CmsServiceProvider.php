@@ -167,7 +167,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->increments('id');
             $table->integer('admin_id')->unsigned();
             $table->integer('cms_page_id')->unsigned();
-            $table->integer('record_id')->nullable()->unsigned();
+            $table->string('record_id')->nullable();
             $table->string('action');
             $table->timestamps();
 
