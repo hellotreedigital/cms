@@ -4,7 +4,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'rich-textbox')
@@ -13,7 +13,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'select')
@@ -25,7 +25,7 @@
 		'display_column' => $field['form_field_additionals_2'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'select multiple')
@@ -37,7 +37,7 @@
 		'display_column' => $field['form_field_additionals_2'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[str_replace(['_id'], [''], $field['name'])] : $row[str_replace(['_id'], [''], $field['name'])]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'file')
@@ -46,7 +46,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'image')
@@ -55,7 +55,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'multiple images')
@@ -64,7 +64,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'slug')
@@ -76,7 +76,7 @@
     		'type' => 'text',
             'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
             'required' => $field['nullable'] ? false : true,
-            'description' => $field['description'],
+            'description' => $field['description'] ?? '',
     		'locale' => $locale,
     	])
 	@endif
@@ -86,7 +86,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'time')
@@ -95,7 +95,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'password')
@@ -105,7 +105,7 @@
 		'type' => 'password',
         'value' => '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'password with confirmation')
@@ -114,7 +114,7 @@
 		'name' => $field['name'],
         'value' => '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'checkbox')
@@ -123,7 +123,7 @@
 		'name' => $field['name'],
         'checked' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @elseif ($field['form_field'] == 'map coordinates')
@@ -132,7 +132,7 @@
 		'name' => $field['name'],
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @else
@@ -142,7 +142,7 @@
 		'type' => 'text',
         'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
         'required' => $field['nullable'] ? false : true,
-        'description' => $field['description'],
+        'description' => $field['description'] ?? '',
 		'locale' => $locale,
 	])
 @endif
