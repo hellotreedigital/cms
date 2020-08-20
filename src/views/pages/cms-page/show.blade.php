@@ -45,8 +45,10 @@
 				@include('cms::/components/show-fields/file', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'file' => $row[$field['name']] ])
 			@elseif ($field['form_field'] == 'files')
 				@include('cms::/components/show-fields/files', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'files' => $row[$field['name']] ])
-			@elseif ($field['form_field'] == 'select')
-				@include('cms::/components/show-fields/text', ['label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])), 'text' => $row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']] ])
+            @elseif ($field['form_field'] == 'select')
+                @if ($row[str_replace('_id', '', $field['name'])])
+                    @include('cms::/components/show-fields/text', ['label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])), 'text' => $row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']] ])
+                @endif
 			@elseif ($field['form_field'] == 'select multiple')
 				@include('cms::/components/show-fields/text-multiple', ['label' => ucwords(str_replace(['_id', '_'], ['', ' '], $field['name'])), 'texts' => $row[$field['name']], 'display_column' => $field['form_field_additionals_2'] ])
 			@elseif ($field['form_field'] == 'checkbox')
