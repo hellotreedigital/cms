@@ -68,6 +68,7 @@ class CmsPageController extends Controller
             if (!$field['nullable']) $validation_rules[$field['name']] .= 'required|';
             if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $page['database_table'] . '|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
+            if ($field['form_field'] == 'multiple images') $validation_rules[$field['name']] .= 'array|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
             if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
@@ -145,15 +146,7 @@ class CmsPageController extends Controller
                     $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
                 }
             } elseif ($field['form_field'] == 'multiple images') {
-                $files = [];
-                if ($request[$field['name']]) {
-                    foreach ($request[$field['name']] as $file) {
-                        $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
-                        $file->move(storage_path('app/public/' . $route), $file_name);
-                        $files[] = 'storage/' . $route . '/' . $file_name;
-                    }
-                }
-                $query[$field['name']] = json_encode($files);
+                $query[$field['name']] = $request[$field['name']] ? json_encode($request[$field['name']]) : '[]';
             } else {
                 $query[$field['name']] = $request[$field['name']];
             }
@@ -209,23 +202,14 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
 
             $validation_rules[$field['name']] = '';
-            if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'multiple images' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
+            if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
             if (!$field['nullable'] && ($field['form_field'] == 'image' || $field['form_field'] == 'file')) $validation_rules[$field['name']] .= 'required_with:remove_file_' . $field['name'] . '|';
             if (isset($field['unique']) && $field['unique']) $validation_rules[$field['name']] .= 'unique:' . $database_table . ',' . $field['name'] . ',' . $id . '|';
             if ($field['form_field'] == 'image') $validation_rules[$field['name']] .= 'image|';
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
             if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
-
-            if ($field['form_field'] == 'multiple images') {
-                $validation_rules[$field['name'] . '.*'] = 'image';
-                if (!$field['nullable']) {
-                    $images = $row[$field['name']] ? json_decode($row[$field['name']]) : [];
-                    if (!count($images)) {
-                        $validation_rules[$field['name']] .= 'required|';
-                    }
-                }
-            }
+            if ($field['form_field'] == 'multiple images') $validation_rules[$field['name']] .= 'array|';
 
             if (strlen($validation_rules[$field['name']]) > 0) $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
@@ -280,15 +264,7 @@ class CmsPageController extends Controller
                     $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
                 }
             } elseif ($field['form_field'] == 'multiple images') {
-                $files = $row[$field['name']] ? json_decode($row[$field['name']]) : [];
-                if ($request[$field['name']]) {
-                    foreach ($request[$field['name']] as $file) {
-                        $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
-                        $file->move(storage_path('app/public/' . $route), $file_name);
-                        $files[] = 'storage/' . $route . '/' . $file_name;
-                    }
-                }
-                $query[$field['name']] = json_encode($files);
+                $query[$field['name']] = $request[$field['name']] ? json_encode($request[$field['name']]) : '[]';
             } else {
                 $query[$field['name']] = $request[$field['name']];
             }
@@ -309,73 +285,20 @@ class CmsPageController extends Controller
         return url(config('hellotree.cms_route_prefix') . '/' . $route);
     }
 
-    public function uploadImages(Request $request, $id, $route)
+    public function uploadImages(Request $request, $route)
     {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
-        $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
-
-        $files = $row[$request['name']] ? json_decode($row[$request['name']]) : [];
+        $files = [];
         if ($request['images']) {
             foreach ($request['images'] as $file) {
                 $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
                 $file->move(storage_path('app/public/' . $route), $file_name);
-                $files[] = 'storage/' . $route . '/' . $file_name;
+                $files[] = [
+                    'path' => 'storage/' . $route . '/' . $file_name,
+                    'url' => url('storage/' . $route . '/' . $file_name)
+                ];
             }
         }
-        $row[$request['name']] = json_encode($files);
-        $row->save();
-
-        $response = [];
-        foreach ($files as $file) {
-            $response[] = [
-                'path' => $file,
-                'url' => url($file),
-            ];
-        }
-        return $response;
-    }
-
-    public function orderImages(Request $request, $id, $route)
-    {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
-        $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
-        $row[$request['name']] = json_encode($request->images);
-        $row->save();
-    }
-
-    public function removeImage(Request $request, $id, $route)
-    {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
-        $page_fields = json_decode($page['fields'], true);
-
-        $nullable = false;
-        $name_found = false;
-        foreach ($page_fields as $field) {
-            if ($field['name'] == $request->name) {
-                $name_found = true;
-                $nullable = $field['nullable'];
-                break;
-            }
-        }
-        if (!$name_found) abort(404);
-
-        $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
-
-        $new_images = [];
-        $images_db = $row[$request->name] ? json_decode($row[$request->name]) : [];
-        foreach ($images_db as $image_db) {
-            if ($image_db ==  $request->path) continue;
-            $new_images[] = $image_db;
-        }
-        $row[$request->name] = json_encode($new_images);
-
-        if (count($new_images) == 0 && !$nullable) {
-            return response()->json(['errors' => [$request->name => ['The '. $request->name . ' field is required']]], 422);
-        }
-        $row->save();
+        return $files;
     }
 
     public function destroy($id, $route)

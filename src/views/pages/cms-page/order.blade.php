@@ -12,6 +12,7 @@
 	<div class="card p-4 mx-2 mx-sm-5">
 		@if (count($rows))
 			<form method="post">
+                @method('put')
 				@csrf
 				<ul class="sortable list-inline m-0">
 					@foreach($rows as $row)

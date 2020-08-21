@@ -79,73 +79,46 @@ $(document).ready(function () {
         }
     });
 
-    var dt = new DataTransfer();
     $('.multiple-images-wrapper input').on('change', async function (e) {
         var input = $(this);
-        var files = this.files;
         var imagesPreview = input.closest('.multiple-images-wrapper').find('.images-preview .row');
+        var wrapper = $(this).closest('.multiple-images-wrapper');
 
         // Show images
         imagesPreview.closest('.images-preview').show();
 
-        if (input.closest('.multiple-images-wrapper').hasClass('edit')) {
+        // Show loader
+        if (!$('#loader').hasClass('overlay')) $('#loader').addClass('overlay');
+        $('#loader').fadeIn();
 
-            if (!$('#loader').hasClass('overlay')) $('#loader').addClass('overlay');
-            $('#loader').fadeIn();
-
-            var formData = new FormData();
-            formData.append('_method', 'put');
-            formData.append('name', input.attr('name').split('[]').join(''));
-            for (let i = 0; i < input[0].files.length; i++) {
-                formData.append('images[]', input[0].files[i]);
-
-            }
-
-            $.ajax({
-                type: 'post',
-                url: window.location.href + '/images',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function (r) {
-                    $('#loader').fadeOut();
-                    input[0].value = '';
-                    input.closest('.multiple-images-wrapper').find('.images-preview .row').html('');
-                    for (let i = 0; i < r.length; i++) {
-                        input.closest('.multiple-images-wrapper').find('.images-preview .row').append(
-                            '<div class="col-auto saved" path="' + r[i].path + '">' +
-                            '<img class="img-thumbnail" src="' + r[i].url + '">' +
-                            '<div class="bg-danger text-white">' +
-                            '<i class="fa fa-times" aria-hidden="true"></i>' +
-                            '</div>' +
-                            '</div>'
-                        );
-                    }
-                }
-            });
-
-        } else {
-
-            for (var i = 0; i < files.length; i++) {
-                // Add files to DataTransfer instance
-                dt.items.add(files[i]);
-
-                // Read image and append it
-                var imageSource = await readImageSrc(files[i]);
-                imagesPreview.append(
-                    '<div class="col-auto" dt-index="' + (dt.files.length - 1) + '">' +
-                    '<img class="img-thumbnail" src="' + imageSource + '">' +
-                    '<div class="bg-danger text-white">' +
-                    '<i class="fa fa-times" aria-hidden="true"></i>' +
-                    '</div>' +
-                    '</div>'
-                );
-            }
-
+        var formData = new FormData();
+        formData.append('_method', wrapper.data('method'));
+        for (let i = 0; i < input[0].files.length; i++) {
+            formData.append('images[]', input[0].files[i]);
         }
 
-        // Override input files to the files in the DataTransfer instance
-        this.files = dt.files;
+        $.ajax({
+            type: 'post',
+            url: wrapper.data('ajax-url'),
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (r) {
+                $('#loader').fadeOut();
+                input[0].value = '';
+                for (let i = 0; i < r.length; i++) {
+                    input.closest('.multiple-images-wrapper').find('.images-preview .row').append(
+                        '<div class="col-auto">' +
+                        '<input type="hidden" name="' + wrapper.data('input-name') + '" value="' + r[i].path + '">' +
+                        '<img class="img-thumbnail" src="' + r[i].url + '">' +
+                        '<div class="bg-danger text-white">' +
+                        '<i class="fa fa-times" aria-hidden="true"></i>' +
+                        '</div>' +
+                        '</div>'
+                    );
+                }
+            }
+        });
     });
 
     $(document).on('click', '.multiple-images-wrapper .images-preview .bg-danger', function (e) {
@@ -153,83 +126,12 @@ $(document).ready(function () {
 
         var imageWrapper = $(this).closest('.col-auto');
         var multipleImagesWrapper = $(this).closest('.multiple-images-wrapper');
-        var input = multipleImagesWrapper.find('input');
-        var index = imageWrapper.index();
 
-        imageWrapper.hide();
+        imageWrapper.remove();
         if (multipleImagesWrapper.find('.images-preview > .row > div:visible').length == 0) multipleImagesWrapper.find('.images-preview').hide();
-        if (imageWrapper.hasClass('saved')) {
-            var imageWrapper = $(this).closest('.col-auto');
-            var path = imageWrapper.attr('path');
-
-            $.ajax({
-                type: 'post',
-                url: window.location.href + '/images/remove',
-                data: {
-                    _method: 'put',
-                    path: path,
-                    name: input.attr('name').split('[]').join('')
-                },
-                success: function (r) {
-                    multipleImagesWrapper.find('.images-preview [path="' + path + '"]').remove();
-                },
-                error: function (r) {
-                    $('#loader').fadeOut();
-                    var ul = '';
-                    if (r.status == 422) {
-                        for (let key in r.responseJSON.errors) {
-                            for (let i = 0; i < r.responseJSON.errors[key].length; i++) {
-                                ul += '<li>' + r.responseJSON.errors[key][i] + '</li>';
-                            }
-                        }
-                    } else {
-                        ul += '<li>Server Error</li>';
-                    }
-                    $('.toast.error ul').html(ul);
-                    $('.toast.error').addClass('show');
-
-                    multipleImagesWrapper.find('.images-preview').show();
-                    multipleImagesWrapper.find('.images-preview [path="' + path + '"]').show();
-                }
-            });
-        } else {
-            dt.items.remove(index);
-            input[0].files = dt.files;
-        }
     });
 
-    $('.images-sortable').sortable({
-        update: function (event, ui) {
-            if ($(this).closest('.multiple-images-wrapper').hasClass('edit')) {
-
-                var images = [];
-                var input = $(this).closest('.multiple-images-wrapper').find('input');
-                $(this).find('.col-auto').each(function () {
-                    images.push($(this).attr('path'));
-                });
-                $.ajax({
-                    type: 'post',
-                    url: window.location.href + '/images/order',
-                    data: {
-                        _method: 'put',
-                        images: images,
-                        name: input.attr('name').split('[]').join('')
-                    }
-                });
-
-            }
-            else {
-
-                var newDt = new DataTransfer();
-                $(this).find('.col-auto').each(function () {
-                    newDt.items.add(dt.files[$(this).attr('dt-index')]);
-                });
-                dt = newDt;
-                $(this).closest('.multiple-images-wrapper').find('input')[0].files = dt.files;
-
-            }
-        },
-    });
+    $('.images-sortable').sortable();
 
     $('.datepicker').datepicker({
         dateFormat: 'yy-mm-dd',

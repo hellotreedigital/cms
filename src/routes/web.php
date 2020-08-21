@@ -69,11 +69,11 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
         Route::get('/' . $cms_page->route . '/{id}/edit', 'hellotreedigital\cms\controllers\CmsPageController@edit')->defaults('route', $cms_page->route);
 
         Route::post('/' . $cms_page->route, 'hellotreedigital\cms\controllers\CmsPageController@store')->defaults('route', $cms_page->route);
-        Route::post('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@changeOrder')->defaults('route', $cms_page->route);
+        Route::put('/' . $cms_page->route . '/order', 'hellotreedigital\cms\controllers\CmsPageController@changeOrder')->defaults('route', $cms_page->route);
         Route::put('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@update')->defaults('route', $cms_page->route);
-        Route::put('/' . $cms_page->route . '/{id}/edit/images', 'hellotreedigital\cms\controllers\CmsPageController@uploadImages')->defaults('route', $cms_page->route);
-        Route::put('/' . $cms_page->route . '/{id}/edit/images/order', 'hellotreedigital\cms\controllers\CmsPageController@orderImages')->defaults('route', $cms_page->route);
-        Route::put('/' . $cms_page->route . '/{id}/edit/images/remove', 'hellotreedigital\cms\controllers\CmsPageController@removeImage')->defaults('route', $cms_page->route);
+        // Both routes are the same but have different method for roles purposes
+        Route::post('/' . $cms_page->route . '/edit/images', 'hellotreedigital\cms\controllers\CmsPageController@uploadImages')->defaults('route', $cms_page->route);
+        Route::put('/' . $cms_page->route . '/edit/images', 'hellotreedigital\cms\controllers\CmsPageController@uploadImages')->defaults('route', $cms_page->route);
         Route::delete('/' . $cms_page->route . '/{id}', 'hellotreedigital\cms\controllers\CmsPageController@destroy')->defaults('route', $cms_page->route);
     }
 });

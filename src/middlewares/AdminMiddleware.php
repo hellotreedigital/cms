@@ -129,11 +129,15 @@ class AdminMiddleware
                 // Check permissions
                 $admin_page_permission = $admin['cms_pages'][$route]['permissions'];
                 if ($request->isMethod('post')) {
-                    Log::create([
-                        'admin_id' => $admin['id'],
-                        'cms_page_id' => $admin['cms_pages'][$route]['id'],
-                        'action' => 'created',
-                    ]);
+                    if (isset($request_path_array[1]) && isset($request_path_array[2]) && $request_path_array[1] == 'edit' && $request_path_array[2] == 'images') {
+                        // Uploading images
+                    } else {
+                        Log::create([
+                            'admin_id' => $admin['id'],
+                            'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                            'action' => 'created',
+                        ]);
+                    }
                     if (!$admin_page_permission['add']) abort(403);
                 } elseif ($request->isMethod('delete')) {
                     Log::create([
@@ -144,12 +148,25 @@ class AdminMiddleware
                     ]);
                     if (!$admin_page_permission['delete']) abort(403);
                 } elseif ($request->isMethod('put')) {
-                    Log::create([
-                        'admin_id' => $admin['id'],
-                        'cms_page_id' => $admin['cms_pages'][$route]['id'],
-                        'record_id' => $request['id'],
-                        'action' => 'edited',
-                    ]);
+                    if (isset($request_path_array[1]) && $request_path_array[1] == 'order') {
+                        // Order
+                        Log::create([
+                            'admin_id' => $admin['id'],
+                            'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                            'record_id' => '',
+                            'action' => 'ordered',
+                        ]);
+                    } elseif (isset($request_path_array[1]) && isset($request_path_array[2]) && $request_path_array[1] == 'edit' && $request_path_array[2] == 'images') {
+                        // Uploading images
+                    } else {
+                        // Edit
+                        Log::create([
+                            'admin_id' => $admin['id'],
+                            'cms_page_id' => $admin['cms_pages'][$route]['id'],
+                            'record_id' => $request['id'],
+                            'action' => 'edited',
+                        ]);
+                    }
                     if (!$admin_page_permission['edit']) abort(403);
                 } else {
                     // Get Method
@@ -159,7 +176,7 @@ class AdminMiddleware
                         if (!$admin_page_permission['add']) abort(403);
                     } elseif ($request_path_array[1] == 'order') { // Order page
                         if (!$admin_page_permission['edit']) abort(403);
-                    } elseif (isset($request_path_array[3]) && $request_path_array[3] == 'edit') { // Edit page
+                    } elseif (isset($request_path_array[2]) && $request_path_array[2] == 'edit') { // Edit page
                         if (!$admin_page_permission['edit']) abort(403);
                     } else { // Show page
                         if (!$admin_page_permission['read']) abort(403);
