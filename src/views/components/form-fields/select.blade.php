@@ -1,6 +1,3 @@
-@php
-	if ($errors->any()) $value = old($name);
-@endphp
 <div class="form-group">
 	@include('cms::components/form-fields/label')
 	<select class="form-control" name="{{ $name }}">

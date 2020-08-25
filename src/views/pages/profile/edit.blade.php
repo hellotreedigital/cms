@@ -13,7 +13,7 @@
 			</div>
 		@endif
 
-		<form method="post" enctype="multipart/form-data">
+		<form method="post" enctype="multipart/form-data" ajax>
 
 			@csrf
 
@@ -21,24 +21,28 @@
 				'label' => 'Name',
 				'name' => 'name',
 				'type' => 'text',
-				'value' => old('name') ? old('name') : request()->get('admin')['name']
+				'value' => request()->get('admin')['name'],
+				'locale' => '',
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Password',
 				'name' => 'password',
 				'type' => 'password',
-				'value' => ''
+				'value' => '',
+				'locale' => '',
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Confirm Password',
 				'name' => 'password_confirmation',
 				'type' => 'password',
-				'value' => ''
+				'value' => '',
+				'locale' => '',
 			])
 			@include('cms::components/form-fields/image', [
 				'label' => 'Image',
 				'name' => 'image',
-				'value' => request()->get('admin')['image']
+				'value' => request()->get('admin')['image'],
+				'locale' => '',
 			])
 
 			<div class="text-right">

@@ -72,9 +72,9 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'password with confirmation') $validation_rules[$field['name']] .= 'confirmed|';
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
             if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
+            if ($field['migration_type'] == 'string') $validation_rules[$field['name']] .= 'max:191|';
 
-            if (strlen($validation_rules[$field['name']]) > 0)
-                $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
+            if (strlen($validation_rules[$field['name']]) > 0) $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
         return $validation_rules;
     }
@@ -210,7 +210,8 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'number') $validation_rules[$field['name']] .= 'numeric|';
             if ($field['form_field'] == 'number' && $field['nullable']) $validation_rules[$field['name']] .= 'nullable|';
             if ($field['form_field'] == 'multiple images') $validation_rules[$field['name']] .= 'array|';
-
+            if ($field['migration_type'] == 'string') $validation_rules[$field['name']] .= 'max:191|';
+            
             if (strlen($validation_rules[$field['name']]) > 0) $validation_rules[$field['name']] = substr($validation_rules[$field['name']], 0, -1);
         }
         return $validation_rules;

@@ -132,7 +132,8 @@ class CmsPagesController extends Controller
         $cms_page->ht_pos = CmsPage::max('ht_pos') + 1;
         $cms_page->save();
 
-        return redirect(config('hellotree.cms_route_prefix') . '/' . $cms_page->route)->with('success', 'Page added successfully');
+        $request->session()->flash('success', 'Page added successfully');
+        return url(config('hellotree.cms_route_prefix') . '/' . $cms_page->route);
     }
 
     public function storeCustom(Request $request)
@@ -231,7 +232,8 @@ class CmsPagesController extends Controller
         $cms_page->with_export = isset($request->with_export) ? 1 : 0;
         $cms_page->save();
 
-        return redirect(config('hellotree.cms_route_prefix') . '/' . $cms_page->route)->with('success', 'Page edited successfully');
+        $request->session()->flash('success', 'Page edited successfully');
+        return url(config('hellotree.cms_route_prefix') . '/' . $cms_page->route);
     }
 
     public function updateCustom(Request $request, $id)

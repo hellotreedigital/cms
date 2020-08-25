@@ -1,22 +1,8 @@
 @php
-    if ($errors->any()) {
-        $value = old($name);
-        if ($locale) {
-            $value = old($locale)[$name];
-        }
-    }
-@endphp
-@php
     $lat = 33.8892527;
     $lng = 35.4867727;
 
-    if ($errors->any()) {
-        if (old($name)) {
-            $array = explode(',', old($name));
-            $lat = $array[0];
-            $lng = $array[1];
-        }
-    } elseif ($value) {
+    if ($value) {
         $array = explode(',', $value);
         $lat = $array[0];
         $lng = $array[1];

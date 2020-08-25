@@ -14,7 +14,7 @@
 
 @section('dashboard-content')
 
-	<form method="post" action="{{ isset($cms_page) ? url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $cms_page['id']) : url(config('hellotree.cms_route_prefix') . '/cms-pages') }}">
+	<form method="post" action="{{ isset($cms_page) ? url(config('hellotree.cms_route_prefix') . '/cms-pages/' . $cms_page['id']) : url(config('hellotree.cms_route_prefix') . '/cms-pages') }}" ajax>
 
 		<div class="card p-4 mx-2 mx-sm-5">
 			<p class="font-weight-bold text-uppercase mb-4">Instructions</p>
@@ -119,7 +119,7 @@
 						<div class="mb-1">
 							<label class="checkbox-wrapper">
 								@php
-								$checked = $errors->any() ? old('add') : (isset($cms_page) ? $cms_page['add'] : 1);
+								$checked = isset($cms_page) ? $cms_page['add'] : 1;
 								@endphp
 								<input type="checkbox" class="form-control" name="add" {!! $checked ? 'checked=""' : '' !!}>
 								<div></div>
@@ -129,7 +129,7 @@
 						<div class="mb-1">
 							<label class="checkbox-wrapper">
 							@php
-							$checked = $errors->any() ? old('edit') : (isset($cms_page) ? $cms_page['edit'] : 1);
+							$checked = isset($cms_page) ? $cms_page['edit'] : 1;
 							@endphp
 								<input type="checkbox" class="form-control" name="edit" {!! $checked ? 'checked=""' : '' !!}>
 								<div></div>
@@ -139,7 +139,7 @@
 						<div class="mb-1">
 							<label class="checkbox-wrapper">
 							@php
-							$checked = $errors->any() ? old('delete') : (isset($cms_page) ? $cms_page['delete'] : 1);
+							$checked = isset($cms_page) ? $cms_page['delete'] : 1;
 							@endphp
 								<input type="checkbox" class="form-control" name="delete" {!! $checked ? 'checked=""' : '' !!}>
 								<div></div>
@@ -149,7 +149,7 @@
 						<div class="mb-3">
 							<label class="checkbox-wrapper">
 							@php
-							$checked = $errors->any() ? old('show') : (isset($cms_page) ? $cms_page['show'] : 1);
+							$checked = isset($cms_page) ? $cms_page['show'] : 1;
 							@endphp
 								<input type="checkbox" class="form-control" name="show" {!! $checked ? 'checked=""' : '' !!}>
 								<div></div>
@@ -240,13 +240,7 @@
 						</tr>
 					</thead>
 					<tbody class="sortable">
-						@if ($errors->any())
-							@if (old('name'))
-								@foreach(old('name') as $field_key => $field)
-									@include('cms::pages/cms-pages/table-field', ['field_type' => ''])
-								@endforeach
-							@endif
-						@elseif (isset($cms_page))
+						@if (isset($cms_page))
 							@php
 							$fields = json_decode($cms_page['fields'], TRUE);
 							@endphp
@@ -280,13 +274,7 @@
 						</tr>
 					</thead>
 					<tbody class="sortable">
-						@if ($errors->any())
-							@if (old('translatable_name'))
-								@foreach(old('translatable_name') as $field_key => $field)
-									@include('cms::pages/cms-pages/table-field', ['field_type' => 'translatable'])
-								@endforeach
-							@endif
-						@elseif (isset($cms_page))
+						@if (isset($cms_page))
 							@php
 							$translatable_fields = json_decode($cms_page['translatable_fields'], TRUE);
 							@endphp
@@ -322,7 +310,7 @@
 		$('[name="translatable_form_field[]"]').find('[value="select"]').remove();
 		$('[name="translatable_form_field[]"]').find('[value="select multiple"]').remove();
 		var translatable_field_html = $('[name="translatable_name[]"]').closest('.field').last().html();
-		@if ((!old('translatable_name') && !isset($cms_page)) || (isset($cms_page) && isset($translatable_fields) && !count($translatable_fields)))
+		@if (!isset($cms_page) || (isset($cms_page) && isset($translatable_fields) && !count($translatable_fields)))
 			$('[name="translatable_name[]"]').closest('.field').remove();
 		@endif
 

@@ -1,10 +1,4 @@
 @php
-	if ($errors->any()) {
-		$checked = old($name);
-		if ($locale) {
-			$checked = old($locale)[$name];
-		}
-	}
 	$input_name = $name;
 	if ($locale) {
 		$input_name = $locale . '[' . $name . ']';

@@ -10,25 +10,17 @@
 
 @section('dashboard-content')
 
-	<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admin-roles/' . $row['id']) }}" enctype="multipart/form-data">
+	<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admin-roles/' . $row['id']) }}" enctype="multipart/form-data" ajax>
 
 		<div class="card p-4 mx-2 mx-sm-5">
 
 			<p class="font-weight-bold text-uppercase mb-4">Edit admin role #{{ $row['id'] }}</p>
 
-			@if ($errors->any())
-				<div class="alert alert-danger">
-					@foreach ($errors->all() as $error)
-						<p class="m-0">{{ $error }}</p>
-					@endforeach
-				</div>
-			@endif
-
 			@csrf
 
 			@method('PUT')
 
-			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => old('title') ? old('title') : $row->title, 'locale' => null ])
+			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => $row->title, 'locale' => null ])
 
 			@include('cms::components/form-fields/checkbox', [ 'label' => 'Select All', 'inline_label' => true, 'name' => 'select_all', 'checked' => false, 'locale' => null ])
 

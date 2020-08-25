@@ -58,7 +58,8 @@ class AdminRolesController extends Controller
             }
         }
 
-        return redirect(config('hellotree.cms_route_prefix') . '/admin-roles')->with('success', 'Record added successfully');
+        $request->session()->flash('success', 'Record added successfully');
+        return url(config('hellotree.cms_route_prefix') . '/admin-roles');
     }
 
     public function show($id)
@@ -134,7 +135,8 @@ class AdminRolesController extends Controller
             $admin_role_permission->save();
         }
 
-        return redirect(config('hellotree.cms_route_prefix') . '/admin-roles')->with('success', 'Record edited successfully');
+        $request->session()->flash('success', 'Record edited successfully');
+        return url(config('hellotree.cms_route_prefix') . '/admin-roles');
     }
 
     public function destroy($id)

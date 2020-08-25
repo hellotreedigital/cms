@@ -46,7 +46,8 @@ class AdminsController extends Controller
         $row->admin_role_id = $request->admin_role_id;
         $row->save();
 
-        return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record added successfully');
+        $request->session()->flash('success', 'Record added successfully');
+        return url(config('hellotree.cms_route_prefix') . '/admins');
     }
 
     public function show($id)
@@ -90,7 +91,8 @@ class AdminsController extends Controller
         $row->admin_role_id = $request->admin_role_id;
         $row->save();
 
-        return redirect(config('hellotree.cms_route_prefix') . '/admins')->with('success', 'Record edited successfully');
+        $request->session()->flash('success', 'Record edited successfully');
+        return url(config('hellotree.cms_route_prefix') . '/admins');
     }
 
     public function destroy($id)

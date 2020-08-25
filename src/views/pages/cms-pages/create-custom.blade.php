@@ -69,7 +69,7 @@
 				'label' => 'Display name plural',
 				'name' => 'display_name_plural',
 				'type' => 'text',
-				'value' => old('display_name_plural') ? old('display_name_plural') : (isset($cms_page) ? $cms_page['display_name_plural'] : ''),
+				'value' => isset($cms_page) ? $cms_page['display_name_plural'] : '',
 				'locale' => null
 			])
 			@include('cms::components/form-fields/input', [
@@ -77,14 +77,14 @@
 				'name' => 'route',
 				'type' => 'text',
 				'slug_origin' => 'display_name_plural',
-				'value' => old('route') ? old('route') : (isset($cms_page) ? $cms_page['route'] : ''),
+				'value' => isset($cms_page) ? $cms_page['route'] : '',
 				'locale' => null
 			])
 			@include('cms::components/form-fields/input', [
 				'label' => 'Icon',
 				'name' => 'icon',
 				'type' => 'text',
-				'value' => old('icon') ? old('icon') : (isset($cms_page) ? $cms_page['icon'] : ''),
+				'value' => isset($cms_page) ? $cms_page['icon'] : '',
 				'locale' => null
 			])
 

@@ -1,13 +1,9 @@
 @php
-if ($errors->any()) {
-	$selected = old($name) ? old($name) : [];
-} else {
 	if (!isset($value) || !$value) $value = [];
 	$selected = [];
 	foreach ($value as $obj) {
 		$selected[] = $obj[$store_column];
 	}
-}
 @endphp
 
 <div class="form-group">

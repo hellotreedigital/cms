@@ -82,7 +82,8 @@ class CmsController extends Controller
 
         $admin->save();
 
-        return redirect(route('admin-profile'));
+        $request->session()->flash('success', 'Profile updated successfully');
+        return route('admin-profile');
     }
 
 	/*

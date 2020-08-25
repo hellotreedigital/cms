@@ -9,7 +9,7 @@
 
 @section('dashboard-content')
 
-	<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admin-roles') }}" enctype="multipart/form-data">
+	<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/admin-roles') }}" enctype="multipart/form-data" ajax>
 
 		<div class="card p-4 mx-2 mx-sm-5">
 
@@ -25,7 +25,7 @@
 
 			@csrf
 
-			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => old('title') ? old('title') : '', 'locale' => null ])
+			@include('cms::components/form-fields/input', ['label' => 'Title', 'name' => 'title', 'type' => 'text', 'value' => '', 'locale' => null ])
 
 			@include('cms::components/form-fields/checkbox', [ 'label' => 'Select All', 'inline_label' => true, 'name' => 'select_all', 'checked' => false, 'locale' => null ])
 

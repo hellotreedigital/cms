@@ -32,8 +32,9 @@
 			</div>
 		</div>
 
-		@include('cms::components/show-fields/text', ['label' => 'Title', 'text' => $row['title']])
-
+		<div class="mb-4">
+			<p><span class="font-weight-bold">Title:</span> {{ $row->title }}</p>
+		</div>
 		<table>
 			<thead>
 				<tr>
@@ -46,14 +47,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				@foreach(request()->get('admin')_role_permissions as $permission)
+				@foreach($admin_role_permissions as $permission)
 					<tr>
-						<td class="text-center">{{ $permission->cms_page->display_name }}</td>
-						<td class="text-center">{{ $permission->browse ? 'true' : 'false' }}</td>
-						<td class="text-center">{{ $permission->read ? 'true' : 'false' }}</td>
-						<td class="text-center">{{ $permission->edit ? 'true' : 'false' }}</td>
-						<td class="text-center">{{ $permission->add ? 'true' : 'false' }}</td>
-						<td class="text-center">{{ $permission->delete ? 'true' : 'false' }}</td>
+						<td class="text-center">{{ $permission->page->display_name }}</td>
+						<td class="text-center"><i class="fa fa-{{ $permission->browse ? 'check' : 'times' }}" aria-hidden="true"></i></td>
+						<td class="text-center"><i class="fa fa-{{ $permission->read ? 'check' : 'times' }}" aria-hidden="true"></i></td>
+						<td class="text-center"><i class="fa fa-{{ $permission->edit ? 'check' : 'times' }}" aria-hidden="true"></i></td>
+						<td class="text-center"><i class="fa fa-{{ $permission->add ? 'check' : 'times' }}" aria-hidden="true"></i></td>
+						<td class="text-center"><i class="fa fa-{{ $permission->delete ? 'check' : 'times' }}" aria-hidden="true"></i></td>
 					</tr>
 				@endforeach
 			</tbody>

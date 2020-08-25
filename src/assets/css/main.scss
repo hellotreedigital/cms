@@ -796,6 +796,8 @@ html {
     top: 3rem;
     left: 50%;
     transform: translate(-50%, -3rem);
+    max-width: 100%;
+    width: 380px;
     color: #fff;
     background-color: rgba(40, 167, 69, 0.7);
     border-radius: 8px;
@@ -812,9 +814,10 @@ html {
     }
     i {
         position: absolute;
-        top: 3px;
-        right: 5px;
+        top: 0px;
+        right: 0px;
         cursor: pointer;
+        padding: 3px 5px;
     }
 }
 .list-inline {

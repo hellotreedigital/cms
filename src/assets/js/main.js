@@ -294,6 +294,14 @@ $(document).ready(function () {
         },
     });
 
+    $(document).on('click', '.toast .fa-times', function () {
+        var toast = $(this).closest('.toast');
+        toast.removeClass('show');
+        setTimeout(function () {
+            toast.find('ul').html('');
+        }, 1000);
+    });
+    
     $('form[ajax]').on('submit', function (e) {
         e.preventDefault();
 

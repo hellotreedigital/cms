@@ -1,17 +1,6 @@
 @php
 	if ($field_type) {
-		if (isset($field_key) && isset(old('translatable_name')[$field_key])) {
-			$row_field_old_name = isset(old('translatable_old_name')[$field_key]) && old('translatable_old_name')[$field_key] ? old('translatable_old_name')[$field_key] : '';
-			$row_field_name = isset(old('translatable_name')[$field_key]) && old('translatable_name')[$field_key] ? old('translatable_name')[$field_key] : '';
-			$row_field_migration_type = isset(old('translatable_migration_type')[$field_key]) && old('translatable_migration_type')[$field_key] ? old('translatable_migration_type')[$field_key] : '';
-			$row_field_form_field = isset(old('translatable_form_field')[$field_key]) && old('translatable_form_field')[$field_key] ? old('translatable_form_field')[$field_key] : '';
-			$row_field_old_form_field_additionals_1 = isset(old('translatable_old_form_field_additionals_1')[$field_key]) && old('translatable_old_form_field_additionals_1')[$field_key] ? old('translatable_old_form_field_additionals_1')[$field_key] : '';
-			$row_field_form_field_additionals_1 = isset(old('translatable_form_field_additionals_1')[$field_key]) && old('translatable_form_field_additionals_1')[$field_key] ? old('translatable_form_field_additionals_1')[$field_key] : '';
-			$row_field_form_field_additionals_2 = isset(old('translatable_form_field_additionals_2')[$field_key]) && old('translatable_form_field_additionals_2')[$field_key] ? old('translatable_form_field_additionals_2')[$field_key] : '';
-			$row_field_description = isset(old('translatable_description')[$field_key]) && old('translatable_description')[$field_key] ? old('translatable_description')[$field_key] : null;
-			$row_field_nullable = isset(old('translatable_nullable')[$field_key]) && old('translatable_nullable')[$field_key] ? old('translatable_nullable')[$field_key] : 0;
-			$row_field_unique = isset(old('translatable_unique')[$field_key]) && old('translatable_unique')[$field_key] ? old('translatable_unique')[$field_key] : 0;
-		} elseif (isset($cms_page)) {
+		if (isset($cms_page)) {
 			$row_field_old_name = $field['name'];
 			$row_field_name = $field['name'];
 			$row_field_migration_type = $field['migration_type'];
@@ -35,18 +24,7 @@
 			$row_field_unique = 0;
 		}
 	} else {
-		if (isset($field_key) && isset(old('name')[$field_key])) {
-			$row_field_old_name = isset(old('old_name')[$field_key]) && old('old_name')[$field_key] ? old('old_name')[$field_key] : '';
-			$row_field_name = isset(old('name')[$field_key]) && old('name')[$field_key] ? old('name')[$field_key] : '';
-			$row_field_migration_type = isset(old('migration_type')[$field_key]) && old('migration_type')[$field_key] ? old('migration_type')[$field_key] : '';
-			$row_field_form_field = isset(old('form_field')[$field_key]) && old('form_field')[$field_key] ? old('form_field')[$field_key] : '';
-			$row_field_old_form_field_additionals_1 = isset(old('form_old_field_additionals_1')[$field_key]) && old('form_old_field_additionals_1')[$field_key] ? old('form_old_field_additionals_1')[$field_key] : '';
-			$row_field_form_field_additionals_1 = isset(old('form_field_additionals_1')[$field_key]) && old('form_field_additionals_1')[$field_key] ? old('form_field_additionals_1')[$field_key] : '';
-			$row_field_form_field_additionals_2 = isset(old('form_field_additionals_2')[$field_key]) && old('form_field_additionals_2')[$field_key] ? old('form_field_additionals_2')[$field_key] : '';
-			$row_field_description = isset(old('description')[$field_key]) && old('description')[$field_key] ? old('description')[$field_key] : '';
-			$row_field_nullable = isset(old('nullable')[$field_key]) && old('nullable')[$field_key] ? old('nullable')[$field_key] : 0;
-			$row_field_unique = isset(old('unique')[$field_key]) && old('unique')[$field_key] ? old('unique')[$field_key] : 0;
-		} elseif (isset($cms_page)) {
+		if (isset($cms_page)) {
 			$row_field_old_name = $field['name'];
 			$row_field_name = $field['name'];
 			$row_field_migration_type = $field['migration_type'];
