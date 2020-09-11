@@ -1,8 +1,21 @@
+@php
+$value = '';
+if (isset($row)) {
+    if ($locale) {
+        if ($row->translate($locale)) {
+            $value = $row->translate($locale)[$field['name']];
+        }
+    } else {
+        $value = $row[$field['name']];
+    }
+}
+@endphp
+
 @if ($field['form_field'] == 'textarea')
 	@include('cms::/components/form-fields/textarea', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -11,7 +24,7 @@
 	@include('cms::/components/form-fields/rich-textbox', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -23,7 +36,7 @@
 		'options' => $extra_variables[$field['form_field_additionals_1']],
 		'store_column' => 'id',
 		'display_column' => $field['form_field_additionals_2'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -44,7 +57,7 @@
 	@include('cms::/components/form-fields/file', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -53,7 +66,7 @@
 	@include('cms::/components/form-fields/image', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -62,7 +75,7 @@
 	@include('cms::/components/form-fields/images', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -74,7 +87,7 @@
     		'name' => $field['name'],
     		'slug_origin' => $field['form_field_additionals_1'],
     		'type' => 'text',
-            'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+            'value' => $value,
             'required' => $field['nullable'] ? false : true,
             'description' => isset($field['description']) ? $field['description'] : '',
     		'locale' => $locale,
@@ -84,7 +97,7 @@
 	@include('cms::/components/form-fields/date', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -93,7 +106,7 @@
 	@include('cms::/components/form-fields/time', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -121,7 +134,7 @@
 	@include('cms::/components/form-fields/checkbox', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'checked' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'checked' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -130,7 +143,7 @@
 	@include('cms::/components/form-fields/map', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
@@ -140,7 +153,7 @@
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),
 		'name' => $field['name'],
 		'type' => 'text',
-        'value' => isset($row) ? ($locale ? $row->translate($locale)[$field['name']] : $row[$field['name']]) : '',
+        'value' => $value,
         'required' => $field['nullable'] ? false : true,
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
