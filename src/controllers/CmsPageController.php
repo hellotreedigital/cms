@@ -98,6 +98,8 @@ class CmsPageController extends Controller
                             $file_name = time() . '_' . md5(rand()) . '.' . $request[$locale][$field['name']]->getClientOriginalExtension();
                             $request[$locale][$field['name']]->move(storage_path('app/public/' . $request['route']), $file_name);
                             $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $request['route'] . '/' . $file_name;
+                        } elseif (isset($request[$locale]['remove_file_' . $field['name']]) && $request[$locale]['remove_file_' . $field['name']]) {
+                            $row->translateOrNew($locale)->{$field['name']} = null;
                         }
                     } else {
                         $row->translateOrNew($locale)->{$field['name']} = $request[$locale][$field['name']];
