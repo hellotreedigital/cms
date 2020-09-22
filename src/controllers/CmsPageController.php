@@ -257,12 +257,12 @@ class CmsPageController extends Controller
             } elseif ($field['form_field'] == 'time') {
                 $query[$field['name']] = date('H:i', strtotime($request[$field['name']]));
             } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
-                if ($request['remove_file_' . $field['name']]) {
-                    $query[$field['name']] = null;
-                } elseif ($request[$field['name']]) {
+                if ($request[$field['name']]) {
                     $file_name = time() . '_' . md5(rand()) . '.' . $request[$field['name']]->getClientOriginalExtension();
                     $request[$field['name']]->move(storage_path('app/public/' . $route), $file_name);
                     $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
+                } elseif ($request['remove_file_' . $field['name']]) {
+                    $query[$field['name']] = null;
                 }
             } elseif ($field['form_field'] == 'multiple images') {
                 $query[$field['name']] = $request[$field['name']] ? json_encode($request[$field['name']]) : '[]';
