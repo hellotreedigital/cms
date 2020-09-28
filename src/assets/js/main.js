@@ -197,7 +197,7 @@ $(document).ready(function () {
     quilljs_textarea('.quill', {
         modules: {
             toolbar: [
-                [{ header: [1, 2, 3, 4, 5, false] }],
+                [{ header: [1, 2, 3, 4, 5, 6, false] }],
                 ['bold', 'italic', 'underline'],
                 ['blockquote'],
                 [{ 'script': 'sub' }, { 'script': 'super' }],
