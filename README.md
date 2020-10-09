@@ -47,6 +47,12 @@ php artisan vendor:publish --tag=cms_ripply_config --force
 		</pre>
 	</li>
 	<li>
+		CMS scratch & courage config:
+		<pre>
+php artisan vendor:publish --tag=cms_scratch_and_courage_config --force
+		</pre>
+	</li>
+	<li>
 		CMS routes:
 		<pre>
 php artisan vendor:publish --tag=cms_routes --force
