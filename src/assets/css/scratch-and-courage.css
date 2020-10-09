@@ -1,42 +1,31 @@
 ::-moz-selection {
-    color: #000;
     background: #0071e3 !important;
 }
 ::selection {
-    color: #000;
     background: #0071e3 !important;
 }
 html body #login {
     background-color: #010101;
     background-image: none;
-    min-height: 100%;
-    color: #000;
 }
 html body #content header {
     background-color: #010101;
     background-image: none;
-    height: 300px;
 }
 html body nav.main ul li:before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 0;
-    transform: translateY(-50%);
-    height: 0;
-    width: 5px;
     background: #010101;
-    transition: 0.5s all;
 }
-.breadcrumbs li {
+.breadcrumbs {
     color: #fff;
 }
-html body .user-info img,
 html body .user-info span {
     color: #fff;
 }
 html body #login .card img {
-    max-width: 200px;
+    max-width: 100%;
+}
+html body #loader img {
+    animation: none;
 }
 footer {
     color: #fff;
@@ -47,25 +36,25 @@ footer {
     border-color: #0071e3;
 }
 html body .checkbox-wrapper div {
-    border: 2px solid #FF3C3C;
+    border-color: #ff3c3c;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.current,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.current {
-    background: #FF3C3C;
-    border-color: #FF3C3C;
+    background: #ff3c3c;
+    border-color: #ff3c3c;
     color: #fff !important;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.previous:before,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.previous:before {
-    border-right: 8px solid #FF3C3C;
+    border-right-color: #ff3c3c;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before {
-    border-left: 8px solid #FF3C3C;
+    border-left-color: #ff3c3c;
 }
 .form-control:focus {
     border-color: #0071e3;
-    box-shadow: 0 0 0 0.2rem rgba(14, 150, 211, 0.25);
+    box-shadow: 0 0 0 0.2rem #0071e340;
 }
 html body .checkbox-wrapper input:checked + div {
     border-color: #a7206b;

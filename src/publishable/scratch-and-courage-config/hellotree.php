@@ -94,7 +94,7 @@ return [
         'theme-color' => '#ffffff',
     ],
     'logo' => 'asset?path=images/scratch-and-courage-logo.png',
-    'loading' => 'asset?path=images/scratch-and-courage-logo.png',
+    'loading' => 'asset?path=images/scratch-and-courage-loading.gif',
     'footer_slogan' => 'Scratch & Courage',
     'footer_copyright' => 'V0.1 All Right Reserved.</a>',
     'tab_title' => 'Scratch & Courage | CMS',

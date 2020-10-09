@@ -301,7 +301,7 @@ $(document).ready(function () {
             toast.find('ul').html('');
         }, 1000);
     });
-    
+
     $('form[ajax]').on('submit', function (e) {
         e.preventDefault();
 
