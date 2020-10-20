@@ -40,7 +40,12 @@
         @endif
 	</div>
 
-	@yield('main-content')
+    @yield('main-content')
+
+    <script>
+        var colors = {!! count(config('hellotree.quilljs.colors')) ? json_encode(config('hellotree.quilljs.colors')) : 'undefined' !!};
+        var fonts = undefined;
+    </script>
 
 	@foreach(config('hellotree.cms_assets.scripts') as $path)
 		<script type="text/javascript" src="{{ url($path) }}"></script>

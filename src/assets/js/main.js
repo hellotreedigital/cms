@@ -206,8 +206,8 @@ $(document).ready(function () {
                 ['image'],
                 ['link'],
                 ['clean'],
-                // [{ 'color': [] }, { 'background': [] }],
-                // [{ 'font': [] }],
+                [{ 'color': colors }],
+                [{ 'font': fonts }],
             ]
         },
         theme: 'snow'
