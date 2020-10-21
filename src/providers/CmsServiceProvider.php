@@ -100,6 +100,8 @@ Class CmsServiceProvider extends ServiceProvider
     			'display_name_plural' => 'CMS Pages',
     			'route' => 'cms-pages',
                 'custom_page' => 1,
+                'parent_title' => null,
+                'parent_icon' => null,
     		],
     		[
                 'icon' => 'fa-lock',
