@@ -1,0 +1,62 @@
+::-moz-selection {
+    background: #1eb8e1 !important;
+}
+::selection {
+    background: #1eb8e1 !important;
+}
+html body #login {
+    background-color: #0a0b09;
+    background-image: none;
+}
+html body #content header {
+    background-color: #0a0b09;
+    background-image: none;
+}
+html body nav.main ul li:before {
+    background: #0a0b09;
+}
+.breadcrumbs {
+    color: #fff;
+}
+html body .user-info span {
+    color: #fff;
+}
+html body #login .card img {
+    max-width: 100%;
+}
+html body #loader img {
+    animation: none;
+}
+footer {
+    color: #fff;
+}
+.btn.btn-primary {
+    background-color: #1eb8e1;
+    color: #fff !important;
+    border-color: #1eb8e1;
+}
+html body .checkbox-wrapper div {
+    border-color: #1eb8e1;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.current,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.current {
+    background: #1eb8e1;
+    border-color: #1eb8e1;
+    color: #fff !important;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.previous:before,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.previous:before {
+    border-right-color: #1eb8e1;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before {
+    border-left-color: #1eb8e1;
+}
+.form-control:focus {
+    border-color: #1eb8e1;
+    box-shadow: 0 0 0 0.2rem #1eb8e140;
+}
+html body .checkbox-wrapper input:checked + div {
+    border-color: #1eb8e1;
+    background-color: #1eb8e1;
+}
