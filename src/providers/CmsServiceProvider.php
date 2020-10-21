@@ -100,24 +100,30 @@ Class CmsServiceProvider extends ServiceProvider
     			'route' => 'cms-pages',
                 'custom_page' => 1,
     		],
-            [
-                'icon' => 'fa-align-left',
-                'display_name_plural' => 'Logs',
-                'route' => 'logs',
-                'custom_page' => 1,
-            ],
-    		[
-                'icon' => ' fa-user-secret',
-    			'display_name_plural' => 'Admins',
-    			'route' => 'admins',
-                'custom_page' => 1,
-    		],
     		[
                 'icon' => 'fa-lock',
     			'display_name_plural' => 'Admin Roles',
     			'route' => 'admin-roles',
                 'custom_page' => 1,
+                'parent_title' => 'Admins',
+                'parent_icon' => 'fa-user-secret',
     		],
+    		[
+                'icon' => ' fa-user-secret',
+    			'display_name_plural' => 'Admins',
+    			'route' => 'admins',
+                'custom_page' => 1,
+                'parent_title' => 'Admins',
+                'parent_icon' => 'fa-user-secret',
+    		],
+            [
+                'icon' => 'fa-align-left',
+                'display_name_plural' => 'Logs',
+                'route' => 'logs',
+                'custom_page' => 1,
+                'parent_title' => 'Admins',
+                'parent_icon' => 'fa-user-secret',
+            ],
     	]);
 
         // Create admin roles table
