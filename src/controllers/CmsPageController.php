@@ -23,6 +23,12 @@ class CmsPageController extends Controller
         $rows = $model::when($page['order_display'], function ($query) use ($page) {
             return $query->orderBy('ht_pos');
         })
+            ->when(count(request()->toArray()), function ($query) {
+                foreach (request()->toArray() as $column => $value) {
+                    $query->where($column, $value);
+                }
+                return $query;
+            })
             ->when($page['server_side_pagination'], function ($query) {
                 return $query->paginate(10);
             }, function ($query) {
