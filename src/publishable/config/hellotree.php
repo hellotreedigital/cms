@@ -39,7 +39,6 @@ return [
 	    	'asset?path=css/bootstrap.min.css',
 	    	'asset?path=css/dataTables.min.css',
 	    	'asset?path=css/select2.min.css',
-	    	'asset?path=css/quill.snow.min.css',
 	    	'asset?path=css/main.min.css',
 	    ],
 
@@ -60,8 +59,7 @@ return [
 	    	'asset?path=js/vfs_fonts.js',
 	    	'asset?path=js/buttons.html5.min.js',
 	    	'asset?path=js/select2.min.js',
-	    	'asset?path=js/quill.min.js',
-	    	'asset?path=js/quill-textarea.min.js',
+	    	'asset?path=js/ckeditor/ckeditor.js',
 	    	'asset?path=js/main.js',
 	    ],
     ],
@@ -100,13 +98,15 @@ return [
     'home_title' => 'HELLOTREE CMS',
     'home_content' => '',
 
+
     /*
     |--------------------------------------------------------------------------
-    | Quill Config
+    | CKEditor
     |--------------------------------------------------------------------------
     */
 
-    'quilljs' => [
+    'ckeditor' => [
         'colors' => [],
     ],
+
 ];

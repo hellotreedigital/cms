@@ -194,25 +194,17 @@ $(document).ready(function () {
     // $('.dataTables_length select').addClass('regular-select');
     $('select:not(.regular-select)').select2();
 
-    quilljs_textarea('.quill', {
-        modules: {
-            toolbar: [
-                [{ header: [1, 2, 3, 4, 5, 6, false] }],
-                ['bold', 'italic', 'underline'],
-                ['blockquote'],
-                [{ 'script': 'sub' }, { 'script': 'super' }],
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                [{ 'align': [] }],
-                ['image'],
-                ['link'],
-                ['clean'],
-                [{ 'color': colors }],
-                [{ 'font': fonts }],
-            ]
-        },
-        theme: 'snow'
+    $('[id^="ckeditor_"]').each(function () {
+        CKEDITOR.replace(this.id, {
+            height: 400,
+            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize' + (CKEditorColors ? ',colorbutton' : ''),
+            embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
+            format_tags: 'p;h1;h2;h3;h4;h5;h6',
+            colorButton_colors: CKEditorColors,
+            colorButton_enableAutomatic: false,
+        });
     });
-
+    
     var idsToDelete = [];
     $(document).on('change', '.delete-checkbox input', function () {
         var input = $(this);
@@ -308,6 +300,9 @@ $(document).ready(function () {
         if (!$('#loader').hasClass('overlay')) $('#loader').addClass('overlay');
         $('#loader').fadeIn();
 
+        // Update ckeditor
+        for(var instanceName in CKEDITOR.instances) CKEDITOR.instances[instanceName].updateElement();
+        
         var form = $(this);
         var formData = new FormData($(this)[0]);
 
