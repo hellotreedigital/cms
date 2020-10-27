@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-6 mb-2">
 				<div class="img-wrapper">
-					<img src="{{ asset($value) }}" class="img-thumbnail">
+					<img src="{{ Storage::url($value) }}" class="img-thumbnail">
 				</div>
 			</div>
 			<div class="col-6 mb-2">

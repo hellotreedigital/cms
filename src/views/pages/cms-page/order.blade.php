@@ -39,7 +39,7 @@
                             @if ($order_field)
                                 @if ($order_field['name'] == $page['order_display'])
                                     @if ($order_field['form_field'] == 'image')
-                                        <img src="{{ asset($row[$page['order_display']]) }}">
+                                        <img src="{{ Storage::url($row[$page['order_display']]) }}">
                                     @elseif ($order_field['form_field'] == 'select')
                                         {{ $row[str_replace('_id', '', $order_field['name'])][$order_field['form_field_additionals_2']] }}
                                     @elseif ($order_field['form_field'] == 'select multiple')

@@ -53,7 +53,7 @@
 			<div class="col-2 col-lg-6 text-right">
 				<div class="user-info d-none d-lg-block">
 					<span class="font-weight-bold mr-3">{{ request()->get('admin')['name'] }}</span>
-					<img src="{{ request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : url('asset?path=images/default.png') }}">
+					<img src="{{ request()->get('admin')['image'] ? Storage::url(request()->get('admin')['image']) : url('asset?path=images/default.png') }}">
 					<ul class="list-group text-left">
 						<li class="list-group-item py-2 px-4">
 							<a href="{{ route('admin-profile') }}">

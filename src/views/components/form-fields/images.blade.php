@@ -13,7 +13,7 @@ else $value = json_decode($value);
             @foreach($value as $image)
             <div class="col-auto">
                 <input type="hidden" name="{{ $name }}[]" value="{{ $image }}">
-                <img class="img-thumbnail" src="{{ asset($image) }}">
+                <img class="img-thumbnail" src="{{ Storage::url($image) }}">
                 <div class="bg-danger text-white">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </div>

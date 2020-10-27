@@ -49,7 +49,7 @@
 							<td>{{ $row['name'] }}</td>
 							<td>
 								@if ($row->image)
-									<img src="{{ asset($row->image) }}" class="img-thumbnail">
+									<img src="{{ Storage::url($row->image) }}" class="img-thumbnail">
 								@endif
 							</td>
 							<td>{{ $row['email'] }}</td>

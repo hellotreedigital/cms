@@ -3,7 +3,7 @@
 	<div class="pl-3">
 		@if ($files)
 			@foreach(json_decode($files) as $file)
-				<a href="{{ asset($file) }}" target="_blank" class="mr-2"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
+				<a href="{{ Storage::url($file) }}" target="_blank" class="mr-2"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
 			@endforeach
 		@else
 			<p class="m-0">No files</p>

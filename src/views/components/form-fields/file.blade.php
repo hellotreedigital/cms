@@ -12,7 +12,7 @@
 		<div class="row">
 			<div class="col-6">
                 <div class="file-link-wrapper">
-                    <a href="{{ asset($value) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
+                    <a href="{{ Storage::url($value) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i><span class="btn-sm">Click to see file</span></a>
                 </div>
 			</div>
 			<div class="col-6 mb-2 text-right">

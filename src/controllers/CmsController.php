@@ -75,9 +75,7 @@ class CmsController extends Controller
         if ($request->remove_file_image) {
             $admin->image = '';
         } elseif ($request->image) {
-            $image = time() . '_' . md5(rand()) . '.' . request()->image->getClientOriginalExtension();
-            $request->image->move(storage_path('app/public/admins'), $image);
-            $admin->image = 'storage/admins/' . $image;
+            $admin->image = $request->file('image')->store('admins');
         }
 
         $admin->save();

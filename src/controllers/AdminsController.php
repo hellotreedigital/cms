@@ -37,9 +37,7 @@ class AdminsController extends Controller
         $row = new Admin;
         $row->name = $request->name;
         if ($request->image) {
-            $image = time() . '_' . md5(rand()) . '.' . request()->image->getClientOriginalExtension();
-            $request->image->move(storage_path('app/public/admins'), $image);
-            $row->image = 'storage/admins/' . $image;
+            $row->image = request()->file('image')->store('admins');
         }
         $row->email = $request->email;
         $row->password = Hash::make($request->password);
@@ -82,9 +80,7 @@ class AdminsController extends Controller
         if ($request->remove_file_image) {
             $row->image = '';
         } elseif ($request->image) {
-            $image = time() . '_' . md5(rand()) . '.' . request()->image->getClientOriginalExtension();
-            $request->image->move(storage_path('app/public/admins'), $image);
-            $row->image = 'storage/admins/' . $image;
+            $row->image = request()->file('image')->store('admins');
         }
         $row->email = $request->email;
         if ($request->password) $row->password = Hash::make($request->password);

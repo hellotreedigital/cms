@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Illuminate\Support\Facades\Storage;
 use Hash;
 
 class CmsPageController extends Controller
@@ -20,12 +21,13 @@ class CmsPageController extends Controller
             if (!$row) abort(403, "Single record page has no record");
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
+        
         $rows = $model::when($page['order_display'], function ($query) use ($page) {
             return $query->orderBy('ht_pos');
         })
-            ->when(count(request()->toArray()), function ($query) {
-                foreach (request()->toArray() as $column => $value) {
-                    $query->where($column, $value);
+            ->when(request('custom_validation'), function ($query) {
+                foreach (request('custom_validation') as $validation) {
+                    $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
                 }
                 return $query;
             })
@@ -101,9 +103,7 @@ class CmsPageController extends Controller
                         $row->translateOrNew($locale)->{$field['name']} = date('H:i', strtotime($request[$locale][$field['name']]));
                     } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                         if (isset($request[$locale][$field['name']]) && $request[$locale][$field['name']]) {
-                            $file_name = time() . '_' . md5(rand()) . '.' . $request[$locale][$field['name']]->getClientOriginalExtension();
-                            $request[$locale][$field['name']]->move(storage_path('app/public/' . $request['route']), $file_name);
-                            $row->translateOrNew($locale)->{$field['name']} = 'storage/' . $request['route'] . '/' . $file_name;
+                            $row->translateOrNew($locale)->{$field['name']} = $request->file($locale . '.' . $field['name'])->store($request['route']);
                         } elseif (isset($request[$locale]['remove_file_' . $field['name']]) && $request[$locale]['remove_file_' . $field['name']]) {
                             $row->translateOrNew($locale)->{$field['name']} = null;
                         }
@@ -149,9 +149,7 @@ class CmsPageController extends Controller
                 $query[$field['name']] = date('H:i', strtotime($request[$field['name']]));
             } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                 if ($request[$field['name']]) {
-                    $file_name = time() . '_' . md5(rand()) . '.' . $request[$field['name']]->getClientOriginalExtension();
-                    $request[$field['name']]->move(storage_path('app/public/' . $route), $file_name);
-                    $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
+                    $query[$field['name']] = $request->file($field['name'])->store($route);
                 }
             } elseif ($field['form_field'] == 'multiple images') {
                 $query[$field['name']] = $request[$field['name']] ? json_encode($request[$field['name']]) : '[]';
@@ -266,9 +264,7 @@ class CmsPageController extends Controller
                 $query[$field['name']] = date('H:i', strtotime($request[$field['name']]));
             } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                 if ($request[$field['name']]) {
-                    $file_name = time() . '_' . md5(rand()) . '.' . $request[$field['name']]->getClientOriginalExtension();
-                    $request[$field['name']]->move(storage_path('app/public/' . $route), $file_name);
-                    $query[$field['name']] = 'storage/' . $route . '/' . $file_name;
+                    $query[$field['name']] = $request->file($field['name'])->store($route);
                 } elseif ($request['remove_file_' . $field['name']]) {
                     $query[$field['name']] = null;
                 }
@@ -299,11 +295,10 @@ class CmsPageController extends Controller
         $files = [];
         if ($request['images']) {
             foreach ($request['images'] as $file) {
-                $file_name = time() . '_' . md5(rand()) . '.' . $file->getClientOriginalExtension();
-                $file->move(storage_path('app/public/' . $route), $file_name);
+                $file_path = $file->store($route);
                 $files[] = [
-                    'path' => 'storage/' . $route . '/' . $file_name,
-                    'url' => url('storage/' . $route . '/' . $file_name)
+                    'path' => $file_path,
+                    'url' => Storage::url($file_path),
                 ];
             }
         }

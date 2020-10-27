@@ -17,7 +17,7 @@
 
 		@include('cms::components/show-fields/text', ['label' => 'Name', 'text' => request()->get('admin')['name']])
 
-		@include('cms::components/show-fields/image', ['label' => 'Image', 'image' => request()->get('admin')['image'] ? asset(request()->get('admin')['image']) : url('asset?path=images/default.png')])
+		@include('cms::components/show-fields/image', ['label' => 'Image', 'image' => request()->get('admin')['image'] ? Storage::url(request()->get('admin')['image']) : url('asset?path=images/default.png')])
 
 	</div>
 

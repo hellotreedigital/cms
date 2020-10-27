@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Illuminate\Support\Facades\Storage;
 use App;
 
 class ApisController extends Controller
@@ -52,7 +53,7 @@ class ApisController extends Controller
         foreach (json_decode($page['fields'], true) as $page_field) {
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach ($rows as $r => $row) {
-                    $rows[$r][$page_field['name']] = $rows[$r][$page_field['name']] ? asset($rows[$r][$page_field['name']]) : null;
+                    $rows[$r][$page_field['name']] = $rows[$r][$page_field['name']] ? Storage::url($rows[$r][$page_field['name']]) : null;
                 }
             }
         }
@@ -62,7 +63,7 @@ class ApisController extends Controller
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach ($rows as $r => $row) {
                     foreach (config('translatable.locales') as $locale) {
-                        $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? asset($row->translate($locale)[$page_field['name']]) : null;
+                        $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? Storage::url($row->translate($locale)[$page_field['name']]) : null;
                     }
                 }
             }
@@ -96,7 +97,7 @@ class ApisController extends Controller
         // Check for images in form fields
         foreach (json_decode($page['fields'], true) as $page_field) {
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
-                $row[$page_field['name']] = $row[$page_field['name']] ? asset($row[$page_field['name']]) : null;
+                $row[$page_field['name']] = $row[$page_field['name']] ? Storage::url($row[$page_field['name']]) : null;
             }
         }
 
@@ -104,7 +105,7 @@ class ApisController extends Controller
         foreach (json_decode($page['translatable_fields'], true) as $page_field) {
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach (config('translatable.locales') as $locale) {
-                    $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? asset($row->translate($locale)[$page_field['name']]) : null;
+                    $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? Storage::url($row->translate($locale)[$page_field['name']]) : null;
                 }
             }
         }

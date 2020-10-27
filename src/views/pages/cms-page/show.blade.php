@@ -41,6 +41,8 @@
 
 			@elseif ($field['form_field'] == 'image')
 				@include('cms::/components/show-fields/image', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'image' => $row[$field['name']] ])
+			@elseif ($field['form_field'] == 'multiple images')
+				@include('cms::/components/show-fields/images', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'images' => $row[$field['name']] ])
 			@elseif ($field['form_field'] == 'file')
 				@include('cms::/components/show-fields/file', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'file' => $row[$field['name']] ])
 			@elseif ($field['form_field'] == 'files')

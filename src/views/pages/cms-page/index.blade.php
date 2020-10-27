@@ -61,7 +61,7 @@
 								@elseif ($field['form_field'] == 'image')
 									<td>
 										@if ($row[$field['name']])
-											<img src="{{ asset($row[$field['name']]) }}" class="img-thumbnail">
+											<img src="{{ Storage::url($row[$field['name']]) }}" class="img-thumbnail">
 										@endif
 									</td>
 								@elseif ($field['form_field'] == 'multiple images')
@@ -71,14 +71,14 @@
                                                 $files = json_decode($row[$field['name']]);
                                             @endphp
                                             @foreach ($files as $file)
-											    <img src="{{ asset($file) }}" class="img-thumbnail multiple-image">
+											    <img src="{{ Storage::url($file) }}" class="img-thumbnail multiple-image">
                                             @endforeach
 										@endif
 									</td>
 								@elseif ($field['form_field'] == 'file')
 									<td>
 										@if ($row[$field['name']])
-											<a href="{{ asset($row[$field['name']]) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a>
+											<a href="{{ Storage::url($row[$field['name']]) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a>
 										@endif
 									</td>
 								@elseif ($field['form_field'] == 'textarea')
