@@ -21,13 +21,19 @@ class CmsPageController extends Controller
             if (!$row) abort(403, "Single record page has no record");
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
-        
+
         $rows = $model::when($page['order_display'], function ($query) use ($page) {
             return $query->orderBy('ht_pos');
         })
             ->when(request('custom_validation'), function ($query) {
                 foreach (request('custom_validation') as $validation) {
                     $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
+                }
+                return $query;
+            })
+            ->when(request('custom_search'), function ($query) use ($page_fields) {
+                foreach ($page_fields as $field) {
+                    $query->orWhere($field['name'], 'like', '%' . request('custom_search') . '%');
                 }
                 return $query;
             })

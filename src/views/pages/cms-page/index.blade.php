@@ -27,8 +27,18 @@
 					</form>
 				@endif
 			@endif
-		</div>
-		<div class="datatable-wrapper">
+            @if ($page['server_side_pagination'])
+                <div class="text-right">
+                    <form>
+                        <label class="server-search-wrapper">
+                            Search:
+                            <input type="search" name="custom_search" value="{{ request('custom_search') }}">
+                        </label>
+                    </form>
+                </div>
+            @endif
+        </div>
+		<div class="datatable-wrapper {{ $page['server_side_pagination'] ? 'table-responsive' : '' }}">
 			<table class="{{ $page['server_side_pagination'] ? 'table' : 'datatable' }} {{ $page['with_export'] ? '' : 'no-export' }}">
 				<thead>
 					<tr>
@@ -148,7 +158,23 @@
 				</tbody>
 			</table>
 
-			{{ $page['server_side_pagination'] ? $rows->links() : '' }}
+            @if ($page['server_side_pagination'])
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <div class="server-pagination-numbers">
+                        @php
+                            $last_item_in_page = $rows->perPage() * $rows->currentPage();
+                            $first_item_in_page = $last_item_in_page - 9;
+                        @endphp
+                        Showing {{ $first_item_in_page }} to {{ $last_item_in_page > $rows->total() ? $rows->total() : $last_item_in_page }} of {{ $rows->total() }} entries
+                    </div>
+                    {{-- @dd($rows) --}}
+                </div>
+                <div class="col-lg-6">
+                    {{ $rows->onEachSide(1)->links() }}
+                </div>
+            </div>
+            @endif
 
 		</div>
 	</div>
