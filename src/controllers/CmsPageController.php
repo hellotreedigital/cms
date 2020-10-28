@@ -33,6 +33,17 @@ class CmsPageController extends Controller
             })
             ->when(request('custom_search'), function ($query) use ($page_fields) {
                 foreach ($page_fields as $field) {
+                    if (
+                        $field['form_field'] == 'password' ||
+                        $field['form_field'] == 'password with confirmation' ||
+                        $field['form_field'] == 'select' ||
+                        $field['form_field'] == 'select multiple' ||
+                        $field['form_field'] == 'checkbox' ||
+                        $field['form_field'] == 'image' ||
+                        $field['form_field'] == 'multiple images' ||
+                        $field['form_field'] == 'file' ||
+                        $field['form_field'] == 'map coordinates'
+                    ) continue;
                     $query->orWhere($field['name'], 'like', '%' . request('custom_search') . '%');
                 }
                 return $query;
