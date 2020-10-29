@@ -197,14 +197,14 @@ $(document).ready(function () {
     $('[id^="ckeditor_"]').each(function () {
         CKEDITOR.replace(this.id, {
             height: 400,
-            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize' + (CKEditorColors ? ',colorbutton' : ''),
+            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize,blockquote' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
             format_tags: 'p;h1;h2;h3;h4;h5;h6',
             colorButton_colors: CKEditorColors,
             colorButton_enableAutomatic: false,
         });
     });
-    
+
     var idsToDelete = [];
     $(document).on('change', '.delete-checkbox input', function () {
         var input = $(this);
@@ -302,7 +302,7 @@ $(document).ready(function () {
 
         // Update ckeditor
         for(var instanceName in CKEDITOR.instances) CKEDITOR.instances[instanceName].updateElement();
-        
+
         var form = $(this);
         var formData = new FormData($(this)[0]);
 
