@@ -2,7 +2,11 @@
 	if (!isset($value) || !$value) $value = [];
 	$selected = [];
 	foreach ($value as $obj) {
-		$selected[] = $obj[$store_column];
+		if (is_object($obj)) {
+			$selected[] = $obj[$store_column];
+		} else {
+			$selected[] = $obj;
+		}
 	}
 @endphp
 

@@ -57,60 +57,96 @@
 				</div>
 			@endif
 
-			@include('cms::components/form-fields/input', [
-				'label' => 'Database table',
-				'name' => 'database_table',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['database_table'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => true,
-			])
-			@include('cms::components/form-fields/input', [
-				'label' => 'Model',
-				'name' => 'model_name',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['model_name'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => true,
-			])
-			@include('cms::components/form-fields/input', [
-				'label' => 'Display name',
-				'name' => 'display_name',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['display_name'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => true,
-			])
-			@include('cms::components/form-fields/input', [
-				'label' => 'Display name plural',
-				'name' => 'display_name_plural',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['display_name_plural'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => true,
-			])
-			@include('cms::components/form-fields/input', [
-				'label' => 'Icon',
-				'name' => 'icon',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['icon'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => false,
-			])
-			@include('cms::components/form-fields/input', [
-				'label' => 'Order display column',
-				'name' => 'order_display',
-				'type' => 'text',
-				'value' => isset($cms_page) ? $cms_page['order_display'] : '',
-                'locale' => null,
-                'description' => '',
-                'required' => false,
-			])
+			<div class="row mb-2">
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Database table',
+						'name' => 'database_table',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['database_table'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => true,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Model',
+						'name' => 'model_name',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['model_name'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => true,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Display name',
+						'name' => 'display_name',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['display_name'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => true,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Display name plural',
+						'name' => 'display_name_plural',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['display_name_plural'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => true,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Icon',
+						'name' => 'icon',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['icon'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => false,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Order display column',
+						'name' => 'order_display',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['order_display'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => false,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Sort By',
+						'name' => 'sort_by',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['sort_by'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => false,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Sort By Direction',
+						'name' => 'sort_by_direction',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['sort_by_direction'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => false,
+					])
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-lg-4">

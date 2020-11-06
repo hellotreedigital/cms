@@ -119,6 +119,8 @@ class CmsPagesController extends Controller
         $cms_page->route = Str::slug($request->database_table);
         $cms_page->model_name = $request->model_name;
         $cms_page->order_display = $request->order_display;
+        $cms_page->sort_by = $request->sort_by;
+        $cms_page->sort_by_direction = $request->sort_by_direction;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
         $cms_page->add = isset($request->add) ? 1 : 0;
@@ -220,6 +222,8 @@ class CmsPagesController extends Controller
         $cms_page->route = Str::slug($request->database_table);
         $cms_page->model_name = $request->model_name;
         $cms_page->order_display = $request->order_display;
+        $cms_page->sort_by = $request->sort_by;
+        $cms_page->sort_by_direction = $request->sort_by_direction;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
         $cms_page->add = isset($request->add) ? 1 : 0;

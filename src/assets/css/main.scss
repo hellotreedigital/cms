@@ -467,11 +467,14 @@ html {
                     tr {
                         th,
                         td {
+                            padding: 10px 20px;
                             &:first-child {
-                                padding-left: 30px;
+                                padding-left: $card_table_padding;
+                                padding-right: 0;
+                                width: 30px;
                             }
                             &:last-child {
-                                padding-right: 30px;
+                                padding-right: $card_table_padding;
                             }
                         }
                     }
@@ -490,16 +493,33 @@ html {
                     }
                 }
                 tbody {
+                    font-size: 0.9rem;
                     tr {
                         td {
                             height: 65px;
                             box-sizing: border-box;
+                            border: none;
                             .fa {
                                 font-size: 1.5rem;
                             }
                             input,
                             select {
                                 min-width: 110px;
+                            }
+                            &.actions-wrapper {
+                                white-space: nowrap;
+                                .btn {
+                                    min-width: 60px;
+                                }
+                            }
+                            img {
+                                max-width: 100px;
+                                max-height: 60px;
+                            }
+                            .multiple-image {
+                                height: 60px;
+                                width: 60px;
+                                object-fit: contain;
                             }
                         }
                     }
@@ -509,18 +529,6 @@ html {
                 .datatable {
                     border: none;
                     margin-bottom: 15px;
-                    td,
-                    th {
-                        padding: 10px 20px;
-                        &:first-child {
-                            padding-left: $card_table_padding;
-                            padding-right: 0;
-                            width: 30px;
-                        }
-                        &:last-child {
-                            padding-right: $card_table_padding;
-                        }
-                    }
                     thead {
                         th {
                             position: relative;
@@ -574,106 +582,81 @@ html {
                             }
                         }
                     }
-                    tbody {
-                        font-size: 0.9rem;
-                        tr {
-                            td {
-                                &.actions-wrapper {
-                                    white-space: nowrap;
-                                    .btn {
-                                        min-width: 60px;
-                                    }
-                                }
-                                img {
-                                    max-width: 100px;
-                                    max-height: 60px;
-                                }
-                                .multiple-image {
-                                    height: 60px;
-                                    width: 60px;
-                                    object-fit: contain;
-                                }
-                            }
-                        }
-                    }
-                }
-                .dataTables_length,
-                .dataTables_info,
-                .dataTables_filter,
-                .dataTables_paginate {
-                    font-size: 0.7rem;
-                    label {
-                        margin-bottom: 20px;
-                    }
-                    input {
-                        border: 1px solid #e9ecef;
-                        padding: 2px 6px;
-                        border-radius: 5px;
-                    }
-                }
-                .dataTables_length,
-                .dataTables_info {
-                    padding-left: $card_table_padding;
-                    .select2-selection {
-                        height: auto !important;
-                        padding: 2px 6px;
-                        text-align: center;
-                    }
-                }
-                .dataTables_filter,
-                .dataTables_paginate {
-                    padding-right: $card_table_padding;
-                    .paginate_button {
-                        position: relative;
-                        vertical-align: middle;
-                        width: 30px;
-                        height: 30px;
-                        line-height: 28px;
-                        padding-top: 0;
-                        padding-bottom: 0;
-                        border: 1px solid #e9ecef;
-                        border-radius: 100%;
-                        padding: 0 0.5rem;
-                        &.previous,
-                        &.next {
-                            font-size: 0;
-                            &:before {
-                                content: "";
-                                width: 0;
-                                height: 0;
-                                border-top: 6px solid transparent;
-                                border-bottom: 6px solid transparent;
-                            }
-                        }
-                        &.previous {
-                            &:before {
-                                border-right: 8px solid $color_yellow;
-                                margin-right: 3px;
-                            }
-                        }
-                        &.next {
-                            &:before {
-                                border-left: 8px solid $color_yellow;
-                                margin-left: 3px;
-                            }
-                        }
-                        &.current {
-                            background: $color_yellow;
-                            border-color: $color_yellow;
-                        }
-                        &.disabled {
-                            opacity: 0.7;
-                            cursor: not-allowed;
-                        }
-                    }
                 }
             }
-            .server-search-wrapper {
+            .dataTables_length,
+            .dataTables_info,
+            .dataTables_filter,
+            .dataTables_paginate,
+            .server-search-wrapper,
+            .server-showing-number-wrapper {
                 font-size: 0.7rem;
+                label {
+                    margin-bottom: 20px;
+                }
                 input {
                     border: 1px solid #e9ecef;
-                    padding: 2px 6px;
+                    padding: 2px 12px;
                     border-radius: 5px;
+                }
+            }
+            .dataTables_length,
+            .dataTables_info,
+            .server-showing-number-wrapper {
+                padding-left: $card_table_padding;
+                .select2-selection {
+                    height: auto !important;
+                    padding: 2px 12px;
+                    text-align: center;
+                }
+            }
+            .dataTables_filter,
+            .dataTables_paginate,
+            .filter-wrapper {
+                cursor: pointer;
+                padding-right: $card_table_padding;
+                .paginate_button {
+                    position: relative;
+                    vertical-align: middle;
+                    width: 30px;
+                    height: 30px;
+                    line-height: 28px;
+                    padding-top: 0;
+                    padding-bottom: 0;
+                    border: 1px solid #e9ecef;
+                    border-radius: 100%;
+                    padding: 0 0.5rem;
+                    &.previous,
+                    &.next {
+                        font-size: 0;
+                        &:before {
+                            content: "";
+                            width: 0;
+                            height: 0;
+                            border-top: 6px solid transparent;
+                            border-bottom: 6px solid transparent;
+                        }
+                    }
+                    &.previous {
+                        &:before {
+                            border-right: 8px solid $color_yellow;
+                            margin-right: 3px;
+                        }
+                    }
+                    &.next {
+                        &:before {
+                            border-left: 8px solid $color_yellow;
+                            margin-left: 3px;
+                        }
+                    }
+                    &.current {
+                        background: $color_yellow;
+                        border-color: $color_yellow;
+                    }
+                    &.disabled {
+                        opacity: 0.7;
+                        cursor: not-allowed;
+                    }
                 }
             }
             .server-pagination-numbers {
@@ -762,6 +745,19 @@ html {
             bottom: 0;
             left: 0;
             width: 100%;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .close-popup {
+            cursor: pointer;
         }
     }
 }
@@ -909,7 +905,9 @@ html {
 
 @media (max-width: 767.98px) {
     .dataTables_length,
-    .dataTables_info {
+    .dataTables_info,
+    .server-search-wrapper,
+    .server-showing-number-wrapper {
         padding-left: 0 !important;
         float: none !important;
         text-align: center !important;

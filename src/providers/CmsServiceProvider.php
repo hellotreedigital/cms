@@ -76,7 +76,9 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('database_table')->unique()->nullable();
             $table->string('route')->unique()->nullable();
             $table->string('model_name')->unique()->nullable();
-            $table->string('order_display')->nullable()->nullable();
+            $table->string('order_display')->nullable();
+            $table->string('sort_by')->nullable();
+            $table->string('sort_by_direction')->nullable();
             $table->longtext('fields')->nullable();
             $table->longtext('translatable_fields')->nullable();
             $table->tinyInteger('add')->nullable();

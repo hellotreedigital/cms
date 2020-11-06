@@ -44,14 +44,20 @@ $(document).ready(function () {
             aaSorting: [], // Disable auto sorting
             columnDefs: [{ targets: 0, orderable: false }], // Disable sorting for first column (Delete checkbox column)
             initComplete: function (settings, json) {
-                $(this).addClass('table-responsive');
+                $(this).wrap('<div class="table-responsive"></div>');
                 $('.dt-button').addClass('btn btn-primary btn-sm');
                 $('.dt-buttons').prependTo('.datatable-wrapper');
                 $('.dt-buttons').addClass('text-center  text-md-left');
                 if ($(this).closest('.card').find('.actions').children().length > 0) {
                     $('.dt-buttons').addClass('absolute pt-0 pb-4 pt-md-4 pb-md-0');
                 }
-            }
+                $('select[name="DataTables_Table_0_length"]').addClass('select2-width-auto');
+                if ($(this).closest('.datatable-wrapper').hasClass('has-filters')) {
+                    $('<label class="filter-wrapper float-right"><i class="fa fa-filter ml-3"></i></label>').insertBefore('#DataTables_Table_0_filter');
+                    $('#DataTables_Table_0_filter').addClass('p-0');
+                }
+            },
+            autoWidth: false
         };
         if (!table.hasClass('no-export')) {
             options['dom'] = "Blfrtip";
@@ -192,12 +198,15 @@ $(document).ready(function () {
     });
 
     // $('.dataTables_length select').addClass('regular-select');
-    $('select:not(.regular-select)').select2();
+    $('select:not(.regular-select)').each(function () {
+        if ($(this).hasClass('select2-width-auto')) $(this).select2({ width: 'auto' });
+        else $(this).select2({ width: '100%' });
+    });
 
     $('[id^="ckeditor_"]').each(function () {
         CKEDITOR.replace(this.id, {
             height: 400,
-            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize,blockquote' + (CKEditorColors ? ',colorbutton' : ''),
+            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize,blockquote,justify' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
             format_tags: 'p;h1;h2;h3;h4;h5;h6',
             colorButton_colors: CKEditorColors,
@@ -301,7 +310,7 @@ $(document).ready(function () {
         $('#loader').fadeIn();
 
         // Update ckeditor
-        for(var instanceName in CKEDITOR.instances) CKEDITOR.instances[instanceName].updateElement();
+        for (var instanceName in CKEDITOR.instances) CKEDITOR.instances[instanceName].updateElement();
 
         var form = $(this);
         var formData = new FormData($(this)[0]);
@@ -335,6 +344,18 @@ $(document).ready(function () {
             }
         });
 
+    });
+
+    $('.filter-wrapper i').on('click', function () {
+        $('.filter-popup').fadeIn();
+    });
+
+    $(document).on('click', '.filter-popup', function (e) {
+        if (!e.target.closest('.card') || e.target.classList.contains('close-popup')) $('.filter-popup').fadeOut();
+    });
+
+    $('.server-showing-number-wrapper select').on('change', function () {
+        $(this).closest('form').submit();
     });
 
 });

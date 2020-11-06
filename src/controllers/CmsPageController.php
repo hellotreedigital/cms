@@ -14,6 +14,7 @@ class CmsPageController extends Controller
     {
         $page = CmsPage::where('route', $route)->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
+        $extra_variables = $this->getPageExtraVariables($page_fields);
 
         $model = 'App\\' . $page['model_name'];
         if ($page['single_record']) {
@@ -22,12 +23,33 @@ class CmsPageController extends Controller
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
 
-        $rows = $model::when($page['order_display'], function ($query) use ($page) {
-            return $query->orderBy('ht_pos');
-        })
+        // Default order
+        $order_by = 'id';
+        $order_direction = 'desc';
+        
+        if ($page['sort_by']) {
+            $order_by = $page['sort_by'];
+            $order_direction = $page['sort_by_direction'];
+        } elseif ($page['order_display']) {
+            $order_by = 'ht_pos';
+            $order_direction = 'asc';
+        }
+
+        $rows = $model::orderBy($order_by, $order_direction)
+            ->when($page['order_display'], function ($query) use ($page) {
+                return $query->orderBy('ht_pos');
+            })
             ->when(request('custom_validation'), function ($query) {
                 foreach (request('custom_validation') as $validation) {
-                    $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
+                    if ($validation['constraint'] == 'whereHas' && isset($validation['value'][1]) && count($validation['value'][1])) {
+                        $query->whereHas($validation['value'][0], function ($query) use ($validation) {
+                            return $query->whereIn($validation['value'][0] . '.id', $validation['value'][1]);
+                        });
+                    } else {
+                        if (isset($validation['value'][1]) && $validation['value'][1]) {
+                            $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
+                        }
+                    }
                 }
                 return $query;
             })
@@ -49,13 +71,13 @@ class CmsPageController extends Controller
                 return $query;
             })
             ->when($page['server_side_pagination'], function ($query) {
-                return $query->paginate(10);
+                return $query->paginate(request('per_page') ? request('per_page') : 10);
             }, function ($query) {
                 return $query->get();
             });
 
         $view = view()->exists('cms::pages/' . $route . '/index') ? 'cms::pages/' . $route . '/index' : 'cms::pages/cms-page/index';
-        return view($view, compact('page', 'page_fields', 'rows'));
+        return view($view, compact('page', 'page_fields', 'rows', 'extra_variables'));
     }
 
     public function getPageExtraVariables($page_fields)
@@ -329,7 +351,13 @@ class CmsPageController extends Controller
 
         $array = explode(',', $id);
         foreach ($array as $id) $model::destroy($id);
-        return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Record deleted successfully');
+        
+        $appends_to_query = '';
+        if (request('page') || request('per_page')) $appends_to_query .= '?';
+        if (request('page')) $appends_to_query .= 'page=' . request('page') . '&';
+        if (request('per_page')) $appends_to_query .= 'per_page=' . request('per_page') . '&';
+
+        return redirect(config('hellotree.cms_route_prefix') . '/' . $route . $appends_to_query)->with('success', 'Record deleted successfully');
     }
 
     public function order($route)

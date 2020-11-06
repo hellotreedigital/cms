@@ -1,3 +1,12 @@
+@php
+	$filters = [];
+	foreach($page_fields as $field) {
+		if ($field['form_field'] == 'select' || $field['form_field'] == 'select multiple') {
+			$filters[] = $field;
+		}
+	}
+@endphp
+
 @extends('cms::layouts/dashboard')
 
 @section('breadcrumb')
@@ -27,18 +36,54 @@
 					</form>
 				@endif
 			@endif
-            @if ($page['server_side_pagination'])
-                <div class="text-right">
-                    <form>
-                        <label class="server-search-wrapper">
-                            Search:
-                            <input type="search" name="custom_search" value="{{ request('custom_search') }}">
-                        </label>
-                    </form>
-                </div>
-            @endif
         </div>
-		<div class="datatable-wrapper {{ $page['server_side_pagination'] ? 'table-responsive' : '' }}">
+		@if ($page['server_side_pagination'])
+			<div class="row no-gutters">
+				<div class="col-md">
+					<div class="server-showing-number-wrapper">
+						<form>
+							@if (request('custom_validation'))
+								@foreach(request('custom_validation') as $i => $validation)
+									@if (isset($validation['value'][1]) && $validation['value'][1])
+									<input type="hidden" name="custom_validation[{{ $i }}][constraint]" value="{{ $validation['constraint'] }}">
+									<input type="hidden" name="custom_validation[{{ $i }}][value][0]" value="{{ $validation['value'][0] }}">
+										@foreach($validation['value'][1] as $value)
+										<input type="hidden" name="custom_validation[{{ $i }}][value][1][]" value="{{ $value }}">
+										@endforeach
+									@endif
+								@endforeach
+							@endif
+							<label>
+								Show
+								<select name="per_page" class="select2-width-auto px-4">
+									<option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
+									<option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+									<option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+									<option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+								</select>
+								entries
+							</label>
+						</form>
+					</div>
+				</div>
+				<div class="col-md-auto px-md-0">
+					<div class="server-search-wrapper">
+						<label>
+							Search:
+							<input type="search" name="custom_search" value="{{ request('custom_search') }}">
+						</label>
+					</div>
+				</div>
+				<div class="col-md-auto">
+					<label class="filter-wrapper">
+						@if (count($filters))
+						<i class="fa fa-filter ml-3"></i>
+						@endif
+					</label>
+				</div>
+			</div>
+		@endif
+		<div class="datatable-wrapper {{ $page['server_side_pagination'] ? 'table-responsive' : '' }} {{ count($filters) ? 'has-filters' : '' }}">
 			<table class="{{ $page['server_side_pagination'] ? 'table' : 'datatable' }} {{ $page['with_export'] ? '' : 'no-export' }}">
 				<thead>
 					<tr>
@@ -145,7 +190,13 @@
 								@endif
 								@if ($page['delete'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['delete'])
-										<form class="row-delete d-inline-block" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] .  '/' . $row['id']) }}" onsubmit="return confirm('Are you sure?')">
+										@php
+										$appends_to_query = '';
+										if (request('page') || request('per_page')) $appends_to_query .= '?';
+										if (request('page')) $appends_to_query .= 'page=' . request('page') . '&';
+										if (request('per_page')) $appends_to_query .= 'per_page=' . request('per_page') . '&';
+										@endphp
+										<form class="row-delete d-inline-block" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] .  '/' . $row['id'] . $appends_to_query) }}" onsubmit="return confirm('Are you sure?')">
 											@csrf
 											<input type="hidden" name="_method" value="DELETE">
 											<button class="mb-2 btn btn-danger btn-sm">Delete</button>
@@ -164,18 +215,55 @@
                     <div class="server-pagination-numbers">
                         @php
                             $last_item_in_page = $rows->perPage() * $rows->currentPage();
-                            $first_item_in_page = $last_item_in_page - 9;
+                            $first_item_in_page = $last_item_in_page - ($rows->perPage() - 1);
                         @endphp
                         Showing {{ $first_item_in_page }} to {{ $last_item_in_page > $rows->total() ? $rows->total() : $last_item_in_page }} of {{ $rows->total() }} entries
                     </div>
                     {{-- @dd($rows) --}}
                 </div>
                 <div class="col-lg-6">
-                    {{ $rows->onEachSide(1)->links() }}
+                    {{ $rows->onEachSide(1)->appends($_GET)->links() }}
                 </div>
             </div>
             @endif
 
+		</div>
+	</div>
+
+	<div class="popup filter-popup">
+		<div class="container h-100">
+			<div class="row justify-content-center align-items-center h-100">
+				<div class="col-lg-6">
+					<div class="card py-3 px-4 my-0">
+						<div class="d-flex mb-3">
+							<p class="font-weight-bold flex-grow-1">FILTER:</p>
+							<i class="fa fa-times close-popup"></i>
+						</div>
+						<form>
+							<input type="hidden" name="per_page" value="{{ request('per_page') }}">
+							@foreach($filters as $i => $filter)
+								<input type="hidden" name="custom_validation[{{ $i }}][constraint]" value="{{ $filter['form_field'] == 'select multiple' ? 'whereHas' : 'whereIn' }}">
+								<input type="hidden" name="custom_validation[{{ $i }}][value][0]" value="{{ $filter['name'] }}">
+								@include('cms::/components/form-fields/select-multiple', [
+									'label' => ucwords($filter['form_field_additionals_1']),
+									'name' => 'custom_validation[' . $i . '][value][1]',
+									'options' => $extra_variables[$filter['form_field_additionals_1']],
+									'store_column' => 'id',
+									'display_column' => $filter['form_field_additionals_2'],
+									'value' => isset(request('custom_validation')[$i]['value'][1]) && request('custom_validation')[$i]['value'][1] ? request('custom_validation')[$i]['value'][1] : '',
+									'required' => false,
+									'description' => '',
+									'locale' => 'en',
+								])
+							@endforeach
+							<div class="text-right">
+								<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route']) }}" class="btn btn-secondary btn-sm">Clear</a>
+								<button class="btn btn-primary btn-sm">Submit</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
