@@ -67,12 +67,12 @@
 					</div>
 				</div>
 				<div class="col-md-auto px-md-0">
-					<div class="server-search-wrapper">
+					<form class="server-search-wrapper">
 						<label>
 							Search:
 							<input type="search" name="custom_search" value="{{ request('custom_search') }}">
 						</label>
-					</div>
+					</form>
 				</div>
 				<div class="col-md-auto">
 					<label class="filter-wrapper">
