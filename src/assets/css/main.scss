@@ -490,6 +490,37 @@ html {
                         border-bottom: 1px solid #e9ecef;
                         border-top: 1px solid #e9ecef;
                         font-weight: bold;
+                        .sort-arrows {
+                            padding-left: 5px;
+                            &::before,
+                            &::after {
+                                content: "";
+                                position: absolute;
+                                top: 50%;
+                                height: 0; 
+                                width: 0; 
+                                border-left: 4px solid transparent;
+                                border-right: 4px solid transparent;
+                            }
+                            &::before {
+                                transform: translateY(-100%);
+                                border-bottom: 4px solid #eee;
+                            }
+                            &::after {
+                                margin-top: 1px;
+                                border-top: 4px solid #eee;
+                            }
+                            &.asc {
+                                &::before {
+                                    border-bottom-color: $color_yellow;
+                                }
+                            }
+                            &.desc {
+                                &::after {
+                                    border-top-color: $color_yellow;
+                                }
+                            }
+                        }
                     }
                 }
                 tbody {

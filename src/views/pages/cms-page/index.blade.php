@@ -92,7 +92,26 @@
 						@foreach($page_fields as $field)
 							@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') @continue
 							@else
-								<th>{{ str_replace(['_id', '_'], ['', ' '], $field['name']) }}</th>
+								@php
+								$appends_to_sort_query = '?';
+								
+								if (request('per_page')) $appends_to_sort_query .= 'per_page=' . request('per_page') . '&';
+								if (request('custom_search')) $appends_to_sort_query .= 'custom_search=' . request('custom_search') . '&';
+								
+								$appends_to_sort_query .= 'sort_by=' . $field['name'] . '&';
+
+								if (request('sort_by') == $field['name']) {
+									$appends_to_sort_query .= 'sort_by_direction=' . (request('sort_by_direction') == 'asc' ? 'desc' : 'asc') . '&';
+								} else {
+									$appends_to_sort_query .= 'sort_by_direction=asc&';
+								}
+								@endphp
+								<th>
+									<a {!! $page['server_side_pagination'] ? 'href="' . url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . $appends_to_sort_query) . '"' : '' !!}>{{ str_replace(['_id', '_'], ['', ' '], $field['name']) }}</a>
+									@if ($page['server_side_pagination'])
+									<div class="sort-arrows position-relative d-inline {{ request('sort_by') == $field['name'] ? request('sort_by_direction') : '' }}"></div>
+									@endif
+								</th>
 							@endif
 						@endforeach
 						<th>Actions</th>
@@ -185,17 +204,11 @@
 								@endif
 								@if ($page['edit'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['edit'])
-										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . '/edit') }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
+										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . '/edit' . $appends_to_query) }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
 									@endif
 								@endif
 								@if ($page['delete'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['delete'])
-										@php
-										$appends_to_query = '';
-										if (request('page') || request('per_page')) $appends_to_query .= '?';
-										if (request('page')) $appends_to_query .= 'page=' . request('page') . '&';
-										if (request('per_page')) $appends_to_query .= 'per_page=' . request('per_page') . '&';
-										@endphp
 										<form class="row-delete d-inline-block" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] .  '/' . $row['id'] . $appends_to_query) }}" onsubmit="return confirm('Are you sure?')">
 											@csrf
 											<input type="hidden" name="_method" value="DELETE">

@@ -10,6 +10,25 @@ use Hash;
 
 class CmsPageController extends Controller
 {
+    public $appends_to_query;
+
+    public function __construct()
+    {
+        $this->appends_to_query = '';
+        if (
+            request('page') ||
+            request('per_page') ||
+            request('custom_search') ||
+            request('sort_by') ||
+            request('sort_by_direction')
+        ) $this->appends_to_query .= '?';
+        if (request('page')) $this->appends_to_query .= 'page=' . request('page') . '&';
+        if (request('per_page')) $this->appends_to_query .= 'per_page=' . request('per_page') . '&';
+        if (request('custom_search')) $this->appends_to_query .= 'custom_search=' . request('custom_search') . '&';
+        if (request('sort_by')) $this->appends_to_query .= 'sort_by=' . request('sort_by') . '&';
+        if (request('sort_by_direction')) $this->appends_to_query .= 'sort_by_direction=' . request('sort_by_direction') . '&';
+    }
+
     public function index($route)
     {
         $page = CmsPage::where('route', $route)->firstOrFail();
@@ -27,12 +46,17 @@ class CmsPageController extends Controller
         $order_by = 'id';
         $order_direction = 'desc';
         
-        if ($page['sort_by']) {
-            $order_by = $page['sort_by'];
-            $order_direction = $page['sort_by_direction'];
-        } elseif ($page['order_display']) {
-            $order_by = 'ht_pos';
-            $order_direction = 'asc';
+        if (request('sort_by')) {
+            $order_by = request('sort_by');
+            $order_direction = request('sort_by_direction');
+        } else {
+            if ($page['sort_by']) {
+                $order_by = $page['sort_by'];
+                $order_direction = $page['sort_by_direction'];
+            } elseif ($page['order_display']) {
+                $order_by = 'ht_pos';
+                $order_direction = 'asc';
+            }
         }
 
         $rows = $model::orderBy($order_by, $order_direction)
@@ -76,8 +100,10 @@ class CmsPageController extends Controller
                 return $query->get();
             });
 
+        $appends_to_query = $this->appends_to_query;
+
         $view = view()->exists('cms::pages/' . $route . '/index') ? 'cms::pages/' . $route . '/index' : 'cms::pages/cms-page/index';
-        return view($view, compact('page', 'page_fields', 'rows', 'extra_variables'));
+        return view($view, compact('page', 'page_fields', 'rows', 'extra_variables', 'appends_to_query'));
     }
 
     public function getPageExtraVariables($page_fields)
@@ -236,8 +262,10 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
         $row = $model::findOrFail($id);
 
+        $appends_to_query = $this->appends_to_query;
+        
         $view = view()->exists('cms::pages/' . $route . '/form') ? 'cms::pages/' . $route . '/form' : 'cms::pages/cms-page/form';
-        return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables'));
+        return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables', 'appends_to_query'));
     }
 
     public function updateValiation($page_fields, $database_table, $id, $row)
@@ -326,7 +354,7 @@ class CmsPageController extends Controller
         $this->translateOrNew($translatable_fields, $request, $row);
 
         $request->session()->flash('success', 'Record edited successfully');
-        return url(config('hellotree.cms_route_prefix') . '/' . $route);
+        return url(config('hellotree.cms_route_prefix') . '/' . $route . $this->appends_to_query);
     }
 
     public function uploadImages(Request $request, $route)
@@ -351,11 +379,8 @@ class CmsPageController extends Controller
 
         $array = explode(',', $id);
         foreach ($array as $id) $model::destroy($id);
-        
-        $appends_to_query = '';
-        if (request('page') || request('per_page')) $appends_to_query .= '?';
-        if (request('page')) $appends_to_query .= 'page=' . request('page') . '&';
-        if (request('per_page')) $appends_to_query .= 'per_page=' . request('per_page') . '&';
+
+        $appends_to_query = $this->appends_to_query;
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route . $appends_to_query)->with('success', 'Record deleted successfully');
     }
