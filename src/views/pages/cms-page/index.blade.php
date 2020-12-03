@@ -166,7 +166,9 @@
 								@elseif ($field['form_field'] == 'select')
 									<td>
 										@if ($row[str_replace('_id', '', $field['name'])])
-											{{ strip_tags($row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']]) }}
+											<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . (str_replace('_', '-', $field['form_field_additionals_1'])) . '/' . $row[$field['name']]) }}">
+												{{ strip_tags($row[str_replace('_id', '', $field['name'])][$field['form_field_additionals_2']]) }}
+											</a>
 										@endif
 									</td>
 								@elseif ($field['form_field'] == 'select multiple')
