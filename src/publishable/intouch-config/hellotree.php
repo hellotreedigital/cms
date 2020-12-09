@@ -60,8 +60,8 @@ return [
 	    	'asset?path=js/vfs_fonts.js',
 	    	'asset?path=js/buttons.html5.min.js',
 	    	'asset?path=js/select2.min.js',
-	    	'asset?path=js/ckeditor/ckeditor.js',
-	    	'asset?path=js/main.js',
+	    	'http://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js',
+	    	'asset?path=js/main.prod.js',
 	    ],
     ],
 

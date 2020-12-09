@@ -204,13 +204,18 @@ $(document).ready(function () {
     });
 
     $('[id^="ckeditor_"]').each(function () {
+        var id = $(this).attr('id');
+        var uploadUrl = $(this).attr('upload-url');
+
         CKEDITOR.replace(this.id, {
             height: 400,
-            extraPlugins: 'format,embed,autoembed,base64image,sourcedialog,maximize,blockquote,justify' + (CKEditorColors ? ',colorbutton' : ''),
+            extraPlugins: 'format,embed,autoembed,image,maximize,blockquote,justify' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
             format_tags: 'p;h1;h2;h3;h4;h5;h6',
             colorButton_colors: CKEditorColors,
             colorButton_enableAutomatic: false,
+            removeButtons: 'Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Styles',
+            filebrowserUploadUrl: uploadUrl,
         });
     });
 

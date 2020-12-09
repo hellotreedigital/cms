@@ -6,5 +6,5 @@
 @endphp
 <div class="form-group">
 	@include('cms::components/form-fields/label')
-	<textarea name="{{ $input_name }}" id="ckeditor_{{ $input_name }}">{{ $value }}</textarea>
+	<textarea name="{{ $input_name }}" id="ckeditor_{{ $input_name }}" upload-url="{{ route('ckeditor-images') }}">{{ $value }}</textarea>
 </div>

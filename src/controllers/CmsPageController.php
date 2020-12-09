@@ -45,7 +45,7 @@ class CmsPageController extends Controller
         // Default order
         $order_by = 'id';
         $order_direction = 'desc';
-        
+
         if (request('sort_by')) {
             $order_by = request('sort_by');
             $order_direction = request('sort_by_direction');
@@ -263,7 +263,7 @@ class CmsPageController extends Controller
         $row = $model::findOrFail($id);
 
         $appends_to_query = $this->appends_to_query;
-        
+
         $view = view()->exists('cms::pages/' . $route . '/form') ? 'cms::pages/' . $route . '/form' : 'cms::pages/cms-page/form';
         return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'row', 'extra_variables', 'appends_to_query'));
     }
