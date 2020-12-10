@@ -497,8 +497,8 @@ html {
                                 content: "";
                                 position: absolute;
                                 top: 50%;
-                                height: 0; 
-                                width: 0; 
+                                height: 0;
+                                width: 0;
                                 border-left: 4px solid transparent;
                                 border-right: 4px solid transparent;
                             }
@@ -789,6 +789,9 @@ html {
         }
         .close-popup {
             cursor: pointer;
+        }
+        .opacity-half {
+            opacity: 0.5;
         }
     }
 }

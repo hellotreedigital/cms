@@ -750,6 +750,9 @@ html body .popup {
 html body .close-popup {
   cursor: pointer;
 }
+html body .opacity-half {
+  opacity: 0.5;
+}
 
 .btn {
   padding-top: 7px;

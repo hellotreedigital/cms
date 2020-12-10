@@ -124,7 +124,7 @@ class CmsPageController extends Controller
 
     public function create($route)
     {
-        $page = CmsPage::where('route', $route)->where('add', 1)->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('add', 1); })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
@@ -184,7 +184,7 @@ class CmsPageController extends Controller
 
     public function store(Request $request, $route)
     {
-        $page = CmsPage::where('route', $route)->where('add', 1)->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('add', 1); })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
@@ -255,7 +255,7 @@ class CmsPageController extends Controller
 
     public function edit($id, $route)
     {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('edit', 1); })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
@@ -293,7 +293,7 @@ class CmsPageController extends Controller
 
     public function update(Request $request, $id, $route)
     {
-        $page = CmsPage::where('route', $route)->where('edit', 1)->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('edit', 1); })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
@@ -375,7 +375,7 @@ class CmsPageController extends Controller
 
     public function destroy($id, $route)
     {
-        $page = CmsPage::where('route', $route)->where('delete', 1)->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('delete', 1); })->firstOrFail();
         $model = 'App\\' . $page['model_name'];
 
         $array = explode(',', $id);

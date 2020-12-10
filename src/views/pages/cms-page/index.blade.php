@@ -19,17 +19,17 @@
 
 	<div class="card py-4 mx-2 mx-lg-5">
 		<div class="actions">
-			@if ($page['add'])
+			@if ($page['add'] || !request()->get('admin')['admin_role_id'])
 				@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['add'])
-					<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/create') }}" class="btn btn-primary btn-sm">Add</a>
+					<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/create') }}" class="btn btn-primary btn-sm {{ $page['add'] ? '' : 'opacity-half' }}">Add</a>
 				@endif
 			@endif
 			@if ($page['order_display'])
 				<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/order') }}" class="btn btn-secondary btn-sm">Order</a>
 			@endif
-			@if ($page['delete'])
+			@if ($page['delete'] || !request()->get('admin')['admin_role_id'])
 				@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['delete'])
-					<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/') }}" class="d-block d-md-inline-block bulk-delete" onsubmit="return confirm('Are you sure?')">
+					<form method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/') }}" class="d-block d-md-inline-block bulk-delete {{ $page['delete'] ? '' : 'opacity-half' }}" onsubmit="return confirm('Are you sure?')">
 						@csrf
 						<input type="hidden" name="_method" value="DELETE">
 						<button type="submit" class="btn btn-danger btn-sm w-100">Bulk Delete</button>
@@ -94,10 +94,10 @@
 							@else
 								@php
 								$appends_to_sort_query = '?';
-								
+
 								if (request('per_page')) $appends_to_sort_query .= 'per_page=' . request('per_page') . '&';
 								if (request('custom_search')) $appends_to_sort_query .= 'custom_search=' . request('custom_search') . '&';
-								
+
 								$appends_to_sort_query .= 'sort_by=' . $field['name'] . '&';
 
 								if (request('sort_by') == $field['name']) {
@@ -199,19 +199,19 @@
 								@endif
 							@endforeach
 							<td class="actions-wrapper text-right">
-								@if ($page['show'])
+								@if ($page['show'] || !request()->get('admin')['admin_role_id'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['read'])
-										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id']) }}" class="mb-2 btn btn-secondary btn-sm">View</a>
+										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id']) }}" class="mb-2 btn btn-secondary btn-sm {{ $page['show'] ? '' : 'opacity-half' }}">View</a>
 									@endif
 								@endif
-								@if ($page['edit'])
+								@if ($page['edit'] || !request()->get('admin')['admin_role_id'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['edit'])
-										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . '/edit' . $appends_to_query) }}" class="mb-2 btn btn-primary btn-sm">Edit</a>
+										<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . '/edit' . $appends_to_query) }}" class="mb-2 btn btn-primary btn-sm {{ $page['edit'] ? '' : 'opacity-half' }}">Edit</a>
 									@endif
 								@endif
-								@if ($page['delete'])
+								@if ($page['delete'] || !request()->get('admin')['admin_role_id'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['delete'])
-										<form class="row-delete d-inline-block" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] .  '/' . $row['id'] . $appends_to_query) }}" onsubmit="return confirm('Are you sure?')">
+										<form class="row-delete d-inline-block {{ $page['delete'] ? '' : 'opacity-half' }}" method="post" action="{{ url(config('hellotree.cms_route_prefix') . '/' . $page['route'] .  '/' . $row['id'] . $appends_to_query) }}" onsubmit="return confirm('Are you sure?')">
 											@csrf
 											<input type="hidden" name="_method" value="DELETE">
 											<button class="mb-2 btn btn-danger btn-sm">Delete</button>
