@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
 use Illuminate\Support\Facades\Storage;
 use Hash;
+use Illuminate\Support\Str;
 
 class CmsPageController extends Controller
 {
@@ -168,7 +169,7 @@ class CmsPageController extends Controller
                         $row->translateOrNew($locale)->{$field['name']} = date('H:i', strtotime($request[$locale][$field['name']]));
                     } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                         if (isset($request[$locale][$field['name']]) && $request[$locale][$field['name']]) {
-                            $row->translateOrNew($locale)->{$field['name']} = $request->file($locale . '.' . $field['name'])->store($request['route']);
+                            $row->translateOrNew($locale)->{$field['name']} = $this->uploadFile($request->file($locale . '.' . $field['name']), $request['route']);
                         } elseif (isset($request[$locale]['remove_file_' . $field['name']]) && $request[$locale]['remove_file_' . $field['name']]) {
                             $row->translateOrNew($locale)->{$field['name']} = null;
                         }
@@ -214,7 +215,7 @@ class CmsPageController extends Controller
                 $query[$field['name']] = date('H:i', strtotime($request[$field['name']]));
             } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                 if ($request[$field['name']]) {
-                    $query[$field['name']] = $request->file($field['name'])->store($route);
+                    $query[$field['name']] = $this->uploadFile($request->file($field['name']), $route);
                 }
             } elseif ($field['form_field'] == 'multiple images') {
                 $query[$field['name']] = $request[$field['name']] ? json_encode($request[$field['name']]) : '[]';
@@ -331,7 +332,7 @@ class CmsPageController extends Controller
                 $query[$field['name']] = date('H:i', strtotime($request[$field['name']]));
             } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
                 if ($request[$field['name']]) {
-                    $query[$field['name']] = $request->file($field['name'])->store($route);
+                    $query[$field['name']] = $this->uploadFile($request->file($field['name']), $route);
                 } elseif ($request['remove_file_' . $field['name']]) {
                     $query[$field['name']] = null;
                 }
@@ -362,7 +363,7 @@ class CmsPageController extends Controller
         $files = [];
         if ($request['images']) {
             foreach ($request['images'] as $file) {
-                $file_path = $file->store($route);
+                $file_path = $this->uploadFile($file, $route);
                 $files[] = [
                     'path' => $file_path,
                     'url' => Storage::url($file_path),
@@ -413,5 +414,15 @@ class CmsPageController extends Controller
         }
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Records ordered successfully');
+    }
+
+    public function uploadFile($file, $route)
+    {
+        if (config('hellotree.use_original_name')) {
+            $name = $file->getClientOriginalName();
+            return $file->storeAs($route . '/' . Str::uuid(), $name);
+        } else {
+            return $file->store($route);
+        }
     }
 }
