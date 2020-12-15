@@ -45,7 +45,7 @@
 	<script>
 		var CKEditorColors = {!! config('hellotree.ckeditor') && config('hellotree.ckeditor.colors') && count(config('hellotree.ckeditor.colors')) ? '"' . implode(',', config('hellotree.ckeditor.colors')) . '"' : 'null' !!};
 	</script>
-	
+
 	@foreach(config('hellotree.cms_assets.scripts') as $path)
 		<script type="text/javascript" src="{{ url($path) }}"></script>
 	@endforeach

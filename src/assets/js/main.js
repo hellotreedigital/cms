@@ -342,7 +342,7 @@ $(document).ready(function () {
                         }
                     }
                 } else {
-                    ul += '<li>Server Error</li>';
+                    ul += '<li>' + r.responseJSON.message + '</li>';
                 }
                 $('.toast.error ul').html(ul);
                 $('.toast.error').addClass('show');

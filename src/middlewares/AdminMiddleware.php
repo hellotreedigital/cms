@@ -120,7 +120,7 @@ class AdminMiddleware
             if (!isset($request_path_array[0]) || !$request_path_array[0]) $request_path_array[0] = 'home';
 
             // Check if the requested page is not the home page nor profile
-            if ($request_path_array[0] != 'home' && $request_path_array[0] != 'profile' && $request_path_array[0] != 'logout') {
+            if ($request_path_array[0] != 'home' && $request_path_array[0] != 'profile' && $request_path_array[0] != 'logout' && $request_path_array[0] != 'ckeditor') {
                 $route = $request_path_array[0];
 
                 // Checking if requested page is available in the CMS pages array
