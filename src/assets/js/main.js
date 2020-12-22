@@ -157,6 +157,7 @@ $(document).ready(function () {
 
         var i = $(this).index() + 1;
         if (i == 1) {
+            var next_hour;
             if (btns_wrapper.hasClass('upper')) {
                 next_hour = +hour_input.val() + 1;
                 if (next_hour > 12) next_hour = 1;
@@ -167,6 +168,7 @@ $(document).ready(function () {
             if (next_hour.toString().length == 1) next_hour = "0" + next_hour;
             hour_input.val(next_hour);
         } else if (i == 2) {
+            var next_min;
             if (btns_wrapper.hasClass('upper')) {
                 next_min = +min_input.val() + 1;
                 if (next_min > 59) next_min = 0;
