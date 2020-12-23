@@ -43,16 +43,17 @@ $(document).ready(function () {
       }],
       // Disable sorting for first column (Delete checkbox column)
       initComplete: function initComplete(settings, json) {
-        $(this).wrap('<div class="table-responsive"></div>');
-        $('.dt-button').addClass('btn btn-primary btn-sm');
-        $('.dt-buttons').prependTo('.datatable-wrapper');
-        $('.dt-buttons').addClass('text-center  text-md-left');
+        var wrapper = table.closest('.dataTables_wrapper');
+        table.wrap('<div class="table-responsive"></div>');
+        wrapper.find('.dt-button').addClass('btn btn-primary btn-sm');
+        wrapper.find('.dt-buttons').prependTo('.datatable-wrapper');
+        wrapper.find('.dt-buttons').addClass('text-center  text-md-left');
 
-        if ($(this).closest('.card').find('.actions').children().length > 0) {
+        if (wrapper.closest('.card').find('.actions').children().length > 0) {
           $('.dt-buttons').addClass('absolute pt-0 pb-4 pt-md-4 pb-md-0');
         }
 
-        $('select[name="DataTables_Table_0_length"]').addClass('select2-width-auto');
+        wrapper.find('.dataTables_length select').addClass('select2-width-auto');
 
         if ($(this).closest('.datatable-wrapper').hasClass('has-filters')) {
           $('<label class="filter-wrapper float-right"><i class="fa fa-filter ml-3"></i></label>').insertBefore('#DataTables_Table_0_filter');

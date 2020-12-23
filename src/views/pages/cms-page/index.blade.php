@@ -260,7 +260,7 @@
 								<input type="hidden" name="custom_validation[{{ $i }}][constraint]" value="{{ $filter['form_field'] == 'select multiple' ? 'whereHas' : 'whereIn' }}">
 								<input type="hidden" name="custom_validation[{{ $i }}][value][0]" value="{{ $filter['name'] }}">
 								@include('cms::/components/form-fields/select-multiple', [
-									'label' => ucwords($filter['form_field_additionals_1']),
+									'label' => ucwords(str_replace('_', ' ', $filter['form_field_additionals_1'])),
 									'name' => 'custom_validation[' . $i . '][value][1]',
 									'options' => $extra_variables[$filter['form_field_additionals_1']],
 									'store_column' => 'id',
