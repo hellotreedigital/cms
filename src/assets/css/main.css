@@ -619,7 +619,7 @@ html body #content .filter-wrapper .paginate_button {
   padding-bottom: 0;
   border: 1px solid #e9ecef;
   border-radius: 100%;
-  padding: 0 0.5rem;
+  padding: 0;
 }
 html body #content .dataTables_filter .paginate_button.previous, html body #content .dataTables_filter .paginate_button.next,
 html body #content .dataTables_paginate .paginate_button.previous,
