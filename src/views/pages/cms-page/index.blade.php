@@ -192,7 +192,9 @@
 									</td>
 								@elseif ($field['form_field'] == 'map coordinates')
 									<td>
-										<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $row[$field['name']] }}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+										@if ($row[$field['name']])
+											<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $row[$field['name']] }}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
+										@endif
 									</td>
 								@else
 									<td>{{ $row[$field['name']] }}</td>
