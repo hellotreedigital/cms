@@ -175,7 +175,9 @@
 									<td>
 										@foreach($row[str_replace('_id', '', $field['name'])] as $i => $pivot)
 											{{ $i ? ', ' : '' }}
-											{{ $pivot[$field['form_field_additionals_2']] }}
+											<a href="{{ url(config('hellotree.cms_route_prefix') . '/' . (str_replace('_', '-', $field['form_field_additionals_1'])) . '/' . $pivot->id) }}">
+												{{ $pivot[$field['form_field_additionals_2']] }}
+											</a>
 										@endforeach
 									</td>
 								@elseif ($field['form_field'] == 'checkbox')
