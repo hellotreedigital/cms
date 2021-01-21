@@ -59,6 +59,12 @@ php artisan vendor:publish --tag=cms_imagine_labs_config --force
 		</pre>
 	</li>
 	<li>
+		CMS Purple Brains config:
+		<pre>
+php artisan vendor:publish --tag=cms_purple_brains_config --force
+		</pre>
+	</li>
+	<li>
 		CMS routes:
 		<pre>
 php artisan vendor:publish --tag=cms_routes --force

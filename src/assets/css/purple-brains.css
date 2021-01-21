@@ -1,0 +1,66 @@
+::-moz-selection {
+    background: #922c8e !important;
+}
+::selection {
+    background: #922c8e !important;
+}
+html body #login {
+    background-color: #682469;
+    background-image: linear-gradient(to right,#682469,#922c8e);
+}
+html body #content header {
+    background-color: #682469;
+    background-image: linear-gradient(to right,#682469,#922c8e);
+}
+html body nav.main ul li:before {
+    background: #682469;
+}
+.breadcrumbs {
+    color: #fff;
+}
+html body .user-info span {
+    color: #fff;
+}
+html body #login .card img {
+    max-height: 200px;
+    object-fit: contain;
+}
+html body #loader img {
+    max-width: 60px;
+}
+footer {
+    color: #fff;
+}
+.btn.btn-primary {
+    background-color: #922c8e;
+    color: #fff !important;
+    border-color: #922c8e;
+}
+html body nav.main .header {
+    height: 70px;
+}
+html body .checkbox-wrapper div {
+    border-color: #922c8e;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.current,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.current {
+    background: #922c8e;
+    border-color: #922c8e;
+    color: #fff !important;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.previous:before,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.previous:before {
+    border-right-color: #922c8e;
+}
+html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before,
+html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before {
+    border-left-color: #922c8e;
+}
+.form-control:focus {
+    border-color: #922c8e;
+    box-shadow: 0 0 0 0.2rem #922c8e40;
+}
+html body .checkbox-wrapper input:checked + div {
+    border-color: #922c8e;
+    background-color: #922c8e;
+}
