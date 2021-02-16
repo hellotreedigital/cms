@@ -61,7 +61,7 @@ return [
 	    	'asset?path=js/buttons.html5.min.js',
 	    	'asset?path=js/select2.min.js',
 	    	'https://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js',
-	    	'asset?path=js/main.prod.js',
+	    	'asset?path=js/main.js',
 	    ],
     ],
 
