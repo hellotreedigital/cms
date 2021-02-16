@@ -4,7 +4,7 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Response;
+use League\Flysystem\Util;
 use Hash;
 use File;
 use Str;
@@ -99,7 +99,7 @@ class CmsController extends Controller
 
     public function asset(Request $request)
     {
-        $path = __DIR__ . '/../assets/' . $request['path'];
+        $path = Util::normalizeRelativePath(urldecode(__DIR__ . '/../assets/' . $request['path']));
         $file = File::get($path);
 
         if (Str::endsWith($path, '.js')) $mime = 'application/javascript';

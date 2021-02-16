@@ -39,7 +39,7 @@ Class CmsServiceProvider extends ServiceProvider
 		$this->app->make('Hellotreedigital\Cms\Controllers\CmsController');
 		$this->app->make('Hellotreedigital\Cms\Controllers\CmsPagesController');
         $this->app->make('Hellotreedigital\Cms\Controllers\CmsPageController');
-        $this->app->make('Hellotreedigital\Cms\Controllers\LogsController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\CmsLogsController');
         $this->app->make('Hellotreedigital\Cms\Controllers\ApisController');
 
 		// Views
@@ -175,8 +175,8 @@ Class CmsServiceProvider extends ServiceProvider
     		'password' => bcrypt('$h1e2l3#'),
     	]);
 
-        // Create logs table
-        Schema::create('logs', function ($table) {
+        // Create cms logs table
+        Schema::create('cms_logs', function ($table) {
             $table->increments('id');
             $table->integer('admin_id')->unsigned();
             $table->integer('cms_page_id')->unsigned();
@@ -186,6 +186,14 @@ Class CmsServiceProvider extends ServiceProvider
 
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade');
             $table->foreign('cms_page_id')->references('id')->on('cms_pages')->onDelete('cascade');
+        });
+
+        // Create http logs table
+        Schema::create('http_logs', function ($table) {
+            $table->increments('id');
+            $table->string('ip');
+            $table->longText('request');
+            $table->timestamps();
         });
 	}
 }

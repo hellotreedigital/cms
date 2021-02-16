@@ -12,42 +12,51 @@ class ApisController extends Controller
 {
     public function index(Request $request, $route)
     {
-    	$request->validate([
-    		'custom_validation' => 'array',
-    		'custom_validation.*.constraint' => 'required',
-    		'custom_validation.*.value' => 'required',
-    	]);
-	    
-    	if ($request['locale']) App::setLocale($request['locale']);
+        $request->validate([
+            'custom_validation' => 'array',
+            'custom_validation.*.constraint' => 'required',
+            'custom_validation.*.value' => 'required',
+        ]);
 
-    	$page = CmsPage::where('route', $route)->firstOrFail();
+        if ($request['locale']) App::setLocale($request['locale']);
 
-    	$model = 'App\\' . $page['model_name'];
-	    
-	    $order_by = null;
-	    if ($request['order_by']) $order_by = $request['order_by'];
-	    elseif ($page['order_display']) $order_by = 'ht_pos';
-	    
-	    $order_dir = $request['order_dir'] ? $request['order_dir'] : 'asc';
+        $page = CmsPage::where('route', $route)->firstOrFail();
 
-    	$rows = $model::select('*')
-    	->when($order_by, function($query) use($order_by, $order_dir){
-            return $query->orderBy($order_by, $order_dir);
-        })
-    	->when($request['custom_validation'], function($query) use($request){
-    		foreach ($request['custom_validation'] as $validation) {
-			$query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
-    		}
-    		return $query;
-        })
-    	->when($request['locale'], function($query) use($request){
-    		return $query->withTranslation();
-        })
-    	->when($request['per_page'], function($query) use($request){
-            return $query->paginate($request['per_page']);
-        }, function($query) {
-	        return $query->get();
-        });
+        $model = 'App\\' . $page['model_name'];
+
+        $order_by = null;
+        if ($request['order_by']) $order_by = $request['order_by'];
+        elseif ($page['order_display']) $order_by = 'ht_pos';
+
+        $order_dir = $request['order_dir'] ? $request['order_dir'] : 'asc';
+
+        $rows = $model::select('*')
+            ->when($order_by, function ($query) use ($order_by, $order_dir) {
+                return $query->orderBy($order_by, $order_dir);
+            })
+            ->when($request['custom_validation'], function ($query) use ($request) {
+                foreach ($request['custom_validation'] as $validation) {
+                    if (!in_array($validation['constraint'], [
+                        'where',
+                        'orWhere',
+                        'whereIn',
+                        'whereNotIn',
+                        'has',
+                        'doesntHave',
+                        'with',
+                    ])) abort(403, $validation['constraint'] . ' not supported');
+                    $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
+                }
+                return $query;
+            })
+            ->when($request['locale'], function ($query) use ($request) {
+                return $query->withTranslation();
+            })
+            ->when($request['per_page'], function ($query) use ($request) {
+                return $query->paginate($request['per_page']);
+            }, function ($query) {
+                return $query->get();
+            });
 
         // Check for images or files in form fields
         foreach (json_decode($page['fields'], true) as $page_field) {
@@ -81,18 +90,18 @@ class ApisController extends Controller
             'custom_validation.*.value' => 'required',
         ]);
 
-    	$page = CmsPage::where('route', $route)->firstOrFail();
+        $page = CmsPage::where('route', $route)->firstOrFail();
 
-    	$model = 'App\\' . $page['model_name'];
+        $model = 'App\\' . $page['model_name'];
 
-    	$row = $model::select('*')
-    	->when($request['custom_validation'], function($query) use($request){
-    		foreach ($request['custom_validation'] as $validation) {
-    			$query = $query->{$validation['constraint']}($validation['column'], $validation['value']);
-    		}
-    		return $query;
-        })
-		->findOrFail($id);
+        $row = $model::select('*')
+            ->when($request['custom_validation'], function ($query) use ($request) {
+                foreach ($request['custom_validation'] as $validation) {
+                    $query = $query->{$validation['constraint']}($validation['column'], $validation['value']);
+                }
+                return $query;
+            })
+            ->findOrFail($id);
 
         // Check for images in form fields
         foreach (json_decode($page['fields'], true) as $page_field) {
@@ -110,6 +119,6 @@ class ApisController extends Controller
             }
         }
 
-    	return $row;
+        return $row;
     }
 }

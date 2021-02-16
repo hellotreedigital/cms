@@ -59,7 +59,7 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::post('/ckeditor/images', 'hellotreedigital\cms\controllers\CmsPagesController@uploadCkeditorImages')->name('ckeditor-images');
 
     //Logs
-    Route::get('/logs', 'hellotreedigital\cms\controllers\LogsController@index');
+    Route::get('/logs', 'hellotreedigital\cms\controllers\CmsLogsController@index');
 
     // Cms Pages routes
     foreach (\Hellotreedigital\Cms\Models\CmsPage::where('custom_page', 0)->get() as $cms_page) {

@@ -5,7 +5,7 @@ namespace Hellotreedigital\Cms\Middlewares;
 use Hellotreedigital\Cms\Models\AdminRole;
 use Hellotreedigital\Cms\Models\AdminRolePermission;
 use Hellotreedigital\Cms\Models\CmsPage;
-use Hellotreedigital\Cms\Models\Log;
+use Hellotreedigital\Cms\Models\CmsLog;
 use Closure;
 use Route;
 use Auth;
@@ -132,7 +132,7 @@ class AdminMiddleware
                     if (isset($request_path_array[1]) && isset($request_path_array[2]) && $request_path_array[1] == 'edit' && $request_path_array[2] == 'images') {
                         // Uploading images
                     } else {
-                        Log::create([
+                        CmsLog::create([
                             'admin_id' => $admin['id'],
                             'cms_page_id' => $admin['cms_pages'][$route]['id'],
                             'action' => 'created',
@@ -140,7 +140,7 @@ class AdminMiddleware
                     }
                     if (!$admin_page_permission['add']) abort(403);
                 } elseif ($request->isMethod('delete')) {
-                    Log::create([
+                    CmsLog::create([
                         'admin_id' => $admin['id'],
                         'cms_page_id' => $admin['cms_pages'][$route]['id'],
                         'record_id' => $request['id'],
@@ -150,7 +150,7 @@ class AdminMiddleware
                 } elseif ($request->isMethod('put')) {
                     if (isset($request_path_array[1]) && $request_path_array[1] == 'order') {
                         // Order
-                        Log::create([
+                        CmsLog::create([
                             'admin_id' => $admin['id'],
                             'cms_page_id' => $admin['cms_pages'][$route]['id'],
                             'record_id' => '',
@@ -160,7 +160,7 @@ class AdminMiddleware
                         // Uploading images
                     } else {
                         // Edit
-                        Log::create([
+                        CmsLog::create([
                             'admin_id' => $admin['id'],
                             'cms_page_id' => $admin['cms_pages'][$route]['id'],
                             'record_id' => $request['id'],

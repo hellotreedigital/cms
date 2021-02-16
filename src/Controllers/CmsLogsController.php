@@ -4,13 +4,13 @@ namespace Hellotreedigital\Cms\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Hellotreedigital\Cms\Models\Log;
+use Hellotreedigital\Cms\Models\CmsLog;
 
-class LogsController extends Controller
+class CmsLogsController extends Controller
 {
     public function index()
     {
-        $rows = Log::get();
+        $rows = CmsLog::get();
         return view('cms::pages/logs/index', compact('rows'));
     }
 }

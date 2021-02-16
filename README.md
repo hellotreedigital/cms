@@ -18,6 +18,7 @@
 ],
 		</pre>
 	</li>
+    <li>Configure the filesystem in config/filesystem.php, use 'public' as default value if none</li>
 	<li>
 		Run:
 		<pre>
