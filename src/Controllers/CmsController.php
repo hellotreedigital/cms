@@ -99,7 +99,7 @@ class CmsController extends Controller
 
     public function asset(Request $request)
     {
-        $path = Util::normalizeRelativePath(urldecode(__DIR__ . '/../assets/' . $request['path']));
+        $path = __DIR__ . '/../assets/' . Util::normalizeRelativePath(urldecode($request['path']));
         $file = File::get($path);
 
         if (Str::endsWith($path, '.js')) $mime = 'application/javascript';
