@@ -18,6 +18,8 @@ class HttpLogsMiddleware
     {
         HttpLog::create([
             'ip' => request()->ip(),
+            'method' => request()->method(),
+            'url' => request()->url(),
             'request' => json_encode(request()->toArray()),
         ]);
 
