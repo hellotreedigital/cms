@@ -192,6 +192,8 @@ Class CmsServiceProvider extends ServiceProvider
         Schema::create('http_logs', function ($table) {
             $table->increments('id');
             $table->string('ip');
+            $table->string('method');
+            $table->string('url');
             $table->longText('request');
             $table->timestamps();
         });
