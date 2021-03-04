@@ -153,6 +153,7 @@
 									<td>
 										@if ($row[$field['name']])
 											<a href="{{ Storage::url($row[$field['name']]) }}" target="_blank"><i class="fa fa-file" aria-hidden="true"></i></a>
+											<p style="font-size: 0;">{{ Storage::url($row[$field['name']]) }}</p>
 										@endif
 									</td>
 								@elseif ($field['form_field'] == 'textarea')
