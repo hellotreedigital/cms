@@ -21,6 +21,7 @@ class ApisController extends Controller
         if ($request['locale']) App::setLocale($request['locale']);
 
         $page = CmsPage::where('route', $route)->firstOrFail();
+        $translatable_fields = json_decode($page['translatable_fields']);
 
         $model = 'App\\' . $page['model_name'];
 
@@ -44,13 +45,12 @@ class ApisController extends Controller
                         'has',
                         'doesntHave',
                         'with',
-                        'whereTranslationLike',
                     ])) abort(403, $validation['constraint'] . ' not supported');
                     $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
                 }
                 return $query;
             })
-            ->when($request['locale'], function ($query) use ($request) {
+            ->when($request['locale'] && count($translatable_fields), function ($query) use ($request) {
                 return $query->withTranslation();
             })
             ->when($request['per_page'], function ($query) use ($request) {
