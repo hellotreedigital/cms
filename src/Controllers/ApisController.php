@@ -85,7 +85,7 @@ class ApisController extends Controller
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach ($rows as $r => $row) {
                     foreach (config('translatable.locales') as $locale) {
-                        $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? Storage::url($row->translate($locale)[$page_field['name']]) : null;
+                        $row->getTranslation()[$page_field['name']] = $row->getTranslation()[$page_field['name']] ? Storage::url($row->getTranslation()[$page_field['name']]) : null;
                     }
                 }
             }
@@ -97,8 +97,8 @@ class ApisController extends Controller
                 foreach ($rows as $r => $row) {
                     foreach (config('translatable.locales') as $locale) {
                         $new_array = json_decode($rows[$r][$page_field['name']]);
-                        foreach($new_array as $i => $path) $new_array[$i] = Storage::url($row->translate($locale)[$page_field['name']]);
-                        $row->translate($locale)[$page_field['name']] = $new_array;
+                        foreach($new_array as $i => $path) $new_array[$i] = Storage::url($row->getTranslation()[$page_field['name']]);
+                        $row->getTranslation()[$page_field['name']] = $new_array;
                     }
                 }
             }
@@ -140,7 +140,7 @@ class ApisController extends Controller
         foreach (json_decode($page['translatable_fields'], true) as $page_field) {
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
                 foreach (config('translatable.locales') as $locale) {
-                    $row->translate($locale)[$page_field['name']] = $row->translate($locale)[$page_field['name']] ? Storage::url($row->translate($locale)[$page_field['name']]) : null;
+                    $row->getTranslation()[$page_field['name']] = $row->getTranslation()[$page_field['name']] ? Storage::url($row->getTranslation()[$page_field['name']]) : null;
                 }
             }
         }
