@@ -46,6 +46,7 @@ class ApisController extends Controller
                         'doesntHave',
                         'with',
                         'whereTranslationLike',
+                        'orderByTranslation',
                     ])) abort(403, $validation['constraint'] . ' not supported');
                     $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
                 }
