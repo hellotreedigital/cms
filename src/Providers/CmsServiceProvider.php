@@ -193,7 +193,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->increments('id');
             $table->string('ip');
             $table->string('method');
-            $table->string('url');
+            $table->text('url');
             $table->longText('request');
             $table->timestamps();
         });
