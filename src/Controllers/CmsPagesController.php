@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Hellotreedigital\Cms\Models\CmsPage;
 use Artisan;
+use Illuminate\Validation\ValidationException;
 use Storage;
 use Str;
 use Schema;
@@ -323,7 +324,7 @@ class CmsPagesController extends Controller
             // Check if old table have a pivot table
             foreach (json_decode($old_page['fields'], true) as $old_field) {
                 if ($old_field['form_field'] == 'select multiple') {
-                    return redirect()->back()->withInput()->withErrors(['Remove fields with pivot table (form field `select multiple`) before changing database table name']);
+                    throw ValidationException::withMessages(['Remove fields with pivot table (form field `select multiple`) before changing database table name']);
                 }
             }
 
@@ -713,22 +714,22 @@ class CmsPagesController extends Controller
         $fields = [];
         for ($i = 0; $i < count($request['name']); $i++) {
             // Check if field is unique
-            foreach ($fields as $field) if ($field['name'] == $request['name'][$i]) return redirect()->back()->withInput()->withErrors(['Column "' . $request['name'][$i] . '" already exists']);
+            foreach ($fields as $field) if ($field['name'] == $request['name'][$i]) throw ValidationException::withMessages(['Column "' . $request['name'][$i] . '" already exists']);
 
             // Check if migration type does not exist
             if ($request['form_field'][$i] != 'select multiple') {
-                if (!$request['migration_type'][$i]) return redirect()->back()->withInput()->withErrors(['The migration_type.' . $i . ' field is required.']);
-                elseif (!in_array($request['migration_type'][$i], $this->migration_types)) return redirect()->back()->withInput()->withErrors(['The migration_type.' . $i . ' field is not valid.']);
+                if (!$request['migration_type'][$i]) throw ValidationException::withMessages(['The migration_type.' . $i . ' field is required.']);
+                elseif (!in_array($request['migration_type'][$i], $this->migration_types)) throw ValidationException::withMessages(['The migration_type.' . $i . ' field is not valid.']);
             }
 
             // Check if form field is valid
-            if (!in_array($request['form_field'][$i], $this->form_fields)) return redirect()->back()->withInput()->withErrors(['The form_field.' . $i . ' field is not valid.']);
+            if (!in_array($request['form_field'][$i], $this->form_fields)) throw ValidationException::withMessages(['The form_field.' . $i . ' field is not valid.']);
 
             // Check database table if exists
-            if ($request['form_field'][$i] == 'select' && !CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first()) return redirect()->back()->withInput()->withErrors(['Database table not found in "' . $request['name'][$i] . '" field']);
+            if ($request['form_field'][$i] == 'select' && !CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first()) throw ValidationException::withMessages(['Database table not found in "' . $request['name'][$i] . '" field']);
 
             // Check database table if exists
-            if ($request['form_field'][$i] == 'select multiple' && !CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first()) return redirect()->back()->withInput()->withErrors(['Database table not found in "' . $request['name'][$i] . '" field']);
+            if ($request['form_field'][$i] == 'select multiple' && !CmsPage::where('database_table', $request['form_field_additionals_1'][$i])->first()) throw ValidationException::withMessages(['Database table not found in "' . $request['name'][$i] . '" field']);
 
             $fields[] = [
                 'name' => $request['name'][$i],
@@ -751,14 +752,14 @@ class CmsPagesController extends Controller
         if ($request['translatable_name']) {
             for ($i = 0; $i < count($request['translatable_name']); $i++) {
                 // Check if field is unique
-                foreach ($fields as $field) if ($field['name'] == $request['translatable_name'][$i]) return redirect()->back()->withInput()->withErrors(['Column "' . $request['translatable_name'][$i] . '" already exists']);
+                foreach ($fields as $field) if ($field['name'] == $request['translatable_name'][$i]) throw ValidationException::withMessages(['Column "' . $request['translatable_name'][$i] . '" already exists']);
 
                 // Check if migration type does not exist
-                if (!$request['translatable_migration_type'][$i]) return redirect()->back()->withInput()->withErrors(['The translatable_migration_type.' . $i . ' field is required.']);
-                elseif (!in_array($request['translatable_migration_type'][$i], $this->migration_types)) return redirect()->back()->withInput()->withErrors(['The migration_type.' . $i . ' field is not valid.']);
+                if (!$request['translatable_migration_type'][$i]) throw ValidationException::withMessages(['The translatable_migration_type.' . $i . ' field is required.']);
+                elseif (!in_array($request['translatable_migration_type'][$i], $this->migration_types)) throw ValidationException::withMessages(['The migration_type.' . $i . ' field is not valid.']);
 
                 // Check if form field is valid
-                if (!in_array($request['translatable_form_field'][$i], $this->form_fields) || $request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') return redirect()->back()->withInput()->withErrors(['The form_field.' . $i . ' field is not valid.']);
+                if (!in_array($request['translatable_form_field'][$i], $this->form_fields) || $request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') throw ValidationException::withMessages(['The form_field.' . $i . ' field is not valid.']);
 
                 $fields[] = [
                     'name' => $request['translatable_name'][$i],
