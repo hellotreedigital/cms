@@ -174,7 +174,7 @@ class CmsPageController extends Controller
                             $row->translateOrNew($locale)->{$field['name']} = null;
                         }
                     } else {
-                        $row->translateOrNew($locale)->{$field['name']} = $request[$locale][$field['name']];
+                        $row->translateOrNew($locale)->{$field['name']} = isset($request[$locale][$field['name']]) ? $request[$locale][$field['name']] : null;
                     }
                 }
             }
