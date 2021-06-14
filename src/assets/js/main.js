@@ -210,7 +210,7 @@ $(document).ready(function () {
         var id = $(this).attr('id');
         var uploadUrl = $(this).attr('upload-url');
 
-        CKEDITOR.replace(this.id, {
+        var ckeditor = CKEDITOR.replace(this.id, {
             height: 400,
             extraPlugins: 'format,embed,autoembed,image,maximize,blockquote,justify' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
@@ -219,6 +219,20 @@ $(document).ready(function () {
             colorButton_enableAutomatic: false,
             removeButtons: 'Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Styles',
             filebrowserUploadUrl: uploadUrl,
+            on: {
+                change: function(e) {
+                    var cont = e.editor.getData();
+                    cont = cont.replace(/<[^>]*>/g, ' ');
+                    cont = cont.replace(/\s+/g, ' ');
+                    cont = cont.replace(/\&nbsp;/g, ' ');
+                    cont = cont.trim();
+                    var n = cont.trim().split(' ').filter(function (s) { return s != ' ' && s != ''}).length;
+                    this.element.$.closest('.word-count-wrapper').querySelector('.word-count-number').innerHTML = n;
+                },
+                instanceReady: function (e) {
+                    this.fire('change');
+                }
+          }
         });
     });
 
@@ -366,6 +380,8 @@ $(document).ready(function () {
         $(this).closest('form').submit();
     });
 
+    $('[onkeyup="wordCount(this)"]').keyup();
+
 });
 
 $(document).mouseup(function (e) {
@@ -383,4 +399,11 @@ function readImageSrc(file) {
             resolve(e.target.result);
         }
     });
+}
+
+function wordCount(el) {
+    var value = el.value;
+    var span = el.closest('.word-count-wrapper').querySelector('.word-count-number');
+    var wordCount = value == '' ? 0 : value.trim().split(' ').filter(function (s) { return s != ' ' && s != ''}).length;
+    span.innerHTML = wordCount;
 }

@@ -6,5 +6,8 @@
 @endphp
 <div class="form-group">
 	@include('cms::components/form-fields/label')
-	<textarea class="form-control" name="{{ $input_name }}" rows="5">{{ $value }}</textarea>
+    <div class="word-count-wrapper">
+	    <textarea class="form-control" name="{{ $input_name }}" rows="5" onkeyup="wordCount(this)">{{ $value }}</textarea>
+        <small class="float-right"><span class="word-count-number"></span> words</small>
+    </div>
 </div>

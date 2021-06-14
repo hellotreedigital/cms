@@ -6,5 +6,8 @@
 @endphp
 <div class="form-group">
 	@include('cms::components/form-fields/label')
-	<textarea name="{{ $input_name }}" id="ckeditor_{{ $input_name }}" upload-url="{{ route('ckeditor-images', ['_token' => csrf_token()]) }}">{{ $value }}</textarea>
+    <div class="word-count-wrapper">
+        <textarea name="{{ $input_name }}" id="ckeditor_{{ $input_name }}" upload-url="{{ route('ckeditor-images', ['_token' => csrf_token()]) }}">{{ $value }}</textarea>
+        <small class="float-right"><span class="word-count-number"></span> words</small>
+    </div>
 </div>
