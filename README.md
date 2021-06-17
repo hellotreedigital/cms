@@ -72,3 +72,15 @@
 		<pre>\Hellotreedigital\Cms\Middlewares\HttpLogsMiddleware::class,</pre>
 	</li>
 </ul>
+
+<h1>Preview Checking On The Website:</h1>
+<ul>
+	<li>
+		If
+		<pre>auth('admin')->check() && request('ht_preview_mode')</pre>
+        returns true, then preview mode is on, you can get the preview data from
+		<pre>session('ht-preview-mode-request')</pre>
+        Code example:
+        <pre>$row = auth('admin')->check() && request('ht_preview_mode') ? session('ht-preview-mode-request') : $row = Model::findOrFail($id);</pre>
+	</li>
+</ul>
