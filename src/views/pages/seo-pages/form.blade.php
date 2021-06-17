@@ -54,11 +54,12 @@
                         <div class="text-right">
                             @csrf
                             <input type="hidden" name="ht_preview_mode" value="0">
-                            <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
+                            @if ($page['preview_path'])
+                                <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
+                            @endif
                             <button type="submit" class="btn btn-sm btn-primary">Submit</button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
@@ -98,24 +99,25 @@
                     <div class="text-right">
                         <hr class="mt-4">
                         <div>
-                            <textarea id="code-to-copy" class="d-block" style="height: 1px; padding: 0px; margin: 0px; opacity: 0; border-width: 0px;">{{'<!-- Primary Meta Tags -->
-<title>%{%{ $seo_page->title }%}%</title>
+                            <textarea id="code-to-copy" class="d-block" style="height: 1px; padding: 0px; margin: 0px; opacity: 0; border-width: 0px;">{{ '<!-- Primary Meta Tags --><title>%{%{ $seo_page->title }%}%</title>
 <meta name="title" content="%{%{ $seo_page->title }%}%">
 <meta name="description" content="%{%{ $seo_page->description }%}%">
 
-<!-- Open Graph / Facebook -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="' . env('APP_URL') . '">
+<!-- Open Graph / Facebook --><meta property="og:type" content="website">
+<meta property="og:url" content="' .
+    env('APP_URL') .
+    '">
 <meta property="og:title" content="%{%{ $seo_page->title }%}%">
 <meta property="og:description" content="%{%{ $seo_page->description }%}%">
 <meta property="og:image" content="%{%{ Storage::url($seo_page->image) }%}%">
 
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="' . env('APP_URL') . '">
+<!-- Twitter --><meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="' .
+    env('APP_URL') .
+    '">
 <meta property="twitter:title" content="%{%{ $seo_page->title }%}%">
 <meta property="twitter:description" content="%{%{ $seo_page->description }%}%">
-<meta property="twitter:image" content="%{%{ Storage::url($seo_page->image) }%}%">'}}</textarea>
+<meta property="twitter:image" content="%{%{ Storage::url($seo_page->image) }%}%">' }}</textarea>
                         </div>
                         <button class="btn btn-sm btn-primary copy-code">Copy Code</button>
                     </div>
@@ -145,19 +147,20 @@
                 $('.seo-image').css('opacity', 1);
             }
         });
-        $('.copy-code').on('click', function () {
+        $('.copy-code').on('click', function() {
             var textarea = $('#code-to-copy');
             textarea.val(
                 textarea
-                    .val()
-                    .split('%{')
-                    .join('{')
-                    .split('}%')
-                    .join('}')
+                .val()
+                .split('%{')
+                .join('{')
+                .split('}%')
+                .join('}')
             )
             textarea[0].select();
             document.execCommand('copy');
             alert('Code copied')
         });
+
     </script>
 @endsection
