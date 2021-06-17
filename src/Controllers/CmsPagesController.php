@@ -568,7 +568,7 @@ class CmsPagesController extends Controller
 
 
         $body = '';
-        foreach ($request->form_field as $f => $form_field) {
+        foreach ($request['form_field'] as $f => $form_field) {
             if ($form_field == 'select') {
                 $second_database_table = $request->form_field_additionals_1[$f];
                 $second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
@@ -585,7 +585,7 @@ class CmsPagesController extends Controller
         }
 
         file_put_contents(
-            app_path('/' . $request->model_name . '.php'),
+            app_path('/' . $request['model_name'] . '.php'),
             str_replace(
                 [
                     '%%head%%',
@@ -598,9 +598,9 @@ class CmsPagesController extends Controller
                 ],
                 [
                     $head,
-                    $request->model_name,
+                    $request['model_name'],
                     $implements,
-                    $request->database_table,
+                    $request['database_table'],
                     $use,
                     $translated_attributes,
                     $body,

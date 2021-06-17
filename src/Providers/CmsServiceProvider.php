@@ -101,35 +101,98 @@ Class CmsServiceProvider extends ServiceProvider
         DB::table('cms_pages')->insert([
     		[
                 'icon' => 'fa-window-restore',
+                'display_name' => null,
     			'display_name_plural' => 'CMS Pages',
+                'database_table' => null,
     			'route' => 'cms-pages',
+                'model_name' => null,
                 'custom_page' => 1,
+                'fields' => null,
+                'translatable_fields' => null,
+                'add' => null,
+                'edit' => null,
+                'delete' => null,
+                'show' => null,
+                'single_record' => null,
+                'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
     		],
     		[
                 'icon' => 'fa-lock',
+                'display_name' => null,
     			'display_name_plural' => 'Admin Roles',
+                'database_table' => null,
     			'route' => 'admin-roles',
+                'model_name' => null,
                 'custom_page' => 1,
+                'fields' => null,
+                'translatable_fields' => null,
+                'add' => null,
+                'edit' => null,
+                'delete' => null,
+                'show' => null,
+                'single_record' => null,
+                'apis' => null,
                 'parent_title' => 'Admins',
                 'parent_icon' => 'fa-user-secret',
     		],
     		[
                 'icon' => ' fa-user-secret',
+                'display_name' => null,
     			'display_name_plural' => 'Admins',
+                'database_table' => null,
     			'route' => 'admins',
+                'model_name' => null,
                 'custom_page' => 1,
+                'fields' => null,
+                'translatable_fields' => null,
+                'add' => null,
+                'edit' => null,
+                'delete' => null,
+                'show' => null,
+                'single_record' => null,
+                'apis' => null,
                 'parent_title' => 'Admins',
                 'parent_icon' => 'fa-user-secret',
     		],
             [
                 'icon' => 'fa-align-left',
+                'display_name' => null,
                 'display_name_plural' => 'Logs',
+                'database_table' => null,
                 'route' => 'logs',
+                'model_name' => null,
                 'custom_page' => 1,
+                'fields' => null,
+                'translatable_fields' => null,
+                'add' => null,
+                'edit' => null,
+                'delete' => null,
+                'show' => null,
+                'single_record' => null,
+                'apis' => null,
                 'parent_title' => 'Admins',
                 'parent_icon' => 'fa-user-secret',
+            ],
+            [
+                'icon' => 'fa-bar-chart',
+                'display_name' => 'SEO Page',
+                'display_name_plural' => 'SEO Pages',
+                'database_table' => 'seo_pages',
+                'route' => 'seo-pages',
+                'model_name' => 'SeoPage',
+                'custom_page' => 0,
+                'fields' => '[{"name":"slug","migration_type":"string","form_field":"slug","form_field_additionals_1":"title","form_field_additionals_2":"0","description":null,"nullable":"0","unique":"0"},{"name":"title","migration_type":"string","form_field":"text","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"},{"name":"description","migration_type":"text","form_field":"textarea","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"},{"name":"image","migration_type":"string","form_field":"image","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"}]',
+                'translatable_fields' => '[]',
+                'add' => 0,
+                'edit' => 1,
+                'delete' => 0,
+                'show' => 1,
+                'single_record' => 0,
+                'apis' => 0,
+                'parent_title' => null,
+                'parent_icon' => null,
             ],
     	]);
 
@@ -198,5 +261,23 @@ Class CmsServiceProvider extends ServiceProvider
             $table->longText('request');
             $table->timestamps();
         });
+
+        // Create seo pages table
+        Schema::create('seo_pages', function ($table) {
+            $table->increments('id');
+            $table->string('slug');
+            $table->string('title')->nullable();
+            $table->text('description')->nullable();
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
+
+        // Create seo pages model
+        app('Hellotreedigital\Cms\Controllers\CmsPagesController')->createModel([
+            'model_name' => 'SeoPage',
+            'database_table' => 'seo_pages',
+            'translatable_name' => null,
+            'form_field' => []
+        ]);
 	}
 }
