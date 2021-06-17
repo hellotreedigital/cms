@@ -80,6 +80,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('order_display')->nullable();
             $table->string('sort_by')->nullable();
             $table->string('sort_by_direction')->nullable();
+            $table->string('preview_path')->nullable();
             $table->longtext('fields')->nullable();
             $table->longtext('translatable_fields')->nullable();
             $table->tinyInteger('add')->nullable();

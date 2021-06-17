@@ -67,6 +67,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => true,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -78,6 +79,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => true,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -89,6 +91,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => true,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -100,6 +103,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => true,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -111,6 +115,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => false,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -122,6 +127,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => false,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -133,6 +139,7 @@
 						'locale' => null,
 						'description' => '',
 						'required' => false,
+                        'no_word_count' => true,
 					])
 				</div>
 				<div class="col-lg-6">
@@ -144,6 +151,19 @@
 						'locale' => null,
 						'description' => '',
 						'required' => false,
+						'no_word_count' => true,
+					])
+				</div>
+				<div class="col-lg-6">
+					@include('cms::components/form-fields/input', [
+						'label' => 'Preview Path',
+						'name' => 'preview_path',
+						'type' => 'text',
+						'value' => isset($cms_page) ? $cms_page['preview_path'] : '',
+						'locale' => null,
+						'description' => '',
+						'required' => false,
+						'no_word_count' => true,
 					])
 				</div>
 			</div>

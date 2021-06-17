@@ -203,6 +203,9 @@ class CmsPageController extends Controller
         $validation_rules = array_merge($field_validation_rules, $translatable_field_validation_rules_languages);
         $request->validate($validation_rules);
 
+        // Check if preview mode
+        if ($request->ht_preview_mode) return $this->previewMode($page, $request);
+
         // Insert query
         $query = [];
         foreach ($page_fields as $field) {
@@ -317,6 +320,9 @@ class CmsPageController extends Controller
         $validation_rules = array_merge($field_validation_rules, $translatable_field_validation_rules_languages);
         $request->validate($validation_rules);
 
+        // Check if preview mode
+        if ($request->ht_preview_mode) return $this->previewMode($page, $request);
+
         // Update query
         $query = [];
         foreach ($page_fields as $field) {
@@ -424,5 +430,14 @@ class CmsPageController extends Controller
         } else {
             return $file->store($route);
         }
+    }
+
+    public function previewMode($page, $request)
+    {
+        $request_assoc = $request->toArray();
+        $request_json = json_encode($request_assoc);
+        $request_obj = json_decode($request_json);
+        session(['ht-preview-mode-request' => $request_obj]);
+        return response()->json(url($page['preview_path']) . '?ht_preview_mode=1', 303);
     }
 }

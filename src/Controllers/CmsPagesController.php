@@ -123,6 +123,7 @@ class CmsPagesController extends Controller
         $cms_page->order_display = $request->order_display;
         $cms_page->sort_by = $request->sort_by;
         $cms_page->sort_by_direction = $request->sort_by_direction;
+        $cms_page->preview_path = $request->preview_path;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
         $cms_page->add = isset($request->add) ? 1 : 0;
@@ -226,6 +227,7 @@ class CmsPagesController extends Controller
         $cms_page->order_display = $request->order_display;
         $cms_page->sort_by = $request->sort_by;
         $cms_page->sort_by_direction = $request->sort_by_direction;
+        $cms_page->preview_path = $request->preview_path;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
         $cms_page->add = isset($request->add) ? 1 : 0;

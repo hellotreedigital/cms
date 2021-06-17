@@ -51,6 +51,8 @@
 
 			<div class="text-right">
 				@csrf
+                <input type="hidden" name="ht_preview_mode" value="0">
+				<button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
 				<button type="submit" class="btn btn-sm btn-primary">Submit</button>
 			</div>
 		</div>

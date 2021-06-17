@@ -325,6 +325,13 @@ $(document).ready(function () {
         }, 1000);
     });
 
+    $('.ht-preview-mode').on('click', function () {
+        var form = $(this).closest('form');
+        form.find('input[name="ht_preview_mode"]').val(1);
+        form.submit();
+        form.find('input[name="ht_preview_mode"]').val(0);
+    });
+
     $('form[ajax]').on('submit', function (e) {
         e.preventDefault();
 
@@ -352,17 +359,23 @@ $(document).ready(function () {
             error: function (r) {
                 $('#loader').fadeOut();
                 var ul = '';
+
                 if (r.status == 422) {
                     for (let key in r.responseJSON.errors) {
                         for (let i = 0; i < r.responseJSON.errors[key].length; i++) {
                             ul += '<li>' + r.responseJSON.errors[key][i] + '</li>';
                         }
                     }
+                } else if (r.status == 303) {
+                    window.open(r.responseJSON);
                 } else {
                     ul += '<li>' + r.responseJSON.message + '</li>';
                 }
-                $('.toast.error ul').html(ul);
-                $('.toast.error').addClass('show');
+
+                if (ul) {
+                    $('.toast.error ul').html(ul);
+                    $('.toast.error').addClass('show');
+                }
             }
         });
 
