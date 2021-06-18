@@ -395,12 +395,27 @@ $(document).ready(function () {
 
     $('[onkeyup="wordCount(this)"]').keyup();
 
+    $('.form-buttons-wrapper').each(function () {
+        var html = $(this).html();
+        $(this).closest('.position-relative').append('<div class="fixed-top form-buttons-wrapper-fixed px-2 px-sm-5"><div class="bg-white text-right shadow-sm py-3 px-4">' + html + '</div></div>');
+    });
+
 });
 
 $(document).mouseup(function (e) {
     // if the target of the click isn't the container nor a descendant of the container
     if (!$('.user-info').is(e.target) && $('.user-info').has(e.target).length === 0) {
         $('.user-info ul').hide();
+    }
+});
+
+$(window).on('scroll', function () {
+    if ($('.form-buttons-wrapper-fixed').length) {
+        if ($(document).scrollTop() > 300) {
+            $('.form-buttons-wrapper-fixed').addClass('show');
+        } else {
+            $('.form-buttons-wrapper-fixed').removeClass('show');
+        }
     }
 });
 

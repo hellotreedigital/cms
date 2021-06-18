@@ -49,8 +49,9 @@
                 @endforeach
             @endif
 
-            <div class="text-right">
-                @csrf
+            @csrf
+
+            <div class="form-buttons-wrapper text-right">
                 <input type="hidden" name="ht_preview_mode" value="0">
                 @if ($page['preview_path'])
                     <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>

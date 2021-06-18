@@ -44,57 +44,59 @@
 </nav>
 
 <div id="content">
+    <div class="position-relative">
+        <div class="header-bg"></div>
+        <header class="position-relative py-5 px-3 px-sm-5">
+            <div class="row align-items-center">
+                <div class="col-10 col-lg-6">
+                    @yield('breadcrumb')
+                </div>
+                <div class="col-2 col-lg-6 text-right">
+                    <div class="user-info d-none d-lg-block">
+                        <span class="font-weight-bold mr-3">{{ request()->get('admin')['name'] }}</span>
+                        <img src="{{ request()->get('admin')['image'] ? Storage::url(request()->get('admin')['image']) : url('asset?path=images/default.png') }}">
+                        <ul class="list-group text-left">
+                            <li class="list-group-item py-2 px-4">
+                                <a href="{{ route('admin-profile') }}">
+                                    <i class="fa fa-user mr-2" aria-hidden="true"></i>
+                                    My Profile
+                                </a>
+                            </li>
+                            <li class="list-group-item py-2 px-4">
+                                <a href="{{ route('admin-logout') }}">
+                                    <i class="fa fa-sign-out mr-2" aria-hidden="true"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="burger" class="d-inline-block d-lg-none">
+                        <label></label>
+                        <label></label>
+                        <label></label>
+                    </div>
+                </div>
+            </div>
+            @if (Session::has('success') || Session::has('error'))
+                <div class="toast text-center px-5 py-3">
+                    {{ Session::get('success') }}
+                </div>
+            @endif
+            <div class="toast text-center error transition px-5 py-3">
+                <i class="fa fa-times" aria-hidden="true"></i>
+                <ul class="list-unstyled text-center m-0"></ul>
+            </div>
+        </header>
 
-	<header class="position-relative py-5 px-3 px-sm-5">
-		<div class="row align-items-center">
-			<div class="col-10 col-lg-6">
-				@yield('breadcrumb')
-			</div>
-			<div class="col-2 col-lg-6 text-right">
-				<div class="user-info d-none d-lg-block">
-					<span class="font-weight-bold mr-3">{{ request()->get('admin')['name'] }}</span>
-					<img src="{{ request()->get('admin')['image'] ? Storage::url(request()->get('admin')['image']) : url('asset?path=images/default.png') }}">
-					<ul class="list-group text-left">
-						<li class="list-group-item py-2 px-4">
-							<a href="{{ route('admin-profile') }}">
-								<i class="fa fa-user mr-2" aria-hidden="true"></i>
-								My Profile
-							</a>
-						</li>
-						<li class="list-group-item py-2 px-4">
-							<a href="{{ route('admin-logout') }}">
-								<i class="fa fa-sign-out mr-2" aria-hidden="true"></i>
-								Logout
-							</a>
-						</li>
-					</ul>
-				</div>
-				<div id="burger" class="d-inline-block d-lg-none">
-					<label></label>
-					<label></label>
-					<label></label>
-				</div>
-			</div>
-		</div>
-		@if (Session::has('success') || Session::has('error'))
-			<div class="toast text-center px-5 py-3">
-				{{ Session::get('success') }}
-			</div>
-        @endif
-        <div class="toast text-center error transition px-5 py-3">
-            <i class="fa fa-times" aria-hidden="true"></i>
-            <ul class="list-unstyled text-center m-0"></ul>
+        <div id="dashboard-content">
+            @yield('dashboard-content')
         </div>
-	</header>
 
-	<div id="dashboard-content">
-		@yield('dashboard-content')
-	</div>
+        <div id="content-overlay"></div>
 
-	<div id="content-overlay"></div>
+        @include('cms::components/footer')
 
-	@include('cms::components/footer')
-
+    </div>
 </div>
 
 @endsection

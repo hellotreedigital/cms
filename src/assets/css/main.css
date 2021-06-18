@@ -239,9 +239,6 @@ html body .card {
   border: none;
   margin-bottom: 45px;
 }
-html body .card:first-child {
-  margin-top: -160px;
-}
 html body .breadcrumbs li:not(:last-child) {
   position: relative;
   padding-right: 22px;
@@ -386,10 +383,14 @@ html body #content #content-overlay {
   width: 100%;
   background: rgba(0, 0, 0, 0.1);
 }
-html body #content header {
+html body #content .header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 300px;
+  width: 100%;
   background-color: #fbd22f;
   background-image: linear-gradient(to right, #fbd22f, #e8b900);
-  height: 300px;
 }
 html body #content header img {
   width: 50px;
@@ -753,6 +754,19 @@ html body .close-popup {
 }
 html body .opacity-half {
   opacity: 0.5;
+}
+html body .form-buttons-wrapper-fixed {
+  left: 250px;
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: all 0.5s;
+}
+html body .form-buttons-wrapper-fixed .bg-white {
+  border-radius: 0 0 10px 10px;
+}
+html body .form-buttons-wrapper-fixed.show {
+  transform: translateY(0%);
+  opacity: 1;
 }
 
 .btn {
