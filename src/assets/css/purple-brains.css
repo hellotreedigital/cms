@@ -1,19 +1,19 @@
 ::-moz-selection {
-    background: #160838 !important;
+    background: #5C19DD !important;
 }
 ::selection {
-    background: #160838 !important;
+    background: #5C19DD !important;
 }
 html body #login {
-    background-color: #682469;
+    background-color: #5C19DD;
     background-image: linear-gradient(to right,#160838, #5C19DD);
 }
 html body #content .header-bg {
-    background-color: #682469;
+    background-color: #5C19DD;
     background-image: linear-gradient(to right,#160838, #5C19DD);
 }
 html body nav.main ul li:before {
-    background: #682469;
+    background: #5C19DD;
 }
 .breadcrumbs {
     color: #fff;
@@ -32,35 +32,35 @@ footer {
     color: #fff;
 }
 .btn.btn-primary {
-    background-color: #160838;
+    background-color: #5C19DD;
     color: #fff !important;
-    border-color: #160838;
+    border-color: #5C19DD;
 }
 html body nav.main .header {
     height: 70px;
 }
 html body .checkbox-wrapper div {
-    border-color: #160838;
+    border-color: #5C19DD;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.current,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.current {
-    background: #160838;
-    border-color: #160838;
+    background: #5C19DD;
+    border-color: #5C19DD;
     color: #fff !important;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.previous:before,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.previous:before {
-    border-right-color: #160838;
+    border-right-color: #5C19DD;
 }
 html body #content .datatable-wrapper .dataTables_filter .paginate_button.next:before,
 html body #content .datatable-wrapper .dataTables_paginate .paginate_button.next:before {
-    border-left-color: #160838;
+    border-left-color: #5C19DD;
 }
 .form-control:focus {
-    border-color: #160838;
+    border-color: #5C19DD;
     box-shadow: 0 0 0 0.2rem #922c8e40;
 }
 html body .checkbox-wrapper input:checked + div {
-    border-color: #160838;
-    background-color: #160838;
+    border-color: #5C19DD;
+    background-color: #5C19DD;
 }
