@@ -8,7 +8,7 @@ html body #login {
     background-color: #0e96d3;
     background-image: linear-gradient(to right, #0e96d3, #a6206b);
 }
-html body #content header {
+html body #content .header-bg {
     background-color: #0e96d3;
     background-image: linear-gradient(to right, #0e96d3, #a6206b);
 }
