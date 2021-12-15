@@ -397,7 +397,7 @@ $(document).ready(function () {
 
     $('.form-buttons-wrapper').each(function () {
         var html = $(this).html();
-        $(this).closest('.position-relative').append('<div class="fixed-top form-buttons-wrapper-fixed px-2 px-sm-5"><div class="bg-white text-right shadow-sm py-3 px-4">' + html + '</div></div>');
+        $(this).parent().append('<div class="fixed-top form-buttons-wrapper-fixed px-2 px-sm-5"><div class="bg-white text-right shadow-sm py-3 px-4">' + html + '</div></div>');
     });
 
 });

@@ -815,7 +815,7 @@ html body .form-buttons-wrapper-fixed.show {
   color: #fff;
   background-color: rgba(40, 167, 69, 0.7);
   border-radius: 8px;
-  z-index: 1;
+  z-index: 1031;
 }
 .toast.error {
   background-color: #b52e2c;
