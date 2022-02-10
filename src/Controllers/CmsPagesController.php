@@ -92,6 +92,9 @@ class CmsPagesController extends Controller
             'old_form_field_additionals_1' => 'required|array',
             'form_field_additionals_1' => 'required|array',
             'form_field_additionals_2' => 'required|array',
+            'hide_index' => 'required|array',
+            'hide_create' => 'required|array',
+            'hide_edit' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
             'translatable_name' => 'array',
@@ -200,6 +203,9 @@ class CmsPagesController extends Controller
             'old_form_field_additionals_1' => 'required|array',
             'form_field_additionals_1' => 'required|array',
             'form_field_additionals_2' => 'required|array',
+            'hide_index' => 'required|array',
+            'hide_create' => 'required|array',
+            'hide_edit' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
         ]);
@@ -740,6 +746,9 @@ class CmsPagesController extends Controller
                 'form_field_additionals_1' => $request['form_field_additionals_1'][$i],
                 'form_field_additionals_2' => $request['form_field_additionals_2'][$i],
                 'description' => $request['description'][$i],
+                'hide_index' => $request['hide_index'][$i],
+                'hide_create' => $request['hide_create'][$i],
+                'hide_edit' => $request['hide_edit'][$i],
                 'nullable' => $request['nullable'][$i],
                 'unique' => $request['unique'][$i],
             ];
@@ -768,6 +777,9 @@ class CmsPagesController extends Controller
                     'migration_type' => $request['translatable_migration_type'][$i],
                     'form_field' => $request['translatable_form_field'][$i],
                     'description' => $request['translatable_description'][$i],
+                    'hide_index' => $request['hide_index'][$i],
+                    'hide_create' => $request['hide_create'][$i],
+                    'hide_edit' => $request['hide_edit'][$i],
                     'nullable' => $request['translatable_nullable'][$i],
                 ];
             }

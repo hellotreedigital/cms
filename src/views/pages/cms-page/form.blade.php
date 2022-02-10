@@ -14,7 +14,7 @@
 
 @section('dashboard-content')
 
-    <form method="post" enctype="multipart/form-data" action="{{ isset($row) ? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . $appends_to_query) : url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}" ajax>
+    <form method="post" enctype="multipart/form-data" action="{{ isset($row)? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . $appends_to_query): url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}" ajax>
 
         <div class="card p-4 mx-2 mx-sm-5">
             <p class="font-weight-bold text-uppercase mb-4">{{ isset($row) ? 'Edit ' . $page['display_name'] . ' #' . $row['id'] : 'Add ' . $page['display_name'] }}</p>
@@ -32,7 +32,9 @@
             @endif
 
             @foreach ($page_fields as $field)
-                @include('cms::pages/cms-page/form-fields', ['locale' => null])
+                @if ($field['form_field'] && ((!isset($row) && !$field['hide_create']) || (isset($row) && !$field['hide_edit'])))
+                    @include('cms::pages/cms-page/form-fields', ['locale' => null])
+                @endif
             @endforeach
 
             @if (count($page_translatable_fields))

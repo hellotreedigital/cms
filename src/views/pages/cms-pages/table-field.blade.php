@@ -9,7 +9,10 @@
 			$row_field_form_field_additionals_1 = null;
 			$row_field_form_field_additionals_2 = null;
 			$row_field_description = $field['description'] ?? '';
-			$row_field_nullable = $field['nullable'] ? 1 : 0;
+			$row_field_hide_index = (isset($field['hide_index']) && $field['hide_index']) ? 1 : 0;
+			$row_field_hide_create = (isset($field['hide_create']) && $field['hide_create']) ? 1 : 0;
+			$row_field_hide_edit = (isset($field['hide_edit']) && $field['hide_edit']) ? 1 : 0;
+			$row_field_nullable = (isset($field['nullable']) && $field['nullable']) ? 1 : 0;
 			$row_field_unique = null;
 		} else {
 			$row_field_old_name = '';
@@ -20,6 +23,9 @@
 			$row_field_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_2 = null;
 			$row_field_description = null;
+			$row_field_hide_index = 0;
+			$row_field_hide_create = 0;
+			$row_field_hide_edit = 0;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -33,8 +39,11 @@
 			$row_field_form_field_additionals_1 = $field['form_field_additionals_1'];
 			$row_field_form_field_additionals_2 = $field['form_field_additionals_2'];
 			$row_field_description = $field['description'] ?? '';
-			$row_field_nullable = $field['nullable'] ? 1 : 0;
-			$row_field_unique = $field['unique'] ? 1 : 0;
+			$row_field_hide_index = (isset($field['hide_index']) && $field['hide_index']) ? 1 : 0;
+			$row_field_hide_create = (isset($field['hide_create']) && $field['hide_create']) ? 1 : 0;
+			$row_field_hide_edit = (isset($field['hide_edit']) && $field['hide_edit']) ? 1 : 0;
+			$row_field_nullable = (isset($field['nullable']) && $field['nullable']) ? 1 : 0;
+			$row_field_unique = (isset($field['unique']) && $field['unique']) ? 1 : 0;
 		} else {
 			$row_field_old_name = '';
 			$row_field_name = '';
@@ -44,6 +53,9 @@
 			$row_field_form_field_additionals_1 = '';
 			$row_field_form_field_additionals_2 = null;
 			$row_field_description = null;
+			$row_field_hide_index = 0;
+			$row_field_hide_create = 0;
+			$row_field_hide_edit = 0;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -78,6 +90,15 @@
 	</td>
 	<td class="text-center">
 		<input class="form-control" name="{{ $field_type ? ($field_type . '_') : '' }}description[]" value="{{ $row_field_description }}">
+	</td>
+	<td class="text-center">
+		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}hide_index[]" min="0" max="1" value="{{ $row_field_hide_index }}">
+	</td>
+	<td class="text-center">
+		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}hide_create[]" min="0" max="1" value="{{ $row_field_hide_create }}">
+	</td>
+	<td class="text-center">
+		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}hide_edit[]" min="0" max="1" value="{{ $row_field_hide_edit }}">
 	</td>
 	<td class="text-center">
 		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}nullable[]" min="0" max="1" value="{{ $row_field_nullable }}">

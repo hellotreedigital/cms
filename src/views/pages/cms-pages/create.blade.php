@@ -290,6 +290,9 @@
 							<th class="text-center">Migration Type <span class="text-danger">*</span></th>
 							<th class="text-center">Form Field <span class="text-danger">*</span></th>
                             <th class="text-center">Description</th>
+							<th class="text-center">Hide Index <span class="text-danger">*</span></th>
+							<th class="text-center">Hide Create <span class="text-danger">*</span></th>
+							<th class="text-center">Hide Edit <span class="text-danger">*</span></th>
 							<th class="text-center">Nullable <span class="text-danger">*</span></th>
 							<th class="text-center">Unique <span class="text-danger">*</span></th>
 							<th class="text-center">Remove</th>
