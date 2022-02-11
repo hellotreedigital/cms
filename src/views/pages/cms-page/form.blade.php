@@ -32,7 +32,7 @@
             @endif
 
             @foreach ($page_fields as $field)
-                @if ($field['form_field'] && ((!isset($row) && !$field['hide_create']) || (isset($row) && !$field['hide_edit'])))
+                @if ($field['form_field'] && ((!isset($row) && (!isset($field['hide_create']) || !$field['hide_create'])) || (isset($row) && (!isset($field['hide_edit']) || !$field['hide_edit']))))
                     @include('cms::pages/cms-page/form-fields', ['locale' => null])
                 @endif
             @endforeach

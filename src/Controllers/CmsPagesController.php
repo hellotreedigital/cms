@@ -746,9 +746,9 @@ class CmsPagesController extends Controller
                 'form_field_additionals_1' => $request['form_field_additionals_1'][$i],
                 'form_field_additionals_2' => $request['form_field_additionals_2'][$i],
                 'description' => $request['description'][$i],
-                'hide_index' => $request['hide_index'][$i],
-                'hide_create' => $request['hide_create'][$i],
-                'hide_edit' => $request['hide_edit'][$i],
+                'hide_index' => (isset($request['hide_index'][$i]) && $request['hide_index'][$i]) ? 1 : 0,
+                'hide_create' => (isset($request['hide_create'][$i]) && $request['hide_create'][$i]) ? 1 : 0,
+                'hide_edit' => (isset($request['hide_edit'][$i]) && $request['hide_edit'][$i]) ? 1 : 0,
                 'nullable' => $request['nullable'][$i],
                 'unique' => $request['unique'][$i],
             ];
@@ -777,9 +777,9 @@ class CmsPagesController extends Controller
                     'migration_type' => $request['translatable_migration_type'][$i],
                     'form_field' => $request['translatable_form_field'][$i],
                     'description' => $request['translatable_description'][$i],
-                    'hide_index' => $request['hide_index'][$i],
-                    'hide_create' => $request['hide_create'][$i],
-                    'hide_edit' => $request['hide_edit'][$i],
+                    'hide_index' => (isset($request['hide_index'][$i]) && $request['hide_index'][$i]) ? 1 : 0,
+                    'hide_create' => (isset($request['hide_create'][$i]) && $request['hide_create'][$i]) ? 1 : 0,
+                    'hide_edit' => (isset($request['hide_edit'][$i]) && $request['hide_edit'][$i]) ? 1 : 0,
                     'nullable' => $request['translatable_nullable'][$i],
                 ];
             }

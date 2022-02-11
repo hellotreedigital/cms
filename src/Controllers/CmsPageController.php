@@ -209,7 +209,7 @@ class CmsPageController extends Controller
         // Insert query
         $query = [];
         foreach ($page_fields as $field) {
-            if ($field['form_field'] == 'select multiple' || $field['hide_create']) continue;
+            if ($field['form_field'] == 'select multiple' || isset($field['hide_create']) && $field['hide_create']) continue;
             elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
                 $query[$field['name']] = Hash::make($request[$field['name']]);
             } elseif ($field['form_field'] == 'checkbox') {
@@ -326,7 +326,7 @@ class CmsPageController extends Controller
         // Update query
         $query = [];
         foreach ($page_fields as $field) {
-            if (($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) || $field['form_field'] == 'select multiple' || $field['hide_edit']) continue;
+            if (($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) || $field['form_field'] == 'select multiple' || (isset($field['hide_edit']) && $field['hide_edit'])) continue;
 
             if (($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation')) {
                 if ($request[$field['name']]) {

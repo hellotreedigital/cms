@@ -90,7 +90,7 @@
 						<th></th>
 						<th>#</th>
 						@foreach($page_fields as $field)
-							@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation' || $field['hide_index']) @continue
+							@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation' || (isset($field['hide_index']) && $field['hide_index'])) @continue
 							@else
 								@php
 								$appends_to_sort_query = '?';
@@ -130,7 +130,7 @@
 								{{ $row['id'] }}
 							</td>
 							@foreach($page_fields as $field)
-								@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation' || $field['hide_index']) @continue
+								@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation' || (isset($field['hide_index']) && $field['hide_index'])) @continue
 
 								@elseif ($field['form_field'] == 'image')
 									<td>
