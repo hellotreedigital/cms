@@ -95,6 +95,7 @@ class CmsPagesController extends Controller
             'hide_index' => 'required|array',
             'hide_create' => 'required|array',
             'hide_edit' => 'required|array',
+            'hide_show' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
             'translatable_name' => 'array',
@@ -206,6 +207,7 @@ class CmsPagesController extends Controller
             'hide_index' => 'required|array',
             'hide_create' => 'required|array',
             'hide_edit' => 'required|array',
+            'hide_show' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
         ]);
@@ -749,6 +751,7 @@ class CmsPagesController extends Controller
                 'hide_index' => $request['hide_index'][$i],
                 'hide_create' => $request['hide_create'][$i],
                 'hide_edit' => $request['hide_edit'][$i],
+                'hide_show' => $request['hide_show'][$i],
                 'nullable' => $request['nullable'][$i],
                 'unique' => $request['unique'][$i],
             ];
@@ -777,9 +780,10 @@ class CmsPagesController extends Controller
                     'migration_type' => $request['translatable_migration_type'][$i],
                     'form_field' => $request['translatable_form_field'][$i],
                     'description' => $request['translatable_description'][$i],
-                    'hide_index' => $request['hide_index'][$i],
-                    'hide_create' => $request['hide_create'][$i],
-                    'hide_edit' => $request['hide_edit'][$i],
+                    'hide_index' => $request['translatable_hide_index'][$i],
+                    'hide_create' => $request['translatable_hide_create'][$i],
+                    'hide_edit' => $request['translatable_hide_edit'][$i],
+                    'hide_show' => $request['translatable_hide_show'][$i],
                     'nullable' => $request['translatable_nullable'][$i],
                 ];
             }
