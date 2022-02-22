@@ -433,5 +433,5 @@ function wordCount(el) {
     var value = el.value;
     var span = el.closest('.word-count-wrapper').querySelector('.word-count-number');
     var wordCount = value == '' ? 0 : value.trim().split(' ').filter(function (s) { return s != ' ' && s != ''}).length;
-    span.innerHTML = wordCount;
+    if (span) span.innerHTML = wordCount;
 }
