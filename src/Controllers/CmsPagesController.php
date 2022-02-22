@@ -95,6 +95,7 @@ class CmsPagesController extends Controller
             'hide_index' => 'required|array',
             'hide_create' => 'required|array',
             'hide_edit' => 'required|array',
+            'hide_show' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
             'translatable_name' => 'array',
@@ -206,6 +207,7 @@ class CmsPagesController extends Controller
             'hide_index' => 'required|array',
             'hide_create' => 'required|array',
             'hide_edit' => 'required|array',
+            'hide_show' => 'required|array',
             'nullable' => 'required|array',
             'unique' => 'required|array',
         ]);
@@ -749,6 +751,7 @@ class CmsPagesController extends Controller
                 'hide_index' => (isset($request['hide_index'][$i]) && $request['hide_index'][$i]) ? 1 : 0,
                 'hide_create' => (isset($request['hide_create'][$i]) && $request['hide_create'][$i]) ? 1 : 0,
                 'hide_edit' => (isset($request['hide_edit'][$i]) && $request['hide_edit'][$i]) ? 1 : 0,
+                'hide_show' => (isset($request['hide_show'][$i]) && $request['hide_show'][$i]) ? 1 : 0,
                 'nullable' => $request['nullable'][$i],
                 'unique' => $request['unique'][$i],
             ];
@@ -777,9 +780,10 @@ class CmsPagesController extends Controller
                     'migration_type' => $request['translatable_migration_type'][$i],
                     'form_field' => $request['translatable_form_field'][$i],
                     'description' => $request['translatable_description'][$i],
-                    'hide_index' => (isset($request['hide_index'][$i]) && $request['hide_index'][$i]) ? 1 : 0,
-                    'hide_create' => (isset($request['hide_create'][$i]) && $request['hide_create'][$i]) ? 1 : 0,
-                    'hide_edit' => (isset($request['hide_edit'][$i]) && $request['hide_edit'][$i]) ? 1 : 0,
+                    'hide_index' => (isset($request['translatable_hide_index'][$i]) && $request['translatable_hide_index'][$i]) ? 1 : 0,
+                    'hide_create' => (isset($request['translatable_hide_create'][$i]) && $request['translatable_hide_create'][$i]) ? 1 : 0,
+                    'hide_edit' => (isset($request['translatable_hide_edit'][$i]) && $request['translatable_hide_edit'][$i]) ? 1 : 0,
+                    'hide_show' => (isset($request['translatable_hide_show'][$i]) && $request['translatable_hide_show'][$i]) ? 1 : 0,
                     'nullable' => $request['translatable_nullable'][$i],
                 ];
             }

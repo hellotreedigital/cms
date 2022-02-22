@@ -12,6 +12,7 @@
 			$row_field_hide_index = (isset($field['hide_index']) && $field['hide_index']) ? 1 : 0;
 			$row_field_hide_create = (isset($field['hide_create']) && $field['hide_create']) ? 1 : 0;
 			$row_field_hide_edit = (isset($field['hide_edit']) && $field['hide_edit']) ? 1 : 0;
+			$row_field_hide_show = (isset($field['hide_show']) && $field['hide_show']) ? 1 : 0;
 			$row_field_nullable = (isset($field['nullable']) && $field['nullable']) ? 1 : 0;
 			$row_field_unique = null;
 		} else {
@@ -26,6 +27,7 @@
 			$row_field_hide_index = 0;
 			$row_field_hide_create = 0;
 			$row_field_hide_edit = 0;
+			$row_field_hide_show = 0;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -42,6 +44,7 @@
 			$row_field_hide_index = (isset($field['hide_index']) && $field['hide_index']) ? 1 : 0;
 			$row_field_hide_create = (isset($field['hide_create']) && $field['hide_create']) ? 1 : 0;
 			$row_field_hide_edit = (isset($field['hide_edit']) && $field['hide_edit']) ? 1 : 0;
+			$row_field_hide_show = (isset($field['hide_show']) && $field['hide_show']) ? 1 : 0;
 			$row_field_nullable = (isset($field['nullable']) && $field['nullable']) ? 1 : 0;
 			$row_field_unique = (isset($field['unique']) && $field['unique']) ? 1 : 0;
 		} else {
@@ -56,6 +59,7 @@
 			$row_field_hide_index = 0;
 			$row_field_hide_create = 0;
 			$row_field_hide_edit = 0;
+			$row_field_hide_show = 0;
 			$row_field_nullable = 0;
 			$row_field_unique = 0;
 		}
@@ -99,6 +103,9 @@
 	</td>
 	<td class="text-center">
 		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}hide_edit[]" min="0" max="1" value="{{ $row_field_hide_edit }}">
+	</td>
+	<td class="text-center">
+		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}hide_show[]" min="0" max="1" value="{{ $row_field_hide_show }}">
 	</td>
 	<td class="text-center">
 		<input class="form-control" type="number" name="{{ $field_type ? ($field_type . '_') : '' }}nullable[]" min="0" max="1" value="{{ $row_field_nullable }}">
