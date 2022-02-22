@@ -130,9 +130,9 @@ class CmsPagesController extends Controller
         $cms_page->preview_path = $request->preview_path;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
-        $cms_page->add = isset($request->add) ? 1 : 0;
+        $cms_page->add = isset($request->single_record) ? 0 : (isset($request->add) ? 1 : 0);
         $cms_page->edit = isset($request->edit) ? 1 : 0;
-        $cms_page->delete = isset($request->delete) ? 1 : 0;
+        $cms_page->delete = isset($request->single_record) ? 0 : (isset($request->delete) ? 1 : 0);
         $cms_page->show = isset($request->show) ? 1 : 0;
         $cms_page->single_record = isset($request->single_record) ? 1 : 0;
         $cms_page->apis = isset($request->apis) ? 1 : 0;
@@ -238,9 +238,9 @@ class CmsPagesController extends Controller
         $cms_page->preview_path = $request->preview_path;
         $cms_page->fields = json_encode($fields);
         $cms_page->translatable_fields = json_encode($translatable_fields);
-        $cms_page->add = isset($request->add) ? 1 : 0;
+        $cms_page->add = isset($request->single_record) ? 0 : (isset($request->add) ? 1 : 0);
         $cms_page->edit = isset($request->edit) ? 1 : 0;
-        $cms_page->delete = isset($request->delete) ? 1 : 0;
+        $cms_page->delete = isset($request->single_record) ? 0 : (isset($request->delete) ? 1 : 0);
         $cms_page->show = isset($request->show) ? 1 : 0;
         $cms_page->single_record = isset($request->single_record) ? 1 : 0;
         $cms_page->apis = isset($request->apis) ? 1 : 0;
