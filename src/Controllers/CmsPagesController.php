@@ -322,7 +322,7 @@ class CmsPagesController extends Controller
                 }
                 $table->timestamps();
 
-                $table->foreign(Str::singular($request->database_table) . '_id')->references('id')->on($request->database_table)->onDelete('cascade');
+                $table->foreign(Str::singular($request->database_table) . '_id', 'translatable_id')->references('id')->on($request->database_table)->onDelete('cascade');
             });
         }
     }
