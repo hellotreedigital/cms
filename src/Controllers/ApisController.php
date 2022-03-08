@@ -101,7 +101,13 @@ class ApisController extends Controller
             }
         }
 
-        return $rows;
+        if ($request['pluck']) {
+            return call_user_func_array([$rows, 'pluck'], $request['pluck']);
+        } elseif ($request['key_by']) {
+            return call_user_func_array([$rows, 'keyBy'], $request['key_by']);
+        } else {
+            return $rows;
+        }
     }
 
     public function single(Request $request, $id, $route)
