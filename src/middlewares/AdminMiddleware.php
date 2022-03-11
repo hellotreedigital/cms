@@ -49,16 +49,18 @@ class AdminMiddleware
             // Add permissions to $cms_pages array
             foreach ($cms_pages as $key => $cms_page) {
                 $page_found_in_permissions = false;
-                foreach ($admin_role_permissions_db as $admin_role_permission_db) {
-                    if ($admin_role_permission_db['cms_page_id'] == $cms_pages[$key]['id']) {
-                        $cms_pages[$key]['permissions'] = [
-                            'browse' => $admin_role_permission_db['browse'],
-                            'read' => $admin_role_permission_db['read'],
-                            'edit' => $admin_role_permission_db['edit'],
-                            'add' => $admin_role_permission_db['add'],
-                            'delete' => $admin_role_permission_db['delete'],
-                        ];
-                        $page_found_in_permissions = true;
+                if (!$cms_page['hidden']) {
+                    foreach ($admin_role_permissions_db as $admin_role_permission_db) {
+                        if ($admin_role_permission_db['cms_page_id'] == $cms_pages[$key]['id']) {
+                            $cms_pages[$key]['permissions'] = [
+                                'browse' => $admin_role_permission_db['browse'],
+                                'read' => $admin_role_permission_db['read'],
+                                'edit' => $admin_role_permission_db['edit'],
+                                'add' => $admin_role_permission_db['add'],
+                                'delete' => $admin_role_permission_db['delete'],
+                            ];
+                            $page_found_in_permissions = true;
+                        }
                     }
                 }
                 if (!$page_found_in_permissions) {

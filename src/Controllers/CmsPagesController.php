@@ -138,6 +138,7 @@ class CmsPagesController extends Controller
         $cms_page->apis = isset($request->apis) ? 1 : 0;
         $cms_page->server_side_pagination = isset($request->server_side_pagination) ? 1 : 0;
         $cms_page->with_export = isset($request->with_export) ? 1 : 0;
+        $cms_page->hidden = isset($request->hidden) ? 1 : 0;
         $cms_page->ht_pos = CmsPage::max('ht_pos') + 1;
         $cms_page->save();
 
@@ -246,6 +247,7 @@ class CmsPagesController extends Controller
         $cms_page->apis = isset($request->apis) ? 1 : 0;
         $cms_page->server_side_pagination = isset($request->server_side_pagination) ? 1 : 0;
         $cms_page->with_export = isset($request->with_export) ? 1 : 0;
+        $cms_page->hidden = isset($request->hidden) ? 1 : 0;
         $cms_page->save();
 
         $request->session()->flash('success', 'Page edited successfully');

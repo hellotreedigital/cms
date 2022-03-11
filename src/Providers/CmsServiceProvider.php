@@ -91,6 +91,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->tinyInteger('apis')->nullable();
             $table->tinyInteger('server_side_pagination')->nullable();
             $table->tinyInteger('with_export')->nullable();
+            $table->tinyInteger('hidden')->default(0);
             $table->tinyInteger('custom_page')->default(0);
             $table->string('parent_title')->nullable();
             $table->string('parent_icon')->nullable();
@@ -114,6 +115,7 @@ Class CmsServiceProvider extends ServiceProvider
                 'delete' => null,
                 'show' => null,
                 'single_record' => null,
+                'hidden' => 1,
                 'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
