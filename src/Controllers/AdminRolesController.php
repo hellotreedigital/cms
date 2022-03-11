@@ -19,7 +19,7 @@ class AdminRolesController extends Controller
 
     public function create()
     {
-        $cms_pages = CmsPage::get()->toArray();
+        $cms_pages = CmsPage::where('hidden', 0)->get()->toArray();
         return view('cms::pages/admin-roles/create', compact(
             'cms_pages'
         ));
@@ -35,7 +35,7 @@ class AdminRolesController extends Controller
 		$admin_role->title = $request->title;
         $admin_role->save();
 
-        $cms_pages = CmsPage::get();
+        $cms_pages = CmsPage::where('hidden', 0)->get();
         foreach ($cms_pages as $key => $cms_page) {
             if ($cms_page->id == 1) continue;
 
@@ -72,7 +72,7 @@ class AdminRolesController extends Controller
     public function edit($id)
     {
         $row = AdminRole::findOrFail($id);
-        $cms_pages = CmsPage::get()->toArray();
+        $cms_pages = CmsPage::where('hidden', 0)->get()->toArray();
         $admin_role_permissions = AdminRolePermission::where('admin_role_id', $id)->get();
         $cms_pages_permissions = $this->cmsPagesWithPermissions($cms_pages, $admin_role_permissions);
         return view('cms::pages/admin-roles/edit', compact(
@@ -92,7 +92,7 @@ class AdminRolesController extends Controller
         $row->title = $request->title;
         $row->save();
 
-        $cms_pages = CmsPage::get();
+        $cms_pages = CmsPage::where('hidden', 0)->get();
         foreach ($cms_pages as $key => $cms_page) {
             if ($cms_page->id == 1) continue;
 
