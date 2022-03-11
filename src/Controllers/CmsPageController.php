@@ -137,6 +137,9 @@ class CmsPageController extends Controller
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
+            if ($field['hide_create']) continue;
+            if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
+
             $validation_rules[$field['name']] = '';
 
             if (!$field['nullable']) $validation_rules[$field['name']] .= 'required|';
@@ -276,6 +279,7 @@ class CmsPageController extends Controller
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
+            if ($field['hide_edit']) continue;
             if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
 
             $validation_rules[$field['name']] = '';
