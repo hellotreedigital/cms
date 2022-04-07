@@ -18,6 +18,7 @@ class CmsPagesController extends Controller
         'string',
         'date',
         'time',
+        'datetime',
         'text',
         'mediumText',
         'longText',
