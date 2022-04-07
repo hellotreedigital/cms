@@ -12,32 +12,32 @@ use Auth;
 
 class CmsController extends Controller
 {
-	/*
+    /*
 	 * Start: Auth methods
 	 */
 
-	public function redirectToLoginForm()
+    public function redirectToLoginForm()
     {
-    	return redirect(route('admin-login'));
+        return redirect(route('admin-login'));
     }
 
-	public function showLoginForm()
+    public function showLoginForm()
     {
-    	return view('cms::pages/login/index');
+        return view('cms::pages/login/index');
     }
 
     public function login(Request $request)
     {
-    	$this->validate($request, [
-    		'email' => 'required',
-    		'password' => 'required'
-    	]);
+        $this->validate($request, [
+            'email' => 'required',
+            'password' => 'required'
+        ]);
 
-    	if (Auth::guard('admin')->attempt(['email' => $request['email'], 'password' => $request['password']])) {
-    		return redirect()->intended(route('admin-home'));
-    	}
+        if (Auth::guard('admin')->attempt(['email' => $request['email'], 'password' => $request['password']])) {
+            return redirect()->intended(route('admin-home'));
+        }
 
-    	return redirect()->back()->withInput($request->only('email'))->with('error', 'Wrong credentials');;
+        return redirect()->back()->withInput($request->only('email'))->with('error', 'Wrong credentials');;
     }
 
     public function logout()
@@ -46,14 +46,14 @@ class CmsController extends Controller
         return redirect(route('admin-login'));
     }
 
-	/*
+    /*
 	 * Start: Profile methods
 	 */
 
-	public function showProfile()
-	{
-		return view('cms::pages/profile/show');
-	}
+    public function showProfile()
+    {
+        return view('cms::pages/profile/show');
+    }
 
     public function showEditProfile()
     {
@@ -84,14 +84,14 @@ class CmsController extends Controller
         return route('admin-profile');
     }
 
-	/*
+    /*
 	 * Start: Home methods
 	 */
 
-	public function showHome()
-	{
-		return view('cms::pages/home/index');
-	}
+    public function showHome()
+    {
+        return view('cms::pages/home/index');
+    }
 
     /*
      * Start: Assets methods
@@ -99,13 +99,19 @@ class CmsController extends Controller
 
     public function asset(Request $request)
     {
-        $path = __DIR__ . '/../assets/' . Util::normalizeRelativePath(urldecode($request['path']));
-        $file = File::get($path);
+        if (class_exists(\League\Flysystem\Util::class)) {
+            // Flysystem 1.x
+            $path = __DIR__ . '/../assets/' . \League\Flysystem\Util::normalizeRelativePath(urldecode($request['path']));
+        } elseif (class_exists(\League\Flysystem\WhitespacePathNormalizer::class)) {
+            // Flysystem >= 2.x
+            $normalizer = new \League\Flysystem\WhitespacePathNormalizer();
+            $path = __DIR__ . '/../assets/' . $normalizer->normalizePath(urldecode($request['path']));
+        }
 
+        $file = File::get($path);
         if (Str::endsWith($path, '.js')) $mime = 'application/javascript';
         elseif (Str::endsWith($path, '.css')) $mime = 'text/css';
         else $mime = File::mimeType($path);
-
         return response($file, 200, ['Content-Type' => $mime])->setSharedMaxAge(31536000)->setMaxAge(31536000)->setExpires(new \DateTime('+1 year'));
     }
 }
