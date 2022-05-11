@@ -264,7 +264,9 @@ Class CmsServiceProvider extends ServiceProvider
             $table->string('ip');
             $table->string('method');
             $table->text('url');
+            $table->longText('headers');
             $table->longText('request');
+            $table->longText('response');
             $table->timestamps();
         });
 

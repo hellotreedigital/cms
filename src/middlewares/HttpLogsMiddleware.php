@@ -16,13 +16,17 @@ class HttpLogsMiddleware
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        $response = $next($request);
+
         HttpLog::create([
             'ip' => request()->ip(),
             'method' => request()->method(),
             'url' => request()->url(),
+            'headers' => json_encode(request()->header()),
             'request' => json_encode(request()->toArray()),
+            'response' => $response->getContent(),
         ]);
 
-        return $next($request);
+        return $response;
     }
 }
