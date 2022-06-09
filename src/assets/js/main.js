@@ -200,7 +200,6 @@ $(document).ready(function () {
         clearInterval(interval);
     });
 
-    // $('.dataTables_length select').addClass('regular-select');
     $('select:not(.regular-select)').each(function () {
         if ($(this).hasClass('select2-width-auto')) $(this).select2({ width: 'auto' });
         else $(this).select2({ width: '100%' });
@@ -299,16 +298,6 @@ $(document).ready(function () {
         inputs.prop('checked', !checked);
     });
 
-    $('[data-slug-origin]').each(function () {
-        var slug_input = $(this);
-        var origin_input_name = slug_input.data('slug-origin');
-        var origin_input = $('input[name="' + origin_input_name + '"]');
-
-        origin_input.on('keyup', function () {
-            slug_input.val(origin_input.val().toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))
-        });
-    });
-
     $('.sortable').sortable({
         update: function (event, ui) {
             $('.sortable .sortable-row').each(function (i) {
@@ -398,6 +387,16 @@ $(document).ready(function () {
     $('.form-buttons-wrapper').each(function () {
         var html = $(this).html();
         $(this).parent().append('<div class="fixed-top form-buttons-wrapper-fixed px-2 px-sm-5"><div class="bg-white text-right shadow-sm py-3 px-4">' + html + '</div></div>');
+    });
+
+    $('[data-slug-origin]').each(function () {
+        var slug_input = $(this);
+        var origin_input_name = slug_input.data('slug-origin');
+        var origin_input = $('input[name="' + origin_input_name + '"]');
+
+        origin_input.on('keyup', function () {
+            slug_input.val(origin_input.val().toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))
+        });
     });
 
 });
