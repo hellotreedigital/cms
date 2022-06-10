@@ -358,10 +358,16 @@ class CmsPageController extends Controller
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
                 $sync_values = [];
-                foreach($request[$field['name']] as $sync_id) {
-                    $sync_values[$sync_id] = ['ht_pos' => $request['ht_pos'][$field['name']][$sync_id]];
+                if ($request[$field['name']]) {
+                    foreach($request[$field['name']] as $sync_id) {
+                        $sync_values[$sync_id] = ['ht_pos' => $request['ht_pos'][$field['name']][$sync_id]];
+                    }
+                    try {
+                        $row->{str_replace('_id', '', $field['name'])}()->sync($sync_values);
+                    } catch (\Throwable $th) {
+                        $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
+                    }
                 }
-                $row->{str_replace('_id', '', $field['name'])}()->sync($sync_values);
             }
         }
 
