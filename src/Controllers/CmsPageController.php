@@ -357,7 +357,11 @@ class CmsPageController extends Controller
         // Select multiple update query
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
-                $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
+                $sync_values = [];
+                foreach($request[$field['name']] as $sync_id) {
+                    $sync_values[$sync_id] = ['ht_pos' => $request['ht_pos'][$field['name']][$sync_id]];
+                }
+                $row->{str_replace('_id', '', $field['name'])}()->sync($sync_values);
             }
         }
 

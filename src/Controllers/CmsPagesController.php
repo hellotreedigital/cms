@@ -303,6 +303,7 @@ class CmsPagesController extends Controller
                     $table->increments('id');
                     $table->integer($column_name)->unsigned();
                     $table->integer(Str::singular($request->database_table) . '_id')->unsigned();
+                    $table->integer('ht_pos')->unsigned()->nullable();
                     $table->timestamps();
 
                     $table->foreign($column_name)->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
@@ -419,6 +420,7 @@ class CmsPagesController extends Controller
                         $table->increments('id');
                         $table->integer($column_name)->unsigned();
                         $table->integer(Str::singular($request->database_table) . '_id')->unsigned();
+                        $table->integer('ht_pos')->unsigned()->nullable();
                         $table->timestamps();
 
                         $table->foreign($column_name)->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
@@ -591,7 +593,7 @@ class CmsPagesController extends Controller
                 $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
                 $column_name = $request->form_field_additionals_1[$f] == $request->database_table ? 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id' : Str::singular($request->form_field_additionals_1[$f]) . '_id';
 
-                $body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "', '" . Str::singular($request->database_table) . '_id' . "', '" . $column_name . "')" . '; } ';
+                $body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "', '" . Str::singular($request->database_table) . '_id' . "', '" . $column_name . "')->orderBy('ht_pos')" . '; } ';
             }
         }
 

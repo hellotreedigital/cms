@@ -205,6 +205,33 @@ $(document).ready(function () {
         else $(this).select2({ width: '100%' });
     });
 
+    $('.select-multiple-custom').on('change', function () {
+        var select = $(this);
+        var data = select.select2('data');
+        if (data.length && data[0].id) {
+            // Save selected option
+            var value = data[0].id;
+            var label = data[0].text;
+
+            // Clear select value
+            select.val(null).trigger('change');
+
+            // Display option
+            var optionHtml = '';
+            optionHtml += '<div class="selected-option py-1 d-flex align-items-center border-bottom sortable-row">';
+            optionHtml += '<p class="flex-grow-1 mb-0">' + label + '</p>';
+            optionHtml += '<i class="fa fa-remove text-danger"></i>';
+            optionHtml += '<input type="hidden" name="' + select.data('name') + '[]" value="' + value + '">';
+            optionHtml += '<input type="hidden" name="ht_pos[' + select.data('name') + '][' + value + ']" value="">';
+            optionHtml += '</div>';
+            select.closest('.select-multiple-custom-wrapper').find('.selected-options').append(optionHtml);
+        }
+    });
+
+    $(document).on('click', '.selected-option .fa-remove', function () {
+        $(this).closest('.selected-option').remove();
+    });
+
     $('[id^="ckeditor_"]').each(function () {
         var id = $(this).attr('id');
         var uploadUrl = $(this).attr('upload-url');
@@ -219,19 +246,19 @@ $(document).ready(function () {
             removeButtons: 'Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Styles',
             filebrowserUploadUrl: uploadUrl,
             on: {
-                change: function(e) {
+                change: function (e) {
                     var cont = e.editor.getData();
                     cont = cont.replace(/<[^>]*>/g, ' ');
                     cont = cont.replace(/\s+/g, ' ');
                     cont = cont.replace(/\&nbsp;/g, ' ');
                     cont = cont.trim();
-                    var n = cont.trim().split(' ').filter(function (s) { return s != ' ' && s != ''}).length;
+                    var n = cont.trim().split(' ').filter(function (s) { return s != ' ' && s != '' }).length;
                     this.element.$.closest('.word-count-wrapper').querySelector('.word-count-number').innerHTML = n;
                 },
                 instanceReady: function (e) {
                     this.fire('change');
                 }
-          }
+            }
         });
     });
 
@@ -431,6 +458,6 @@ function readImageSrc(file) {
 function wordCount(el) {
     var value = el.value;
     var span = el.closest('.word-count-wrapper').querySelector('.word-count-number');
-    var wordCount = value == '' ? 0 : value.trim().split(' ').filter(function (s) { return s != ' ' && s != ''}).length;
+    var wordCount = value == '' ? 0 : value.trim().split(' ').filter(function (s) { return s != ' ' && s != '' }).length;
     if (span) span.innerHTML = wordCount;
 }
