@@ -12,7 +12,6 @@ foreach($value as $single_value) {
     @include('cms::components/form-fields/label')
     <div class="select-multiple-custom-wrapper">
         <select class="form-control select-multiple-custom" data-name="{{ $name }}" multiple>
-            <option></option>
             @foreach ($options as $option)
                 <option value="{{ $option[$store_column] }}" {!! in_array($option[$store_column], $selected_ids) ? 'selected' : '' !!}>
                     {{ $option[$display_column] }}

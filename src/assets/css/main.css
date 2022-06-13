@@ -1022,8 +1022,16 @@ html body .form-buttons-wrapper-fixed.show {
 	color: #555;
 }
 
+.select-multiple-custom-wrapper .select2-selection__rendered {
+	display: block !important;
+}
+
 .select-multiple-custom-wrapper .select2-selection__choice {
 	display: none;
+}
+
+.select-multiple-custom-wrapper .select2-search__field {
+	margin: 0 !important;
 }
 
 @keyframes jump {
