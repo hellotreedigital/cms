@@ -201,30 +201,32 @@ $(document).ready(function () {
     });
 
     $('select:not(.regular-select)').each(function () {
-        if ($(this).hasClass('select2-width-auto')) $(this).select2({ width: 'auto' });
-        else $(this).select2({ width: '100%' });
+        if ($(this).hasClass('select2-width-auto')) $(this).select2({ width: 'auto', templateResult: resultState });
+        else $(this).select2({ width: '100%', templateResult: resultState });
     });
 
     $('.select-multiple-custom').on('change', function () {
         var select = $(this);
         var data = select.select2('data');
-        if (data.length && data[0].id) {
-            // Save selected option
-            var value = data[0].id;
-            var label = data[0].text;
 
-            // Clear select value
-            select.val(null).trigger('change');
+        if (data.length) {
+            for (let i = 0; i < data.length; i++) {
+                // Save selected option
+                var value = data[i].id;
+                var label = data[i].text;
 
-            // Display option
-            var optionHtml = '';
-            optionHtml += '<div class="selected-option py-1 d-flex align-items-center border-bottom sortable-row">';
-            optionHtml += '<p class="flex-grow-1 mb-0">' + label + '</p>';
-            optionHtml += '<i class="fa fa-remove text-danger"></i>';
-            optionHtml += '<input type="hidden" name="' + select.data('name') + '[]" value="' + value + '">';
-            optionHtml += '<input type="hidden" name="ht_pos[' + select.data('name') + '][' + value + ']" value="">';
-            optionHtml += '</div>';
-            select.closest('.select-multiple-custom-wrapper').find('.selected-options').append(optionHtml);
+                if (value && !select.closest('.select-multiple-custom-wrapper').find('.selected-options input[type="hidden"][value="' + value + '"]').length) {
+                    // Display option
+                    var optionHtml = '';
+                    optionHtml += '<div class="selected-option py-1 d-flex align-items-center border-bottom sortable-row">';
+                    optionHtml += '<p class="flex-grow-1 mb-0">' + label + '</p>';
+                    optionHtml += '<i class="fa fa-remove text-danger"></i>';
+                    optionHtml += '<input type="hidden" name="' + select.data('name') + '[]" value="' + value + '">';
+                    optionHtml += '<input type="hidden" name="ht_pos[' + select.data('name') + '][' + value + ']" value="">';
+                    optionHtml += '</div>';
+                    select.closest('.select-multiple-custom-wrapper').find('.selected-options').append(optionHtml);
+                }
+            }
         }
     });
 
@@ -460,4 +462,11 @@ function wordCount(el) {
     var span = el.closest('.word-count-wrapper').querySelector('.word-count-number');
     var wordCount = value == '' ? 0 : value.trim().split(' ').filter(function (s) { return s != ' ' && s != '' }).length;
     if (span) span.innerHTML = wordCount;
+}
+
+function resultState(data, container) {
+    // console.log(data, container)
+    if (data.element) {
+    }
+    return data.text;
 }

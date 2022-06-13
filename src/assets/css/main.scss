@@ -907,6 +907,9 @@ html {
     background-color: $color_yellow;
     color: $color_text;
 }
+.select-multiple-custom-wrapper .select2-selection__choice {
+    display: none;
+}
 
 @keyframes jump {
     0% {
