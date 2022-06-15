@@ -236,6 +236,7 @@ class CmsPageController extends Controller
         // Select multiple insert query
         foreach ($page_fields as $field) {
             if ($field['form_field'] == 'select multiple') {
+                // No need for ht_pos here because it's being saved by order
                 $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
             }
         }
@@ -367,6 +368,8 @@ class CmsPageController extends Controller
                     } catch (\Throwable $th) {
                         $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
                     }
+                } else {
+                    $row->{str_replace('_id', '', $field['name'])}()->sync([]);
                 }
             }
         }
