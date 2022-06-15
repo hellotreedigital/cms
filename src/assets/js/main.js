@@ -243,6 +243,7 @@ $(document).ready(function () {
             select.val(selectValues).change();
         }
 
+        console.log(selectedOptionDisplay)
         selectedOptionDisplay.remove();
     });
 
@@ -416,7 +417,11 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.filter-popup', function (e) {
-        if (!e.target.closest('.card') || e.target.classList.contains('close-popup')) $('.filter-popup').fadeOut();
+        $('.filter-popup').fadeOut();
+    });
+
+    $(document).on('click', '.filter-popup .card', function (e) {
+        e.stopPropagation();
     });
 
     $('.server-showing-number-wrapper select').on('change', function () {
