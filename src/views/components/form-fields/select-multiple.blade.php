@@ -21,7 +21,7 @@ if (!isset($value) || !$value) {
                         <div class="selected-option py-1 d-flex align-items-center border-bottom sortable-row">
                             <p class="flex-grow-1 mb-0">{{ $option[$display_column] }}</p>
                             <i class="fa fa-remove text-danger"></i>
-                            <input type="hidden" name="{{ $name }}[]" value="{{ $selected_id }}">
+                            <input type="hidden" name="{{ $name }}[]" value="{{ $selected_id }}" class="selected-option-id">
                             <input type="hidden" name="ht_pos[{{ $name }}][{{ $selected_id }}]" value="">
                         </div>
                     @endif

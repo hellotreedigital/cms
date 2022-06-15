@@ -221,7 +221,7 @@ $(document).ready(function () {
                     optionHtml += '<div class="selected-option py-1 d-flex align-items-center border-bottom sortable-row">';
                     optionHtml += '<p class="flex-grow-1 mb-0">' + label + '</p>';
                     optionHtml += '<i class="fa fa-remove text-danger"></i>';
-                    optionHtml += '<input type="hidden" name="' + select.data('name') + '[]" value="' + value + '">';
+                    optionHtml += '<input type="hidden" name="' + select.data('name') + '[]" value="' + value + '" class="selected-option-id">';
                     optionHtml += '<input type="hidden" name="ht_pos[' + select.data('name') + '][' + value + ']" value="">';
                     optionHtml += '</div>';
                     select.closest('.select-multiple-custom-wrapper').find('.selected-options').append(optionHtml);
@@ -231,7 +231,19 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.selected-option .fa-remove', function () {
-        $(this).closest('.selected-option').remove();
+        var selectedOptionDisplay = $(this).closest('.selected-option');
+        var selectedOptionId = selectedOptionDisplay.find('.selected-option-id').val();
+        var selectWrapper = $(this).closest('.select-multiple-custom-wrapper');
+        var select = selectWrapper.find('select');
+        var selectValues = select.val();
+
+        var i = selectValues.indexOf(selectedOptionId);
+        if (i > -1) {
+            selectValues.splice(i, 1);
+            select.val(selectValues).change();
+        }
+
+        selectedOptionDisplay.remove();
     });
 
     $('[id^="ckeditor_"]').each(function () {
