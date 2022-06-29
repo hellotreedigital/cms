@@ -63,7 +63,6 @@ Class CmsServiceProvider extends ServiceProvider
 		// Publish cms assets
         Artisan::call('vendor:publish --tag=cms_config --force');
         Artisan::call('vendor:publish --tag=cms_routes --force');
-        Artisan::call('vendor:publish --tag=translatable --force');
 	}
 
 	protected function createDatabase()
@@ -116,6 +115,26 @@ Class CmsServiceProvider extends ServiceProvider
                 'show' => null,
                 'single_record' => null,
                 'hidden' => 1,
+                'apis' => null,
+                'parent_title' => null,
+                'parent_icon' => null,
+    		],
+    		[
+                'icon' => 'fa-language',
+                'display_name' => null,
+    			'display_name_plural' => 'Languages',
+                'database_table' => null,
+    			'route' => 'languages',
+                'model_name' => null,
+                'custom_page' => 1,
+                'fields' => null,
+                'translatable_fields' => null,
+                'add' => null,
+                'edit' => null,
+                'delete' => null,
+                'show' => null,
+                'single_record' => null,
+                'hidden' => 0,
                 'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
@@ -188,8 +207,8 @@ Class CmsServiceProvider extends ServiceProvider
                 'route' => 'seo-pages',
                 'model_name' => 'SeoPage',
                 'custom_page' => 0,
-                'fields' => '[{"name":"slug","migration_type":"string","form_field":"slug","form_field_additionals_1":"title","form_field_additionals_2":"0","description":null,"nullable":"0","unique":"0"},{"name":"title","migration_type":"string","form_field":"text","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"},{"name":"description","migration_type":"text","form_field":"textarea","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"},{"name":"image","migration_type":"string","form_field":"image","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"nullable":"1","unique":"0"}]',
-                'translatable_fields' => '[]',
+                'fields' => '[{"name":"slug","migration_type":"string","form_field":"slug","form_field_additionals_1":"en[title]","form_field_additionals_2":"0","description":null,"hide_index":0,"hide_create":0,"hide_edit":0,"hide_show":0,"nullable":"0","unique":"0"},{"name":"image","migration_type":"string","form_field":"image","form_field_additionals_1":null,"form_field_additionals_2":null,"description":null,"hide_index":0,"hide_create":0,"hide_edit":0,"hide_show":0,"nullable":"1","unique":"0"}]',
+                'translatable_fields' => '[{"name":"title","migration_type":"string","form_field":"text","description":null,"hide_index":0,"hide_create":0,"hide_edit":0,"hide_show":0,"nullable":"1"},{"name":"description","migration_type":"text","form_field":"textarea","description":null,"hide_index":0,"hide_create":0,"hide_edit":0,"hide_show":0,"nullable":"1"}]',
                 'add' => 0,
                 'edit' => 1,
                 'delete' => 0,
@@ -200,6 +219,21 @@ Class CmsServiceProvider extends ServiceProvider
                 'parent_title' => null,
                 'parent_icon' => null,
             ],
+    	]);
+
+        // Create languages table
+        Schema::create('languages', function ($table) {
+            $table->increments('id');
+            $table->string('slug');
+            $table->string('title');
+            $table->string('direction');
+            $table->timestamps();
+        });
+
+    	DB::table('languages')->insert([
+    		'slug' => 'en',
+    		'title' => 'English',
+    		'direction' => 'ltr',
     	]);
 
         // Create admin roles table

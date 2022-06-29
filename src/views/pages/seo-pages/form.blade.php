@@ -33,23 +33,16 @@
                             </div>
                         @endif
 
-                        @foreach ($page_fields as $field)
-                            @include('cms::pages/cms-page/form-fields', ['locale' => null])
-                        @endforeach
-
-                        @if (count($page_translatable_fields))
-                            @foreach (config('translatable.locales') as $locale)
-                                @if (is_array($locale)) @continue @endif
-                                <div class="form-group">
-                                    <label>{{ ucfirst($locale) }}</label>
-                                    <div class="pl-3">
-                                        @foreach ($page_translatable_fields as $field)
-                                            @include('cms::pages/cms-page/form-fields', compact('locale'))
-                                        @endforeach
-                                    </div>
+                        @foreach (\Hellotreedigital\Cms\Models\Language::get() as $language)
+                            <div class="form-group">
+                                <label>{{ $language->title }}</label>
+                                <div class="pl-3">
+                                    @foreach ($page_translatable_fields as $field)
+                                        @include('cms::pages/cms-page/form-fields', ['locale' => $language->slug])
+                                    @endforeach
                                 </div>
-                            @endforeach
-                        @endif
+                            </div>
+                        @endforeach
 
                         <div class="text-right">
                             @csrf
@@ -100,24 +93,24 @@
                         <hr class="mt-4">
                         <div>
                             <textarea id="code-to-copy" class="d-block" style="height: 1px; padding: 0px; margin: 0px; opacity: 0; border-width: 0px;">{{ '<!-- Primary Meta Tags --><title>%{%{ $seo_page->title }%}%</title>
-<meta name="title" content="%{%{ $seo_page->title }%}%">
-<meta name="description" content="%{%{ $seo_page->description }%}%">
+                                                        <meta name="title" content="%{%{ $seo_page->title }%}%">
+                                                        <meta name="description" content="%{%{ $seo_page->description }%}%">
 
-<!-- Open Graph / Facebook --><meta property="og:type" content="website">
-<meta property="og:url" content="' .
-    env('APP_URL') .
-    '">
-<meta property="og:title" content="%{%{ $seo_page->title }%}%">
-<meta property="og:description" content="%{%{ $seo_page->description }%}%">
-<meta property="og:image" content="%{%{ Storage::url($seo_page->image) }%}%">
+                                                        <!-- Open Graph / Facebook --><meta property="og:type" content="website">
+                                                        <meta property="og:url" content="' .
+                                env('APP_URL') .
+                                '">
+                                                        <meta property="og:title" content="%{%{ $seo_page->title }%}%">
+                                                        <meta property="og:description" content="%{%{ $seo_page->description }%}%">
+                                                        <meta property="og:image" content="%{%{ Storage::url($seo_page->image) }%}%">
 
-<!-- Twitter --><meta property="twitter:card" content="summary_large_image">
-<meta property="twitter:url" content="' .
-    env('APP_URL') .
-    '">
-<meta property="twitter:title" content="%{%{ $seo_page->title }%}%">
-<meta property="twitter:description" content="%{%{ $seo_page->description }%}%">
-<meta property="twitter:image" content="%{%{ Storage::url($seo_page->image) }%}%">' }}</textarea>
+                                                        <!-- Twitter --><meta property="twitter:card" content="summary_large_image">
+                                                        <meta property="twitter:url" content="' .
+                                env('APP_URL') .
+                                '">
+                                                        <meta property="twitter:title" content="%{%{ $seo_page->title }%}%">
+                                                        <meta property="twitter:description" content="%{%{ $seo_page->description }%}%">
+                                                        <meta property="twitter:image" content="%{%{ Storage::url($seo_page->image) }%}%">' }}</textarea>
                         </div>
                         <button class="btn btn-sm btn-primary copy-code">Copy Code</button>
                     </div>
@@ -161,6 +154,5 @@
             document.execCommand('copy');
             alert('Code copied')
         });
-
     </script>
 @endsection

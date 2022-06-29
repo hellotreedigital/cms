@@ -5,6 +5,7 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Hellotreedigital\Cms\Models\Language;
 use Illuminate\Support\Facades\Storage;
 use App;
 
@@ -142,7 +143,7 @@ class ApisController extends Controller
         // Check for images in translatable form fields
         foreach (json_decode($page['translatable_fields'], true) as $page_field) {
             if ($page_field['form_field'] == 'image' || $page_field['form_field'] == 'file') {
-                foreach (config('translatable.locales') as $locale) {
+                foreach (Language::get() as $language) {
                     $row->getTranslation()[$page_field['name']] = $row->getTranslation()[$page_field['name']] ? Storage::url($row->getTranslation()[$page_field['name']]) : null;
                 }
             }

@@ -618,7 +618,7 @@ class CmsPagesController extends Controller
                     $translated_attributes,
                     $body,
                 ],
-                file_get_contents(base_path('vendor/hellotreedigital/cms/src/stubs/model.stub'))
+                file_get_contents(__DIR__ . '/../stubs/model.stub')
             )
         );
 
@@ -650,7 +650,7 @@ class CmsPagesController extends Controller
                         $translated_attributes,
                         $body,
                     ],
-                    file_get_contents(base_path('vendor/hellotreedigital/cms/src/stubs/model.stub'))
+                    file_get_contents(__DIR__ . '/../stubs/model.stub')
                 )
             );
         }

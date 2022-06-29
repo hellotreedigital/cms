@@ -14,7 +14,7 @@
 
 @section('dashboard-content')
 
-    <form method="post" enctype="multipart/form-data" action="{{ isset($row)? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . $appends_to_query): url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}" ajax>
+    <form method="post" enctype="multipart/form-data" action="{{ isset($row) ? url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '/' . $row['id'] . $appends_to_query) : url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . '') }}" ajax>
 
         <div class="card p-4 mx-2 mx-sm-5">
             <p class="font-weight-bold text-uppercase mb-4">{{ isset($row) ? 'Edit ' . $page['display_name'] . ' #' . $row['id'] : 'Add ' . $page['display_name'] }}</p>
@@ -38,13 +38,12 @@
             @endforeach
 
             @if (count($page_translatable_fields))
-                @foreach (config('translatable.locales') as $locale)
-                    @if (is_array($locale)) @continue @endif
+                @foreach (\Hellotreedigital\Cms\Models\Language::get() as $language)
                     <div class="form-group">
-                        <label>{{ ucfirst($locale) }}</label>
+                        <label>{{ $language->title }}</label>
                         <div class="pl-3">
                             @foreach ($page_translatable_fields as $field)
-                                @include('cms::pages/cms-page/form-fields', compact('locale'))
+                                @include('cms::pages/cms-page/form-fields', ['locale' => $language->slug])
                             @endforeach
                         </div>
                     </div>

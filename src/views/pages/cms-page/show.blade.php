@@ -37,19 +37,16 @@
         </div>
 
         @foreach ($page_fields as $field)
-            @include('cms::pages/cms-page/show-fields', ['locale'=>null])
+            @include('cms::pages/cms-page/show-fields', ['locale' => null])
         @endforeach
 
         @if (count($translatable_fields))
-            @foreach (config('translatable.locales') as $locale)
-                @if (is_array($locale))
-                    @continue
-                @endif
+            @foreach (\Hellotreedigital\Cms\Models\Language::get() as $language)
                 <div class="form-group">
-                    <label>{{ ucfirst($locale) }}</label>
+                    <label>{{ $language->title }}</label>
                     <div class="pl-3">
                         @foreach ($translatable_fields as $field)
-                            @include('cms::pages/cms-page/show-fields', ['locale'=>$locale])
+                            @include('cms::pages/cms-page/show-fields', ['locale' => $language->slug])
                         @endforeach
                     </div>
                 </div>

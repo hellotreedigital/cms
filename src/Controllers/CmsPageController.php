@@ -5,9 +5,10 @@ namespace Hellotreedigital\Cms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
+use Hellotreedigital\Cms\Models\Language;
 use Illuminate\Support\Facades\Storage;
-use Hash;
 use Illuminate\Support\Str;
+use Hash;
 
 class CmsPageController extends Controller
 {
@@ -160,24 +161,23 @@ class CmsPageController extends Controller
     {
         // Translatable insert query
         if (count($translatable_fields)) {
-            foreach (config('translatable.locales') as $locale) {
-                if (is_array($locale)) continue;
+            foreach (Language::get() as $language) {
                 foreach ($translatable_fields as $field) {
                     if ($field['form_field'] == 'select multiple') continue;
                     elseif ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation') {
-                        $row->translateOrNew($locale)->{$field['name']} = Hash::make($request[$locale][$field['name']]);
+                        $row->translateOrNew($language->slug)->{$field['name']} = Hash::make($request[$language->slug][$field['name']]);
                     } elseif ($field['form_field'] == 'checkbox') {
-                        $row->translateOrNew($locale)->{$field['name']} = isset($request[$locale][$field['name']]) ? 1 : 0;
+                        $row->translateOrNew($language->slug)->{$field['name']} = isset($request[$language->slug][$field['name']]) ? 1 : 0;
                     } elseif ($field['form_field'] == 'time') {
-                        $row->translateOrNew($locale)->{$field['name']} = date('H:i', strtotime($request[$locale][$field['name']]));
+                        $row->translateOrNew($language->slug)->{$field['name']} = date('H:i', strtotime($request[$language->slug][$field['name']]));
                     } elseif ($field['form_field'] == 'image' || $field['form_field'] == 'file') {
-                        if (isset($request[$locale][$field['name']]) && $request[$locale][$field['name']]) {
-                            $row->translateOrNew($locale)->{$field['name']} = $this->uploadFile($request->file($locale . '.' . $field['name']), $request['route']);
-                        } elseif (isset($request[$locale]['remove_file_' . $field['name']]) && $request[$locale]['remove_file_' . $field['name']]) {
-                            $row->translateOrNew($locale)->{$field['name']} = null;
+                        if (isset($request[$language->slug][$field['name']]) && $request[$language->slug][$field['name']]) {
+                            $row->translateOrNew($language->slug)->{$field['name']} = $this->uploadFile($request->file($language->slug . '.' . $field['name']), $request['route']);
+                        } elseif (isset($request[$language->slug]['remove_file_' . $field['name']]) && $request[$language->slug]['remove_file_' . $field['name']]) {
+                            $row->translateOrNew($language->slug)->{$field['name']} = null;
                         }
                     } else {
-                        $row->translateOrNew($locale)->{$field['name']} = isset($request[$locale][$field['name']]) ? $request[$locale][$field['name']] : null;
+                        $row->translateOrNew($language->slug)->{$field['name']} = isset($request[$language->slug][$field['name']]) ? $request[$language->slug][$field['name']] : null;
                     }
                 }
             }
@@ -197,9 +197,8 @@ class CmsPageController extends Controller
 
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
-            foreach (config('translatable.locales') as $locale) {
-                if (is_array($locale)) continue;
-                $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
+            foreach (Language::get() as $language) {
+                $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
             }
         }
 
@@ -316,9 +315,8 @@ class CmsPageController extends Controller
 
         $translatable_field_validation_rules_languages = [];
         foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
-            foreach (config('translatable.locales') as $locale) {
-                if (is_array($locale)) continue;
-                $translatable_field_validation_rules_languages[$locale . '.' . $translatable_field] = $translatable_rule;
+            foreach (Language::get() as $language) {
+                $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
             }
         }
 
