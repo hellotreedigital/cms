@@ -32,7 +32,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        
+
                         @foreach ($page_fields as $field)
                             @include('cms::pages/cms-page/form-fields', ['locale' => null])
                         @endforeach
@@ -127,10 +127,10 @@
 
 @section('scripts')
     <script>
-        $('[name="title"]').on('keyup', function() {
+        $('[name*=title]').on('keyup', function() {
             $('.seo-title').text($(this).val());
         }).keyup();
-        $('[name="description"]').on('keyup', function() {
+        $('[name*=description]').on('keyup', function() {
             var description = $(this).val();
             var googleDescription = description.substring(0, 160);
             $('.seo-google-description').text(description.length > 160 ? (googleDescription + '...') : description);
