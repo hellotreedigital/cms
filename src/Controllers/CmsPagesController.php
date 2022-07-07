@@ -630,7 +630,7 @@ class CmsPagesController extends Controller
             $body = '';
 
             file_put_contents(
-                app_path('/' . $request->model_name . 'Translation.php'),
+                app_path('/' . $request['model_name'] . 'Translation.php'),
                 str_replace(
                     [
                         '%%head%%',
@@ -643,9 +643,9 @@ class CmsPagesController extends Controller
                     ],
                     [
                         $head,
-                        $request->model_name . 'Translation',
+                        $request['model_name'] . 'Translation',
                         $implements,
-                        $request->database_table . '_translations',
+                        $request['database_table'] . '_translations',
                         $use,
                         $translated_attributes,
                         $body,

@@ -8,10 +8,10 @@ use Schema;
 use Auth;
 use DB;
 
-Class CmsServiceProvider extends ServiceProvider
+class CmsServiceProvider extends ServiceProvider
 {
-	public function boot()
-	{
+    public function boot()
+    {
         // To prevent key too long error
         Schema::defaultStringLength(191);
 
@@ -24,50 +24,50 @@ Class CmsServiceProvider extends ServiceProvider
         $this->publishes([__DIR__ . '/../publishable/purple-brains-config' => config_path('/')], 'cms_purple_brains_config');
         $this->publishes([__DIR__ . '/../publishable/routes' => base_path('routes/')], 'cms_routes');
 
-		// First installation from console
-		if (!is_array($this->app['config']->get('hellotree'))) $this->firstInstallation();
+        // First installation from console
+        if (!is_array($this->app['config']->get('hellotree'))) $this->firstInstallation();
 
-		// Routes
-		$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-	}
+        // Routes
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+    }
 
-	public function register()
-	{
-		// Controllers
-		$this->app->make('Hellotreedigital\Cms\Controllers\AdminRolesController');
-		$this->app->make('Hellotreedigital\Cms\Controllers\AdminsController');
-		$this->app->make('Hellotreedigital\Cms\Controllers\CmsController');
-		$this->app->make('Hellotreedigital\Cms\Controllers\CmsPagesController');
+    public function register()
+    {
+        // Controllers
+        $this->app->make('Hellotreedigital\Cms\Controllers\AdminRolesController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\AdminsController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\CmsController');
+        $this->app->make('Hellotreedigital\Cms\Controllers\CmsPagesController');
         $this->app->make('Hellotreedigital\Cms\Controllers\CmsPageController');
         $this->app->make('Hellotreedigital\Cms\Controllers\CmsLogsController');
         $this->app->make('Hellotreedigital\Cms\Controllers\ApisController');
 
-		// Views
-		$this->loadViewsFrom(__DIR__ . '/../views', 'cms');
+        // Views
+        $this->loadViewsFrom(__DIR__ . '/../views', 'cms');
 
-		// Admin middleware
-		$this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
-	}
+        // Admin middleware
+        $this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
+    }
 
-	protected function firstInstallation()
-	{
-		// Include cms.php routes in web.php
-		$routes = file_get_contents(base_path('routes/web.php'));
-		if (strpos($routes, "include 'cms.php';") === false) {
-			$routes = str_replace('<?php', file_get_contents(base_path('vendor/hellotreedigital/cms/src/routes/web.stub')), $routes);
-			file_put_contents(base_path('routes/web.php'), $routes);
-		}
+    protected function firstInstallation()
+    {
+        // Include cms.php routes in web.php
+        $routes = file_get_contents(base_path('routes/web.php'));
+        if (strpos($routes, "include 'cms.php';") === false) {
+            $routes = str_replace('<?php', file_get_contents(base_path('vendor/hellotreedigital/cms/src/routes/web.stub')), $routes);
+            file_put_contents(base_path('routes/web.php'), $routes);
+        }
 
-		$this->createDatabase();
+        $this->createDatabase();
 
-		// Publish cms assets
+        // Publish cms assets
         Artisan::call('vendor:publish --tag=cms_config --force');
         Artisan::call('vendor:publish --tag=cms_routes --force');
-	}
+    }
 
-	protected function createDatabase()
-	{
-		// Create cms pages
+    protected function createDatabase()
+    {
+        // Create cms pages
         Schema::create('cms_pages', function ($table) {
             $table->increments('id');
             $table->string('icon')->nullable();
@@ -99,12 +99,12 @@ Class CmsServiceProvider extends ServiceProvider
         });
 
         DB::table('cms_pages')->insert([
-    		[
+            [
                 'icon' => 'fa-window-restore',
                 'display_name' => null,
-    			'display_name_plural' => 'CMS Pages',
+                'display_name_plural' => 'CMS Pages',
                 'database_table' => null,
-    			'route' => 'cms-pages',
+                'route' => 'cms-pages',
                 'model_name' => null,
                 'custom_page' => 1,
                 'fields' => null,
@@ -118,13 +118,13 @@ Class CmsServiceProvider extends ServiceProvider
                 'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
-    		],
-    		[
+            ],
+            [
                 'icon' => 'fa-language',
                 'display_name' => null,
-    			'display_name_plural' => 'Languages',
+                'display_name_plural' => 'Languages',
                 'database_table' => null,
-    			'route' => 'languages',
+                'route' => 'languages',
                 'model_name' => null,
                 'custom_page' => 1,
                 'fields' => null,
@@ -138,13 +138,13 @@ Class CmsServiceProvider extends ServiceProvider
                 'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
-    		],
-    		[
+            ],
+            [
                 'icon' => 'fa-lock',
                 'display_name' => null,
-    			'display_name_plural' => 'Admin Roles',
+                'display_name_plural' => 'Admin Roles',
                 'database_table' => null,
-    			'route' => 'admin-roles',
+                'route' => 'admin-roles',
                 'model_name' => null,
                 'custom_page' => 1,
                 'fields' => null,
@@ -158,13 +158,13 @@ Class CmsServiceProvider extends ServiceProvider
                 'apis' => null,
                 'parent_title' => 'Admins',
                 'parent_icon' => 'fa-user-secret',
-    		],
-    		[
+            ],
+            [
                 'icon' => ' fa-user-secret',
                 'display_name' => null,
-    			'display_name_plural' => 'Admins',
+                'display_name_plural' => 'Admins',
                 'database_table' => null,
-    			'route' => 'admins',
+                'route' => 'admins',
                 'model_name' => null,
                 'custom_page' => 1,
                 'fields' => null,
@@ -178,7 +178,7 @@ Class CmsServiceProvider extends ServiceProvider
                 'apis' => null,
                 'parent_title' => 'Admins',
                 'parent_icon' => 'fa-user-secret',
-    		],
+            ],
             [
                 'icon' => 'fa-align-left',
                 'display_name' => null,
@@ -219,7 +219,7 @@ Class CmsServiceProvider extends ServiceProvider
                 'parent_title' => null,
                 'parent_icon' => null,
             ],
-    	]);
+        ]);
 
         // Create languages table
         Schema::create('languages', function ($table) {
@@ -230,11 +230,11 @@ Class CmsServiceProvider extends ServiceProvider
             $table->timestamps();
         });
 
-    	DB::table('languages')->insert([
-    		'slug' => 'en',
-    		'title' => 'English',
-    		'direction' => 'ltr',
-    	]);
+        DB::table('languages')->insert([
+            'slug' => 'en',
+            'title' => 'English',
+            'direction' => 'ltr',
+        ]);
 
         // Create admin roles table
         Schema::create('admin_roles', function ($table) {
@@ -259,7 +259,7 @@ Class CmsServiceProvider extends ServiceProvider
             $table->foreign('cms_page_id')->references('id')->on('cms_pages')->onDelete('cascade');
         });
 
-		// Create admin table
+        // Create admin table
         Schema::create('admins', function ($table) {
             $table->increments('id');
             $table->string('name');
@@ -273,11 +273,11 @@ Class CmsServiceProvider extends ServiceProvider
             $table->foreign('admin_role_id')->references('id')->on('admin_roles')->onDelete('cascade');
         });
 
-    	DB::table('admins')->insert([
-    		'name' => 'HELLOTREE',
-    		'email' => 'support@hellotree.co',
-    		'password' => bcrypt('$h1e2l3#'),
-    	]);
+        DB::table('admins')->insert([
+            'name' => 'HELLOTREE',
+            'email' => 'support@hellotree.co',
+            'password' => bcrypt('$h1e2l3#'),
+        ]);
 
         // Create cms logs table
         Schema::create('cms_logs', function ($table) {
@@ -308,9 +308,17 @@ Class CmsServiceProvider extends ServiceProvider
         Schema::create('seo_pages', function ($table) {
             $table->increments('id');
             $table->string('slug');
+            $table->string('image')->nullable();
+            $table->timestamps();
+        });
+
+        // Create seo pages table
+        Schema::create('seo_pages_translations', function ($table) {
+            $table->increments('id');
+            $table->integer('seo_page_id');
+            $table->string('locale');
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
 
@@ -318,8 +326,8 @@ Class CmsServiceProvider extends ServiceProvider
         app('Hellotreedigital\Cms\Controllers\CmsPagesController')->createModel([
             'model_name' => 'SeoPage',
             'database_table' => 'seo_pages',
-            'translatable_name' => null,
+            'translatable_name' => ['title', 'description'],
             'form_field' => []
         ]);
-	}
+    }
 }
