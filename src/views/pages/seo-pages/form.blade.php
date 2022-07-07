@@ -32,6 +32,10 @@
                                 @endforeach
                             </div>
                         @endif
+                        
+                        @foreach ($page_fields as $field)
+                            @include('cms::pages/cms-page/form-fields', ['locale' => null])
+                        @endforeach
 
                         @foreach (\Hellotreedigital\Cms\Models\Language::get() as $language)
                             <div class="form-group">
