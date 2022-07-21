@@ -340,6 +340,10 @@ $(document).ready(function () {
         inputs.prop('checked', !checked);
     });
 
+    $('.sortable .sortable-row').each(function (i) {
+        $(this).find('[name*="ht_pos"]').val(i + 1);
+    });
+
     $('.sortable').sortable({
         update: function (event, ui) {
             $('.sortable .sortable-row').each(function (i) {
