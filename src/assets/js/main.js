@@ -253,7 +253,7 @@ $(document).ready(function () {
 
         var ckeditor = CKEDITOR.replace(this.id, {
             height: 400,
-            extraPlugins: 'format,embed,autoembed,image,maximize,blockquote,justify' + (CKEditorColors ? ',colorbutton' : ''),
+            extraPlugins: 'format,embed,autoembed,image,maximize,blockquote,justify,bidi' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
             format_tags: 'p;h1;h2;h3;h4;h5;h6',
             colorButton_colors: CKEditorColors,
