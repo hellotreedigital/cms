@@ -439,12 +439,22 @@ class CmsPageController extends Controller
 
     public function uploadFile($file, $route)
     {
+        $path = null;
+
         if (config('hellotree.use_original_name')) {
             $name = $file->getClientOriginalName();
-            return $file->storeAs($route . '/' . Str::uuid(), $name);
+            $path = $file->storeAs($route . '/' . Str::uuid(), $name);
         } else {
-            return $file->store($route);
+            $path = $file->store($route);
         }
+
+        if (config('hellotree.tinify.key')) {
+            \Tinify\setKey(config('hellotree.tinify.key'));
+            $source = \Tinify\fromFile(Storage::path($path));
+            $source->toFile(Storage::path($path));
+        }
+        
+        return $path;
     }
 
     public function previewMode($page, $request)

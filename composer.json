@@ -21,6 +21,7 @@
     "minimum-stability": "dev",
     "require": {
         "doctrine/dbal": "2.*",
-        "astrotomic/laravel-translatable": "*"
+        "astrotomic/laravel-translatable": "*",
+        "tinify/tinify": "*"
     }
 }
