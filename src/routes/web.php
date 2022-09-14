@@ -57,7 +57,7 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin']
     Route::put('/cms-pages/{id}', 'Hellotreedigital\Cms\Controllers\CmsPagesController@update');
     Route::put('/cms-pages/custom/{id}', 'Hellotreedigital\Cms\Controllers\CmsPagesController@updateCustom');
     Route::delete('/cms-pages/{id}', 'Hellotreedigital\Cms\Controllers\CmsPagesController@destroy');
-    Route::post('/ckeditor/images', 'Hellotreedigital\Cms\Controllers\CmsPagesController@uploadCkeditorImages')->name('ckeditor-images');
+    Route::post('/ckeditor/images', 'Hellotreedigital\Cms\Controllers\CmsPageController@uploadCkeditorImages')->name('ckeditor-images');
 
     //Logs
     Route::get('/logs', 'Hellotreedigital\Cms\Controllers\CmsLogsController@index');

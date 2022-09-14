@@ -796,16 +796,4 @@ class CmsPagesController extends Controller
 
         return $fields;
     }
-
-    public function uploadCkeditorImages(Request $request)
-    {
-        $request->validate([
-            'upload' => 'required|image'
-        ]);
-
-        $image = $request->file('upload')->store('ht-ck-images');
-        $url = Storage::url($image);
-
-        echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($request->CKEditorFuncNum, '$url', '');</script>";
-    }
 }

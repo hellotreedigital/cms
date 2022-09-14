@@ -358,7 +358,7 @@ class CmsPageController extends Controller
             if ($field['form_field'] == 'select multiple') {
                 $sync_values = [];
                 if ($request[$field['name']]) {
-                    foreach($request[$field['name']] as $sync_id) {
+                    foreach ($request[$field['name']] as $sync_id) {
                         $sync_values[$sync_id] = ['ht_pos' => $request['ht_pos'][$field['name']][$sync_id]];
                     }
                     try {
@@ -437,6 +437,15 @@ class CmsPageController extends Controller
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Records ordered successfully');
     }
 
+    public function compressImage($path)
+    {
+        if (config('hellotree.tinify.key')) {
+            \Tinify\setKey(config('hellotree.tinify.key'));
+            $source = \Tinify\fromFile(Storage::path($path));
+            $source->toFile(Storage::path($path));
+        }
+    }
+
     public function uploadFile($file, $route)
     {
         $path = null;
@@ -448,13 +457,23 @@ class CmsPageController extends Controller
             $path = $file->store($route);
         }
 
-        if (config('hellotree.tinify.key')) {
-            \Tinify\setKey(config('hellotree.tinify.key'));
-            $source = \Tinify\fromFile(Storage::path($path));
-            $source->toFile(Storage::path($path));
-        }
-        
+        $this->compressImage($path);
+
         return $path;
+    }
+
+    public function uploadCkeditorImages(Request $request)
+    {
+        $request->validate([
+            'upload' => 'required|image'
+        ]);
+
+        $image = $request->file('upload')->store('ht-ck-images');
+        $url = Storage::url($image);
+
+        $this->compressImage($image);
+
+        echo "<script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction($request->CKEditorFuncNum, '$url', '');</script>";
     }
 
     public function previewMode($page, $request)
