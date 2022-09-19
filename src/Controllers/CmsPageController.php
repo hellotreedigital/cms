@@ -440,9 +440,11 @@ class CmsPageController extends Controller
     public function compressImage($path)
     {
         if (config('hellotree.tinify.key')) {
-            \Tinify\setKey(config('hellotree.tinify.key'));
-            $source = \Tinify\fromFile(Storage::path($path));
-            $source->toFile(Storage::path($path));
+            try {
+                \Tinify\setKey(config('hellotree.tinify.key'));
+                $source = \Tinify\fromFile(Storage::path($path));
+                $source->toFile(Storage::path($path));
+            } catch (\Exception $e) {}
         }
     }
 
