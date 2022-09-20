@@ -296,7 +296,7 @@ class CmsPagesController extends Controller
         // Create pivot tables
         foreach ($request->form_field as $f => $form_field) {
             if ($form_field == 'select multiple') {
-                $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                $pivot_table = Str::singular($request->name[$f]) . '_' . Str::singular($request->database_table);
                 $column_name = $request->form_field_additionals_1[$f] == $request->database_table ? 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id' : Str::singular($request->form_field_additionals_1[$f]) . '_id';
 
                 Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
@@ -412,8 +412,8 @@ class CmsPagesController extends Controller
             // Take only select multiple fields
             if ($form_field == 'select multiple') {
                 // New field
-                if (!$request->old_form_field_additionals_1[$f]) {
-                    $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                if (!$request->old_name[$f]) {
+                    $pivot_table = Str::singular($request->name[$f]) . '_' . Str::singular($request->database_table);
                     $column_name = $request->form_field_additionals_1[$f] == $request->database_table ? 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id' : Str::singular($request->form_field_additionals_1[$f]) . '_id';
 
                     Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
@@ -428,11 +428,11 @@ class CmsPagesController extends Controller
                     });
                 }
                 // If form_field_additionals_1 have changed
-                elseif ($request->old_form_field_additionals_1[$f] != $request->form_field_additionals_1[$f]) {
-                    $old_pivot_table = Str::singular($request->old_form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                elseif ($request->old_name[$f] != $request->name[$f]) {
+                    $old_pivot_table = Str::singular($request->old_name[$f]) . '_' . Str::singular($request->database_table);
                     Schema::drop($old_pivot_table);
 
-                    $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                    $pivot_table = Str::singular($request->name[$f]) . '_' . Str::singular($request->database_table);
                     $column_name = $request->form_field_additionals_1[$f] == $request->database_table ? 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id' : Str::singular($request->form_field_additionals_1[$f]) . '_id';
 
                     Schema::create($pivot_table, function ($table) use ($request, $f, $column_name) {
@@ -480,7 +480,7 @@ class CmsPagesController extends Controller
                     }
                 }
                 if (!$field_found) {
-                    $pivot_table = Str::singular($old_field['form_field_additionals_1']) . '_' . Str::singular($old_page->database_table);
+                    $pivot_table = Str::singular($old_field['name']) . '_' . Str::singular($old_page->database_table);
                     Schema::drop($pivot_table);
                 }
             }
@@ -590,7 +590,7 @@ class CmsPagesController extends Controller
             } elseif ($form_field == 'select multiple') {
                 $second_database_table = $request->form_field_additionals_1[$f];
                 $second_page = CmsPage::where('database_table', $second_database_table)->firstOrFail();
-                $pivot_table = Str::singular($request->form_field_additionals_1[$f]) . '_' . Str::singular($request->database_table);
+                $pivot_table = Str::singular($request->name[$f]) . '_' . Str::singular($request->database_table);
                 $column_name = $request->form_field_additionals_1[$f] == $request->database_table ? 'other_' . Str::singular($request->form_field_additionals_1[$f]) . '_id' : Str::singular($request->form_field_additionals_1[$f]) . '_id';
 
                 $body .= 'public function ' . str_replace('_id', '', $request->name[$f]) . '() { return $this->belongsToMany' . "('App\\" . $second_page['model_name'] . "', '" . $pivot_table . "', '" . Str::singular($request->database_table) . '_id' . "', '" . $column_name . "')->orderBy('" . $pivot_table . ".ht_pos')" . '; } ';
