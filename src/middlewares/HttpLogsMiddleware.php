@@ -18,14 +18,18 @@ class HttpLogsMiddleware
     {
         $response = $next($request);
 
-        HttpLog::create([
-            'ip' => request()->ip(),
-            'method' => request()->method(),
-            'url' => request()->url(),
-            'headers' => json_encode(request()->header()),
-            'request' => json_encode(request()->toArray()),
-            'response' => $response->getContent(),
-        ]);
+        try {
+            HttpLog::create([
+                'ip' => request()->ip(),
+                'method' => request()->method(),
+                'url' => request()->url(),
+                'headers' => json_encode(request()->header()),
+                'request' => json_encode(request()->toArray()),
+                'response' => $response->getContent(),
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
         return $response;
     }
