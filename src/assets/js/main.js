@@ -445,7 +445,7 @@ $(document).ready(function () {
         var origin_input = $('input[name="' + origin_input_name + '"]');
 
         origin_input.on('keyup', function () {
-            slug_input.val(origin_input.val().toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, ''))
+            slug_input.val(origin_input.val().toString().toLowerCase().replace(/\s+/g, '-').replace(/[^\w\u0621-\u064A0-9-]+/g, '').replace(/\-\-+/g, '-').replace(/^-+/, '').replace(/-+$/, ''))
         });
     });
 
