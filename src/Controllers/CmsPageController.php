@@ -453,9 +453,8 @@ class CmsPageController extends Controller
         $path = null;
 
         if (config('hellotree.use_original_name')) {
-            $name = $file->getClientOriginalName();
+            $name = rawurlencode($file->getClientOriginalName());
             $path = $file->storeAs($route . '/' . Str::uuid(), $name);
-            $path = rawurlencode($path);
         } else {
             $path = $file->store($route);
         }
