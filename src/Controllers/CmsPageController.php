@@ -61,16 +61,23 @@ class CmsPageController extends Controller
             }
         }
 
-        $rows = $model::orderBy($order_by, $order_direction)
+        $rows = $model::select($page->database_table . '.*')
+            ->orderBy($page->database_table . '.' . $order_by, $order_direction)
             ->when($page['order_display'], function ($query) use ($page) {
-                return $query->orderBy('ht_pos');
+                return $query->orderBy($page->database_table . '.' . 'ht_pos');
             })
-            ->when(request('custom_validation'), function ($query) {
+            ->when(request('custom_validation'), function ($query) use ($page) {
                 foreach (request('custom_validation') as $validation) {
                     if ($validation['constraint'] == 'whereHas' && isset($validation['value'][1]) && count($validation['value'][1])) {
-                        $query->whereHas($validation['value'][0], function ($query) use ($validation) {
-                            return $query->whereIn($validation['value'][0] . '.id', $validation['value'][1]);
-                        });
+                        // Didn't use whereHas because it is making issues on same table relationship
+                        $pivot_table = Str::singular($validation['value'][0]) . '_' . Str::singular($page->database_table);
+                        $column_name = $validation['table'] == $page->database_table ? 'other_' . Str::singular($validation['table']) . '_id' : Str::singular($validation['table']) . '_id';
+                        $second_table = uniqid();
+
+                        $query
+                            ->join($pivot_table, $pivot_table . '.' . Str::singular($page->database_table) . '_id', $page->database_table . '.id')
+                            ->join($validation['table'] . ' as ' . $second_table, $pivot_table . '.' . $column_name, $second_table . '.id')
+                            ->whereRaw($second_table . '.id in (' . implode(',', $validation['value'][1]) . ')');
                     } else {
                         if (isset($validation['value'][1]) && $validation['value'][1]) {
                             $query = call_user_func_array([$query, $validation['constraint']], $validation['value']);
@@ -454,9 +461,7 @@ class CmsPageController extends Controller
 
         if (config('hellotree.use_original_name')) {
             $name = $file->getClientOriginalName();
-            $directory = $route . '/' . Str::uuid();
-            $file->storeAs($directory, $name);
-            $path = $directory . '/' . rawurlencode($name);
+            $path = $file->storeAs($route . '/' . Str::uuid(), $name);
         } else {
             $path = $file->store($route);
         }

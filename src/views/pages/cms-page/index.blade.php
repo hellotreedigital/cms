@@ -263,6 +263,7 @@
 							<input type="hidden" name="per_page" value="{{ request('per_page') }}">
 							@foreach($filters as $i => $filter)
 								<input type="hidden" name="custom_validation[{{ $i }}][constraint]" value="{{ $filter['form_field'] == 'select multiple' ? 'whereHas' : 'whereIn' }}">
+								<input type="hidden" name="custom_validation[{{ $i }}][table]" value="{{ $filter['form_field_additionals_1'] }}">
 								<input type="hidden" name="custom_validation[{{ $i }}][value][0]" value="{{ $filter['name'] }}">
 								@include('cms::/components/form-fields/select-multiple', [
 									'label' => ucwords(str_replace('_', ' ', $filter['form_field_additionals_1'])),
