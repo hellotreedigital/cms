@@ -236,7 +236,13 @@ class CmsPageController extends Controller
             }
         }
 
+        // Model
         $model = 'App\\' . $page['model_name'];
+
+        // Get ht_pos
+        if ($page['order_display']) $query['ht_pos'] = $model::min('ht_pos') - 1;
+
+        // Create
         $row = $model::create($query);
 
         // Select multiple insert query
