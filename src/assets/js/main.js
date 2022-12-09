@@ -247,6 +247,11 @@ $(document).ready(function () {
         selectedOptionDisplay.remove();
     });
 
+    $('.select-multiple-custom').on("select2:unselecting", function (e) {
+        let unselected_value = e.params.args.data.id;
+        $(this).closest('.select-multiple-custom-wrapper').find('.selected-options input[type="hidden"][value="' + unselected_value + '"]').closest('.selected-option').remove();
+    });
+
     $('[id^="ckeditor_"]').each(function () {
         var id = $(this).attr('id');
         var uploadUrl = $(this).attr('upload-url');
