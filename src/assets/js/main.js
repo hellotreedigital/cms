@@ -249,7 +249,7 @@ $(document).ready(function () {
 
     $('.select-multiple-custom').on("select2:unselecting", function (e) {
         let unselected_value = e.params.args.data.id;
-        $(this).closest('.select-multiple-custom-wrapper').find('.selected-options input[type="hidden"][value="' + unselected_value + '"]').closest('.selected-option').remove();
+        $(this).closest('.select-multiple-custom-wrapper').find('.selected-options .selected-option-id[value="' + unselected_value + '"]').closest('.selected-option').remove();
     });
 
     $('[id^="ckeditor_"]').each(function () {
