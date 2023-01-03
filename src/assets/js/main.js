@@ -433,6 +433,10 @@ $(document).ready(function () {
         e.stopPropagation();
     });
 
+    $(document).on('click', '.close-popup', function (e) {
+        $(this).closest('.popup').fadeOut();
+    });
+
     $('.server-showing-number-wrapper select').on('change', function () {
         $(this).closest('form').submit();
     });
