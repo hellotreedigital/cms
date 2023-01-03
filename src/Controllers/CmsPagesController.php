@@ -576,7 +576,9 @@ class CmsPagesController extends Controller
             $head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable;';
             $implements = ' implements TranslatableContract';
             $use = 'use Translatable;';
-            $translated_attributes = 'public $translatedAttributes = ' . json_encode($request['translatable_name']) . ';';
+            $translated_attributes = 'protected $hidden = [\'translations\'];
+
+    public $translatedAttributes = ' . json_encode($request['translatable_name']) . ';';
         }
 
 
