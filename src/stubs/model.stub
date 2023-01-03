@@ -16,4 +16,6 @@ class %%model_name%% extends Model %%implements%%
     %%translated_attributes%%
 
 	%%body%%
+
+    /* Start custom functions */%%custom_functions%%/* End custom functions */
 }

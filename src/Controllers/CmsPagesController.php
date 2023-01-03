@@ -566,6 +566,16 @@ class CmsPagesController extends Controller
         }
     }
 
+    public function getStringBetween($string, $start, $end)
+    {
+        $string = ' ' . $string;
+        $ini = strpos($string, $start);
+        if ($ini == 0) return '';
+        $ini += strlen($start);
+        $len = strpos($string, $end, $ini) - $ini;
+        return substr($string, $ini, $len);
+    }
+
     public function createModel($request)
     {
         $head = '';
@@ -599,6 +609,16 @@ class CmsPagesController extends Controller
             }
         }
 
+        $custom_functions = '
+
+
+
+    ';
+        if (file_exists(app_path('/' . $request['model_name'] . '.php'))) {
+            $old_content = file_get_contents(app_path('/' . $request['model_name'] . '.php'));
+            $custom_functions = $this->getStringBetween($old_content, '/* Start custom functions */', '/* End custom functions */');
+        }
+
         file_put_contents(
             app_path('/' . $request['model_name'] . '.php'),
             str_replace(
@@ -610,6 +630,7 @@ class CmsPagesController extends Controller
                     '%%use%%',
                     '%%translated_attributes%%',
                     '%%body%%',
+                    '%%custom_functions%%',
                 ],
                 [
                     $head,
@@ -619,6 +640,7 @@ class CmsPagesController extends Controller
                     $use,
                     $translated_attributes,
                     $body,
+                    $custom_functions,
                 ],
                 file_get_contents(__DIR__ . '/../stubs/model.stub')
             )
@@ -642,6 +664,7 @@ class CmsPagesController extends Controller
                         '%%use%%',
                         '%%translated_attributes%%',
                         '%%body%%',
+                        '%%custom_functions%%',
                     ],
                     [
                         $head,
@@ -651,6 +674,7 @@ class CmsPagesController extends Controller
                         $use,
                         $translated_attributes,
                         $body,
+                        $custom_functions,
                     ],
                     file_get_contents(__DIR__ . '/../stubs/model.stub')
                 )
