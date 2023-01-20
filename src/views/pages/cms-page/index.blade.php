@@ -107,9 +107,9 @@
 								}
 								@endphp
 								<th>
-									<a {!! $page['server_side_pagination'] ? 'href="' . url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . $appends_to_sort_query) . '"' : '' !!}>{{ str_replace(['_id', '_'], ['', ' '], $field['name']) }}</a>
+									<a {!! $page['server_side_pagination'] && $field['form_field'] != 'select multiple' ? 'href="' . url(config('hellotree.cms_route_prefix') . '/' . $page['route'] . $appends_to_sort_query) . '"' : '' !!}>{{ str_replace(['_id', '_'], ['', ' '], $field['name']) }}</a>
 									@if ($page['server_side_pagination'])
-									<div class="sort-arrows position-relative d-inline {{ request('sort_by') == $field['name'] ? request('sort_by_direction') : '' }}"></div>
+									<div class="{{ $field['form_field'] != 'select multiple' ? 'sort-arrows' : '' }} position-relative d-inline {{ request('sort_by') == $field['name'] ? request('sort_by_direction') : '' }}"></div>
 									@endif
 								</th>
 							@endif

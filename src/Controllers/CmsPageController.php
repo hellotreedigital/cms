@@ -47,10 +47,20 @@ class CmsPageController extends Controller
         // Default order
         $order_by = 'id';
         $order_direction = 'desc';
+        $order_by_column_relationship = null;
 
         if (request('sort_by')) {
-            $order_by = request('sort_by');
-            $order_direction = request('sort_by_direction');
+            foreach ($page_fields as $page_field) {
+                if ($page_field['name'] == request('sort_by')) {
+                    if ($page_field['form_field'] == 'select' || $page_field['form_field'] == 'select multiple') {
+                        $order_by_column_relationship = $page_field;
+                    }
+                }
+            }
+            if (!$order_by_column_relationship) {
+                $order_by = request('sort_by');
+                $order_direction = request('sort_by_direction');
+            }
         } else {
             if ($page['sort_by']) {
                 $order_by = $page['sort_by'];
@@ -62,7 +72,6 @@ class CmsPageController extends Controller
         }
 
         $rows = $model::select($page->database_table . '.*')
-            ->orderBy($page->database_table . '.' . $order_by, $order_direction)
             ->when($page['order_display'], function ($query) use ($page) {
                 return $query->orderBy($page->database_table . '.' . 'ht_pos');
             })
@@ -103,6 +112,24 @@ class CmsPageController extends Controller
                 }
                 return $query;
             })
+            ->when(
+                $order_by_column_relationship,
+                function ($query) use ($order_by_column_relationship, $page) {
+                    $query->when(
+                        $order_by_column_relationship['form_field'] == 'select',
+                        function ($query) use ($order_by_column_relationship, $page) {
+                            $query
+                                ->leftJoin($order_by_column_relationship['form_field_additionals_1'], $order_by_column_relationship['form_field_additionals_1'] . '.id', '=', $page['database_table'] . '.' . $order_by_column_relationship['name'])
+                                ->orderBy($order_by_column_relationship['form_field_additionals_1'] . '.' . $order_by_column_relationship['form_field_additionals_2'], request('sort_by_direction'));
+                        },
+                        function ($query) {
+                        }
+                    );
+                },
+                function ($query) use ($page, $order_by, $order_direction) {
+                    $query->orderBy($page->database_table . '.' . $order_by, $order_direction);
+                }
+            )
             ->when($page['server_side_pagination'], function ($query) {
                 return $query->paginate(request('per_page') ? request('per_page') : 10);
             }, function ($query) {
@@ -132,7 +159,9 @@ class CmsPageController extends Controller
 
     public function create($route)
     {
-        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('add', 1); })->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) {
+            $query->where('add', 1);
+        })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
@@ -194,7 +223,9 @@ class CmsPageController extends Controller
 
     public function store(Request $request, $route)
     {
-        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('add', 1); })->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) {
+            $query->where('add', 1);
+        })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
@@ -274,7 +305,9 @@ class CmsPageController extends Controller
 
     public function edit($id, $route)
     {
-        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('edit', 1); })->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) {
+            $query->where('edit', 1);
+        })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $extra_variables = $this->getPageExtraVariables($page_fields);
@@ -313,7 +346,9 @@ class CmsPageController extends Controller
 
     public function update(Request $request, $id, $route)
     {
-        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('edit', 1); })->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) {
+            $query->where('edit', 1);
+        })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $page_translatable_fields = json_decode($page['translatable_fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
@@ -409,7 +444,9 @@ class CmsPageController extends Controller
 
     public function destroy($id, $route)
     {
-        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) { $query->where('delete', 1); })->firstOrFail();
+        $page = CmsPage::where('route', $route)->when(request()->get('admin')['admin_role_id'], function ($query) {
+            $query->where('delete', 1);
+        })->firstOrFail();
         $model = 'App\\' . $page['model_name'];
 
         $array = explode(',', $id);
@@ -457,7 +494,8 @@ class CmsPageController extends Controller
                 \Tinify\setKey(config('hellotree.tinify.key'));
                 $source = \Tinify\fromFile(Storage::path($path));
                 $source->toFile(Storage::path($path));
-            } catch (\Exception $e) {}
+            } catch (\Exception $e) {
+            }
         }
     }
 
