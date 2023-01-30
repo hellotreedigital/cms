@@ -199,6 +199,13 @@
 											<a target="_blank" href="https://www.google.com/maps/search/?api=1&query={{ $row[$field['name']] }}"><i class="fa fa-map-marker" aria-hidden="true"></i></a>
 										@endif
 									</td>
+								@elseif ($field['form_field'] == 'color picker')
+									<td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="rounded mr-1" style="width: 22px; height: 22px; background-color: {{ $row[$field['name']] }}"></div>
+                                            <span>{{ $row[$field['name']] }}</span>
+                                        </div>
+									</td>
 								@else
 									<td>{{ $row[$field['name']] }}</td>
 								@endif

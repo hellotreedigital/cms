@@ -148,6 +148,17 @@ if (isset($row)) {
         'description' => isset($field['description']) ? $field['description'] : '',
 		'locale' => $locale,
 	])
+@elseif ($field['form_field'] == 'color picker')
+    @include('cms::/components/form-fields/input', [
+        'label' => ucwords(str_replace('_', ' ', $field['name'])),
+        'name' => $field['name'],
+        'type' => 'color',
+        'value' => $value,
+        'required' => $field['nullable'] ? false : true,
+        'description' => isset($field['description']) ? $field['description'] : '',
+        'locale' => $locale,
+        'no_word_count' => true,
+    ])
 @else
 	@include('cms::/components/form-fields/input', [
 		'label' => ucwords(str_replace('_', ' ', $field['name'])),

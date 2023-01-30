@@ -18,6 +18,8 @@
     @include('cms::/components/show-fields/boolean', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'value' => $locale ? $row->translate($locale)[$field['name']] : $row[$field['name']] ])
 @elseif ($field['form_field'] == 'map coordinates')
     @include('cms::/components/show-fields/map', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'name' => $field['name'], 'value' => $locale ? $row->translate($locale)[$field['name']] : $row[$field['name']] ])
+@elseif ($field['form_field'] == 'color picker')
+    @include('cms::/components/show-fields/color-picker', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'name' => $field['name'], 'value' => $locale ? $row->translate($locale)[$field['name']] : $row[$field['name']] ])
 @else
     @include('cms::/components/show-fields/text', ['label' => ucwords(str_replace('_', ' ', $field['name'])), 'text' => $locale ? $row->translate($locale)[$field['name']] : $row[$field['name']] ])
 @endif
