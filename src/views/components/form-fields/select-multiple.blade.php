@@ -6,6 +6,9 @@ if (!isset($value) || !$value) {
 
 <div class="form-group">
     @include('cms::components/form-fields/label')
+    <label class="d-flex select-checkbox-container cursor-pointer">
+        <input class="my-auto mr-2 select-multiple-checkbox" type="checkbox"> Select All
+    </label>
     <div class="select-multiple-custom-wrapper">
         <select class="form-control select-multiple-custom" data-name="{{ $name }}" multiple>
             @foreach ($options as $option)

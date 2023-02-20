@@ -458,6 +458,52 @@ $(document).ready(function () {
         });
     });
 
+    // START SELECT ALL FOR MULTIPLE SELECT
+    $('.select-multiple-checkbox').each(function () {
+        var check = $(this);
+        var nearest_select = $(this).parent().parent().find('.select-multiple-custom-wrapper .select-multiple-custom option');
+        var nearest_select_selected = $(this).parent().parent().find('.select-multiple-custom-wrapper .select-multiple-custom option:selected');
+        if (nearest_select.length == nearest_select_selected.length) {
+            check.prop("checked", true);
+        }
+    });
+
+    $('.select-multiple-custom').on('change', function () {
+        var check = $(this).parent().parent().find('.select-checkbox-container .select-multiple-checkbox');
+        var nearest_select = check.parent().parent().find('.select-multiple-custom-wrapper .select-multiple-custom option');
+        var nearest_select_selected = check.parent().parent().find('.select-multiple-custom-wrapper .select-multiple-custom option:selected');
+        if (nearest_select.length == nearest_select_selected.length) {
+            check.prop("checked", true);
+        } else {
+            check.prop("checked", false);
+        }
+    });
+
+    $('.select-multiple-checkbox').on('click', function () {
+        var check = $(this);
+        var nearest_select = check.parent().parent().find('.select-multiple-custom-wrapper .select-multiple-custom');
+        var data = nearest_select.select2('data');
+        var options = nearest_select.find('option');
+        var nearest_select_options = check.parent().parent().find('.select-multiple-custom-wrapper .selected-options');
+        if (check.prop('checked') === true) {
+            if (options.length) {
+                options.each(function () {
+                    $(this).prop("selected", true);
+                });
+                nearest_select.trigger("change");
+            }
+        } else {
+            if (options.length) {
+                options.each(function () {
+                    $(this).prop("selected", false);
+                });
+                nearest_select_options.empty();
+                nearest_select.trigger("change");
+            }
+        }
+    });
+    // END SELECT ALL FOR MULTIPLE SELECT
+
 });
 
 $(document).mouseup(function (e) {
