@@ -87,7 +87,12 @@
 			<table class="{{ $page['server_side_pagination'] ? 'table' : 'datatable' }} {{ $page['with_export'] ? '' : 'no-export' }}">
 				<thead>
 					<tr>
-						<th></th>
+						<th>
+							<label class="checkbox-wrapper check-all">
+								<input type="checkbox">
+								<div></div>
+							</label>
+						</th>
 						<th>#</th>
 						@foreach($page_fields as $field)
 							@if ($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation' || (isset($field['hide_index']) && $field['hide_index'])) @continue

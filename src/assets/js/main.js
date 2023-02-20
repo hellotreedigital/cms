@@ -504,6 +504,28 @@ $(document).ready(function () {
     });
     // END SELECT ALL FOR MULTIPLE SELECT
 
+    // START SELECT ALL FOR DATATABLES
+    $('.check-all input').on('click',function () {
+        if($(this).is(':checked')){
+            $('.delete-checkbox input').each(function( index ) {
+                var input = $(this);
+                input.prop( "checked", false );
+                input.change();
+            });
+            $('.delete-checkbox input').each(function( index ) {
+                var input = $(this);
+                input.prop( "checked", true );
+                input.change();
+            });
+        }else{
+            $('.delete-checkbox input').each(function( index ) {
+                var input = $(this);
+                input.prop( "checked", false );
+                input.change();
+            });
+        }
+    });
+    // END SELECT ALL FOR DATATABLES
 });
 
 $(document).mouseup(function (e) {
