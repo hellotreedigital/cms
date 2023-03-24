@@ -45,6 +45,9 @@ class CmsServiceProvider extends ServiceProvider
         // Views
         $this->loadViewsFrom(__DIR__ . '/../views', 'cms');
 
+        // Commands
+        $this->commands(\Hellotreedigital\Cms\Commands\CreateAdminCommand::class);
+
         // Admin middleware
         $this->app['router']->aliasMiddleware('admin', \Hellotreedigital\Cms\Middlewares\AdminMiddleware::class);
     }
@@ -272,12 +275,6 @@ class CmsServiceProvider extends ServiceProvider
 
             $table->foreign('admin_role_id')->references('id')->on('admin_roles')->onDelete('cascade');
         });
-
-        DB::table('admins')->insert([
-            'name' => 'HELLOTREE',
-            'email' => 'support@hellotree.co',
-            'password' => bcrypt('$h1e2l3#'),
-        ]);
 
         // Create cms logs table
         Schema::create('cms_logs', function ($table) {

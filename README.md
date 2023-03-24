@@ -27,6 +27,10 @@
 		Run:
 		<pre>composer require hellotreedigital/cms</pre>
 	</li>
+	<li>
+		To create the admin:
+		<pre>php artisan admin:create --name=example --email=example@example.com --password=123</pre>
+	</li>
 </ul>
 
 <h1>Publishables:</h1>

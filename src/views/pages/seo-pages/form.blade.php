@@ -92,7 +92,7 @@
                         </div>
                     </div>
                 </div>
-                @if (auth('admin')->user()->id == 1)
+                @if (!auth('admin')->user()->admin_role_id)
                     <div class="text-right">
                         <hr class="mt-4">
                         <div>
