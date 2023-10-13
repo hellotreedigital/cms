@@ -3,6 +3,7 @@
 namespace Hellotreedigital\Cms\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use App\Http\Controllers\Controller;
 use League\Flysystem\Util;
 use Hash;
@@ -34,7 +35,10 @@ class CmsController extends Controller
         ]);
 
         if (Auth::guard('admin')->attempt(['email' => $request['email'], 'password' => $request['password']])) {
-            return redirect()->intended(route('admin-home'));
+            $cookieValue = now(); // or \Carbon\Carbon::now() if you prefer Carbon
+            $cookie = Cookie::make('hellotree_cms_login_date', $cookieValue, 120); // 120 minutes expiration time
+
+            return redirect()->intended(route('admin-home'))->withCookie($cookie);
         }
 
         return redirect()->back()->withInput($request->only('email'))->with('error', 'Wrong credentials');;
@@ -50,10 +54,12 @@ class CmsController extends Controller
 	 * Start: Profile methods
 	 */
 
+
     public function showProfile()
     {
-        return view('cms::pages/profile/show');
+       return response()->view('cms::pages/profile/show')->withCookie(cookie('hellotree_cms_login_date', now(), 120));
     }
+
 
     public function showEditProfile()
     {
@@ -71,7 +77,10 @@ class CmsController extends Controller
         $admin = Auth::guard('admin')->user();
         $admin->name = $request->name;
 
-        if ($request->password) $admin->password = Hash::make($request->password);
+        if ($request->password){
+            $admin->password = Hash::make($request->password);
+            $admin->reset_password_date = now();
+        }
         if ($request->remove_file_image) {
             $admin->image = '';
         } elseif ($request->image) {

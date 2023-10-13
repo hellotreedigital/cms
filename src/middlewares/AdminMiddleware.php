@@ -23,6 +23,19 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        if(($request->route()->getName() !== 'admin-profile' && $request->route()->getName() !== 'admin-profile-edit') ||
+        (($request->route()->getName() == 'admin-profile' || $request->route()->getName() == 'admin-profile-edit') && !session()->has('success'))){
+            if($request->cookie('hellotree_cms_login_date') && Auth::guard('admin')->user()){
+                $value = $request->cookie('hellotree_cms_login_date');
+                if($value && Auth::guard('admin')->user()->reset_password_date){
+                    if(Auth::guard('admin')->user()->reset_password_date > $value){
+                        Auth::guard('admin')->logout();
+                    }
+                }
+            }
+        }
+        
+        
         // Get admin
         $admin = Auth::guard('admin')->user();
 

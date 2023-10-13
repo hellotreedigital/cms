@@ -270,6 +270,7 @@ class CmsServiceProvider extends ServiceProvider
             $table->string('email')->unique();
             $table->string('password');
             $table->integer('admin_role_id')->nullable()->unsigned();
+            $table->timestamp('reset_password_date')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
