@@ -82,6 +82,7 @@ class CmsPageController extends Controller
                         $pivot_table = Str::singular($validation['value'][0]) . '_' . Str::singular($page->database_table);
                         $column_name = $validation['table'] == $page->database_table ? 'other_' . Str::singular($validation['table']) . '_id' : Str::singular($validation['table']) . '_id';
                         $second_table = uniqid();
+                        $second_table = str_replace('e','a',$second_table);
 
                         $query
                             ->join($pivot_table, $pivot_table . '.' . Str::singular($page->database_table) . '_id', $page->database_table . '.id')

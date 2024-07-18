@@ -257,6 +257,7 @@ $(document).ready(function () {
         var uploadUrl = $(this).attr('upload-url');
 
         var ckeditor = CKEDITOR.replace(this.id, {
+            versionCheck: false,
             height: 400,
             extraPlugins: 'format,embed,autoembed,image,maximize,blockquote,justify,bidi' + (CKEditorColors ? ',colorbutton' : ''),
             embed_provider: '//ckeditor.iframe.ly/api/oembed?url={url}&callback={callback}',
