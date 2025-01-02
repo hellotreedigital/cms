@@ -29,7 +29,7 @@ class CmsController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate($request, [
+        $request->validate([
             'email' => 'required',
             'password' => 'required'
         ]);
@@ -68,7 +68,7 @@ class CmsController extends Controller
 
     public function editProfile(Request $request)
     {
-        $request->validate($request, [
+        $request->validate([
             'name' => 'required',
             'password' => 'confirmed',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg',
