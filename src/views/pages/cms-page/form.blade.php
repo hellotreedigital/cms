@@ -61,7 +61,7 @@
                     <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
                 @endif
                 @if ($page['single_record'] == 0)
-                    <button type="submit" class="btn btn-secondary save-as-draft-button">{{(isset($row['cms_draft_flag']) && $row['cms_draft_flag'] == 1) ? 'Save As Draft' : 'Return To Draft'}}</button>
+                    <button type="submit" class="btn btn-secondary save-as-draft-button">Save As Draft</button>
                 @endif
                 <button type="submit" class="btn btn-sm btn-primary submit-draft-button">Submit</button>
             </div>
