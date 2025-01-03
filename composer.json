@@ -20,7 +20,7 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "doctrine/dbal": "^3.0 || ^4.0",
+        "doctrine/dbal": "^3.0||^4.0",
         "astrotomic/laravel-translatable": "^11.0",
         "tinify/tinify": "^1.0"
     }
