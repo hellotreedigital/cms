@@ -30,9 +30,12 @@
                     @endforeach
                 </div>
             @endif
-
+            <input type="hidden" name="draft_cms_field" id="draftField" value="0">
             @foreach ($page_fields as $field)
-                @if ($field['form_field'] && ((!isset($row) && (!isset($field['hide_create']) || !$field['hide_create'])) || (isset($row) && (!isset($field['hide_edit']) || !$field['hide_edit']))))
+                @if($field['name'] == "slug" && (isset($row) && (isset($row['cms_draft_flag']) && $row['cms_draft_flag'] == 1)))
+                    @php $field['form_field_additionals_2'] = 1; $field['hide_edit'] = 0; @endphp
+                @endif
+                @if ($field['form_field'] && ((!isset($row) && (!isset($field['hide_create']) || !$field['hide_create'])) || (isset($row) && (!isset($field['hide_edit']) || !$field['hide_edit']))  ))
                     @include('cms::pages/cms-page/form-fields', ['locale' => null])
                 @endif
             @endforeach
@@ -57,7 +60,10 @@
                 @if ($page['preview_path'])
                     <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
                 @endif
-                <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+                @if ($page['single_record'] == 0)
+                    <button type="submit" class="btn btn-secondary save-as-draft-button">{{(isset($row['cms_draft_flag']) && $row['cms_draft_flag'] == 1) ? 'Save As Draft' : 'Return To Draft'}}</button>
+                @endif
+                <button type="submit" class="btn btn-sm btn-primary submit-draft-button">Submit</button>
             </div>
         </div>
 

@@ -39,7 +39,7 @@ class CmsPageController extends Controller
 
         $model = 'App\\' . $page['model_name'];
         if ($page['single_record']) {
-            $row = $model::first();
+            $row = $model::withoutGlobalScope('cms_draft_flag')->first();
             if (!$row) abort(403, "Single record page has no record");
             return redirect(config('hellotree.cms_route_prefix') . '/' . $route . '/' . $row['id']);
         }
@@ -71,7 +71,7 @@ class CmsPageController extends Controller
             }
         }
 
-        $rows = $model::select($page->database_table . '.*')
+        $rows = $model::withoutGlobalScope('cms_draft_flag')->select($page->database_table . '.*')
             ->when($page['order_display'], function ($query) use ($page) {
                 return $query->orderBy($page->database_table . '.' . 'ht_pos');
             })
@@ -176,7 +176,7 @@ class CmsPageController extends Controller
         $validation_rules = [];
         foreach ($page_fields as $field) {
             if (isset($field['hide_create']) && $field['hide_create']) continue;
-            if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
+            if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2'] && !$field['unique']) continue;
 
             $validation_rules[$field['name']] = '';
 
@@ -229,15 +229,21 @@ class CmsPageController extends Controller
         })->firstOrFail();
         $page_fields = json_decode($page['fields'], true);
         $translatable_fields = json_decode($page['translatable_fields'], true);
-
+        
+        $field_validation_rules = [];
+        $translatable_field_validation_rules = [];
         // Request validation
-        $field_validation_rules = $this->storeValidation($page_fields, $page);
-        $translatable_field_validation_rules = $this->storeValidation($translatable_fields, $page);
+        if(!isset($request->draft_cms_field) || (isset($request->draft_cms_field) && $request->draft_cms_field != 1)){
+            $field_validation_rules = $this->storeValidation($page_fields, $page);
+            $translatable_field_validation_rules = $this->storeValidation($translatable_fields, $page);
+        }
 
         $translatable_field_validation_rules_languages = [];
-        foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
-            foreach (Language::get() as $language) {
-                $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
+        if(!isset($request->draft_cms_field) || (isset($request->draft_cms_field) && $request->draft_cms_field != 1)){
+            foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
+                foreach (Language::get() as $language) {
+                    $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
+                }
             }
         }
 
@@ -272,7 +278,7 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
 
         // Get ht_pos
-        if ($page['order_display']) $query['ht_pos'] = $model::min('ht_pos') - 1;
+        if ($page['order_display']) $query['ht_pos'] = $model::withoutGlobalScope('cms_draft_flag')->min('ht_pos') - 1;
 
         // Create
         $row = $model::create($query);
@@ -284,7 +290,14 @@ class CmsPageController extends Controller
                 $row->{str_replace('_id', '', $field['name'])}()->sync($request[$field['name']]);
             }
         }
-
+        if(isset($request->draft_cms_field) && $request->draft_cms_field == 1){
+            $row->cms_draft_flag = 1;
+            $row->save();
+        }else{
+            $row->cms_draft_flag = 0;
+            $row->save();
+        }
+        
         $this->translateOrNew($translatable_fields, $request, $row);
 
         $request->session()->flash('success', 'Record added successfully');
@@ -298,7 +311,7 @@ class CmsPageController extends Controller
         $translatable_fields = json_decode($page['translatable_fields'], true);
 
         $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
+        $row = $model::withoutGlobalScope('cms_draft_flag')->findOrFail($id);
 
         $view = view()->exists('cms::pages/' . $route . '/show') ? 'cms::pages/' . $route . '/show' : 'cms::pages/cms-page/show';
         return view($view, compact('page', 'page_fields', 'translatable_fields', 'row'));
@@ -314,7 +327,7 @@ class CmsPageController extends Controller
         $extra_variables = $this->getPageExtraVariables($page_fields);
 
         $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
+        $row = $model::withoutGlobalScope('cms_draft_flag')->findOrFail($id);
 
         $appends_to_query = $this->appends_to_query;
 
@@ -326,8 +339,8 @@ class CmsPageController extends Controller
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
-            if (isset($field['hide_edit']) && $field['hide_edit']) continue;
-            if ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) continue;
+            if ((isset($field['hide_edit']) && $field['hide_edit'])) continue;
+            if ($field['form_field'] == 'slug' && $field['form_field_additionals_2'] == 0 && !$field['unique']) continue;
 
             $validation_rules[$field['name']] = '';
             if (!$field['nullable'] && ($field['form_field'] != 'image' && $field['form_field'] != 'file' && $field['form_field'] != 'password with confirmation')) $validation_rules[$field['name']] .= 'required|';
@@ -356,16 +369,24 @@ class CmsPageController extends Controller
 
         // Get row
         $model = 'App\\' . $page['model_name'];
-        $row = $model::findOrFail($id);
+        $row = $model::withoutGlobalScope('cms_draft_flag')->findOrFail($id);
 
         // Request validations
-        $field_validation_rules = $this->updateValiation($page_fields, $page['database_table'], $id, $row);
-        $translatable_field_validation_rules = $this->updateValiation($translatable_fields, $page['database_table'] . '_translations', $id, $row);
-
+        
+        $field_validation_rules = [];
+        $translatable_field_validation_rules = [];
+        
+        if(!isset($request->draft_cms_field) || (isset($request->draft_cms_field) && $request->draft_cms_field != 1)){
+            $field_validation_rules = $this->updateValiation($page_fields, $page['database_table'], $id, $row);
+            $translatable_field_validation_rules = $this->updateValiation($translatable_fields, $page['database_table'] . '_translations', $id, $row);
+        }
+        
         $translatable_field_validation_rules_languages = [];
-        foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
-            foreach (Language::get() as $language) {
-                $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
+        if(!isset($request->draft_cms_field) || (isset($request->draft_cms_field) && $request->draft_cms_field != 1)){
+            foreach ($translatable_field_validation_rules as $translatable_field => $translatable_rule) {
+                foreach (Language::get() as $language) {
+                    $translatable_field_validation_rules_languages[$language->slug . '.' . $translatable_field] = $translatable_rule;
+                }
             }
         }
 
@@ -378,7 +399,7 @@ class CmsPageController extends Controller
         // Update query
         $query = [];
         foreach ($page_fields as $field) {
-            if (($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) || $field['form_field'] == 'select multiple' || (isset($field['hide_edit']) && $field['hide_edit'])) continue;
+            if ((!isset($request->draft_cms_field) || (isset($request->draft_cms_field) && $request->draft_cms_field != 1)) && ($field['form_field'] == 'slug' && !$field['form_field_additionals_2']) || $field['form_field'] == 'select multiple' || (isset($field['hide_edit']) && $field['hide_edit'])) continue;
 
             if (($field['form_field'] == 'password' || $field['form_field'] == 'password with confirmation')) {
                 if ($request[$field['name']]) {
@@ -420,7 +441,15 @@ class CmsPageController extends Controller
                 }
             }
         }
-
+        
+        if(isset($request->draft_cms_field) && $request->draft_cms_field == 1){
+            $row->cms_draft_flag = 1;
+            $row->save();
+        }else{
+            $row->cms_draft_flag = 0;
+            $row->save();
+        }
+        
         // Translatable update query
         $this->translateOrNew($translatable_fields, $request, $row);
 
@@ -451,7 +480,12 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
 
         $array = explode(',', $id);
-        foreach ($array as $id) $model::destroy($id);
+        foreach ($array as $id) {
+            $record = $model::withoutGlobalScope('cms_draft_flag')->find($id);
+            if ($record) {
+                $record->delete();
+            }
+        }
 
         $appends_to_query = $this->appends_to_query;
 
@@ -468,7 +502,7 @@ class CmsPageController extends Controller
 
         if (!$page['order_display']) abort(404);
 
-        $rows = $model::orderBy('ht_pos')->get();
+        $rows = $model::withoutGlobalScope('cms_draft_flag')->orderBy('ht_pos')->get();
 
         $view = view()->exists('cms::pages/' . $route . '/order') ? 'cms::pages/' . $route . '/order' : 'cms::pages/cms-page/order';
         return view($view, compact('page', 'page_fields', 'page_translatable_fields', 'rows'));
@@ -480,7 +514,7 @@ class CmsPageController extends Controller
         $model = 'App\\' . $page['model_name'];
 
         foreach ($request['ht_pos'] as $id => $pos) {
-            $row = $model::findOrFail($id);
+            $row = $model::withoutGlobalScope('cms_draft_flag')->findOrFail($id);
             $row->ht_pos = $pos;
             $row->save();
         }

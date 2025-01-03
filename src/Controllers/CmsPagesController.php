@@ -281,11 +281,12 @@ class CmsPagesController extends Controller
         // Create table
         Schema::create($request['database_table'], function ($table) use ($request) {
             $table->increments('id');
+            $table->integer('cms_draft_flag')->default(0);
             // Regular database columns
             foreach ($request->form_field as $f => $form_field) {
                 if ($form_field == 'select multiple') continue;
 
-                $table->{$request->migration_type[$f]}($request->name[$f])->{$form_field == 'select' ? 'unsigned' : ''}()->{$request->nullable[$f] ? 'nullable' : ''}();
+                $table->{$request->migration_type[$f]}($request->name[$f])->{$form_field == 'select' ? 'unsigned' : ''}()->{$request->nullable[$f] ? 'nullable' : 'nullable'}();
                 if ($form_field == 'select') {
                     $table->foreign($request->name[$f])->references('id')->on($request->form_field_additionals_1[$f])->onDelete('cascade');
                 }
@@ -323,7 +324,7 @@ class CmsPagesController extends Controller
                 foreach ($request->translatable_form_field as $f => $form_field) {
                     if ($form_field == 'select' || $form_field == 'select multiple') continue;
 
-                    $table->{$request->translatable_migration_type[$f]}($request->translatable_name[$f])->{$form_field == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$f] ? 'nullable' : ''}();
+                    $table->{$request->translatable_migration_type[$f]}($request->translatable_name[$f])->{$form_field == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$f] ? 'nullable' : 'nullable'}();
                 }
                 $table->timestamps();
 
@@ -384,7 +385,7 @@ class CmsPagesController extends Controller
             if ($request['form_field'][$i] == 'select') continue;
 
             Schema::table($request['database_table'], function ($table) use ($request, $i) {
-                $table->{$request->migration_type[$i]}($request->name[$i])->{$request->nullable[$i] ? 'nullable' : ''}()->change();
+                $table->{$request->migration_type[$i]}($request->name[$i])->{$request->nullable[$i] ? 'nullable' : 'nullable'}()->change();
             });
         }
 
@@ -407,6 +408,7 @@ class CmsPagesController extends Controller
                 });
             }
         }
+
 
         // Create pivot tables
         foreach ($request->form_field as $f => $form_field) {
@@ -451,7 +453,7 @@ class CmsPagesController extends Controller
 
         // Delete columns
         foreach (Schema::getColumnListing($request['database_table']) as $db_column) {
-            if ($db_column == 'id' || $db_column == 'ht_pos' || $db_column == 'created_at' || $db_column == 'updated_at') continue;
+            if ($db_column == 'id' || $db_column == 'cms_draft_flag' || $db_column == 'ht_pos' || $db_column == 'created_at' || $db_column == 'updated_at') continue;
 
             // Check if db column is in requested names
             $db_column_found = false;
@@ -486,7 +488,17 @@ class CmsPagesController extends Controller
                 }
             }
         }
+                
+        
+        // If table already have 'cms_draft_flag' column
+        if (Schema::hasColumn($request['database_table'], 'cms_draft_flag')) {
 
+        }else {
+            Schema::table($request['database_table'], function ($table){
+                $table->integer('cms_draft_flag')->default(0)->after('id');
+            });
+        }
+        
         // Edit translations table
         if ($request['translatable_name']) {
 
@@ -519,7 +531,7 @@ class CmsPagesController extends Controller
                         }
                     }
                     Schema::table($request['database_table'] . '_translations', function ($table) use ($request, $i, $after_column) {
-                        $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_form_field[$i] == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$i] ? 'nullable' : ''}()->after($after_column);
+                        $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_form_field[$i] == 'select' ? 'unsigned' : ''}()->{$request->translatable_nullable[$i] ? 'nullable' : 'nullable'}()->after($after_column);
                     });
                 }
 
@@ -538,7 +550,7 @@ class CmsPagesController extends Controller
                 if ($request['translatable_form_field'][$i] == 'select' || $request['translatable_form_field'][$i] == 'select multiple') continue;
 
                 Schema::table($request['database_table'] . '_translations', function ($table) use ($request, $i) {
-                    $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_nullable[$i] ? 'nullable' : ''}()->change();
+                    $table->{$request->translatable_migration_type[$i]}($request->translatable_name[$i])->{$request->translatable_nullable[$i] ? 'nullable' : 'nullable'}()->change();
                 });
             }
 
@@ -561,6 +573,7 @@ class CmsPagesController extends Controller
                     });
                 }
             }
+            
         } else {
             // Drop table table if exists
             Schema::dropIfExists($request['database_table'] . '_translations');
@@ -584,16 +597,17 @@ class CmsPagesController extends Controller
         $use = '';
         $translated_attributes = '';
         if ($request['translatable_name']) {
-            $head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable;';
+            $head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable; use Illuminate\Database\Eloquent\Builder;';
             $implements = ' implements TranslatableContract';
             $use = 'use Translatable;';
             $translated_attributes = 'protected $hidden = [\'translations\'];
 
     public $translatedAttributes = ' . json_encode($request['translatable_name']) . ';';
         }
-
-
+        
+        
         $body = '';
+        $body .= 'protected static function booted(){static::addGlobalScope(\'cms_draft_flag\', function (Builder $builder) {$builder->where(\'cms_draft_flag\', \'!=\', 1);});}';
         foreach ($request['form_field'] as $f => $form_field) {
             if ($form_field == 'select') {
                 $second_database_table = $request->form_field_additionals_1[$f];

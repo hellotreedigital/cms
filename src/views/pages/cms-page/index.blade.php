@@ -119,6 +119,11 @@
 								</th>
 							@endif
 						@endforeach
+					    @if(isset($rows[0]) && isset($rows[0]['cms_draft_flag']))
+    					    <th>
+    					        Record Status
+    					    </th>
+    					@endif
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -215,6 +220,11 @@
 									<td>{{ $row[$field['name']] }}</td>
 								@endif
 							@endforeach
+							@if(isset($rows[0]) && isset($rows[0]['cms_draft_flag']))
+								<td>
+								{{$row->cms_draft_flag == 1 ? 'Draft' : 'Active'}} 
+								</td>
+							@endif
 							<td class="actions-wrapper text-right">
 								@if ($page['show'] || !request()->get('admin')['admin_role_id'])
 									@if (request()->get('admin')['cms_pages'][$page['route']]['permissions']['read'])
@@ -251,7 +261,6 @@
                         @endphp
                         Showing {{ $first_item_in_page }} to {{ $last_item_in_page > $rows->total() ? $rows->total() : $last_item_in_page }} of {{ $rows->total() }} entries
                     </div>
-                    {{-- @dd($rows) --}}
                 </div>
                 <div class="col-lg-6">
                     {{ $rows->onEachSide(1)->appends($_GET)->links() }}

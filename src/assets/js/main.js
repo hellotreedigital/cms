@@ -6,6 +6,16 @@ window.addEventListener("pageshow", function (event) {
 
 $(document).ready(function () {
 
+    $('.save-as-draft-button').on('click', function (e) {
+        // Set the hidden field to 1 for drafts
+        $('#draftField').val('1');
+    });
+
+    $('.submit-draft-button').on('click', function (e) {
+        // Ensure the hidden field remains 0 for normal submissions
+        $('#draftField').val('0');
+    });
+    
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
