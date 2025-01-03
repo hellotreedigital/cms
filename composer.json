@@ -1,27 +1,27 @@
 {
-    "name": "hellotree/cms",
+    "name": "hellotreedigital/cms",
     "description": "HelloTree CMS",
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Hellotree\\Cms\\": "src/",
-            "Hellotree\\Cms\\Seeds\\": "src/seeds/",
-            "Hellotree\\Cms\\Middlewares\\": "src/middlewares/",
-            "Hellotree\\Cms\\Models\\": "src/models/"
+            "Hellotreedigital\\Cms\\": "src",
+            "Hellotreedigital\\Cms\\Seeds\\": "src/seeds",
+            "Hellotreedigital\\Cms\\Middlewares\\": "src/middlewares",
+            "Hellotreedigital\\Cms\\Models\\": "src/models"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Hellotree\\Cms\\Providers\\CmsServiceProvider"
+                "Hellotreedigital\\Cms\\Providers\\CmsServiceProvider"
             ]
         }
     },
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "doctrine/dbal": "^3.0||^4.0",
-        "astrotomic/laravel-translatable": "^11.0",
-        "tinify/tinify": "^1.0"
+        "doctrine/dbal": "^3.0 || ^4.0",
+        "astrotomic/laravel-translatable": "*",
+        "tinify/tinify": "*"
     }
 }
