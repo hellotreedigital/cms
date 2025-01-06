@@ -457,6 +457,16 @@ $(document).ready(function () {
     $('.form-buttons-wrapper').each(function () {
         var html = $(this).html();
         $(this).parent().append('<div class="fixed-top form-buttons-wrapper-fixed px-2 px-sm-5"><div class="bg-white text-right shadow-sm py-3 px-4">' + html + '</div></div>');
+
+        $('.form-buttons-wrapper-fixed .save-as-draft-button').off('click').on('click', function () {
+            // Set the hidden field to 1 for drafts
+            $('#draftField').val('1');
+        });
+    
+        $('.form-buttons-wrapper-fixed .submit-draft-button').off('click').on('click', function () {
+            // Ensure the hidden field remains 0 for normal submissions
+            $('#draftField').val('0');
+        });
     });
 
     $('[data-slug-origin]').each(function () {
