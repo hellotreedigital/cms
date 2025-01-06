@@ -339,6 +339,7 @@ class CmsPageController extends Controller
     {
         $validation_rules = [];
         foreach ($page_fields as $field) {
+            if ($field['form_field'] == 'slug' && $row->slug) continue;
             if ((isset($field['hide_edit']) && $field['hide_edit'])) continue;
             if ($field['form_field'] == 'slug' && $field['form_field_additionals_2'] == 0 && !$field['unique']) continue;
 

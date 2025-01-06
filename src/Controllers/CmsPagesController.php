@@ -597,7 +597,7 @@ class CmsPagesController extends Controller
         $use = '';
         $translated_attributes = '';
         if ($request['translatable_name']) {
-            $head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable; use Illuminate\Database\Eloquent\Builder;';
+            $head = 'use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract; use Astrotomic\Translatable\Translatable;';
             $implements = ' implements TranslatableContract';
             $use = 'use Translatable;';
             $translated_attributes = 'protected $hidden = [\'translations\'];
