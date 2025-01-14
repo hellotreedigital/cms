@@ -607,7 +607,7 @@ class CmsPagesController extends Controller
         
         
         $body = '';
-        $body .= 'protected static function booted(){static::addGlobalScope(\'cms_draft_flag\', function (Builder $builder) {$builder->where(\'cms_draft_flag\', \'!=\', 1);});}';
+        $body .= 'protected static function booted(){static::addGlobalScope(\'cms_draft_flag\', function (Builder $builder) {$builder->where(\'' . $request['database_table'] . '.cms_draft_flag\', \'!=\', 1);});}';
         foreach ($request['form_field'] as $f => $form_field) {
             if ($form_field == 'select') {
                 $second_database_table = $request->form_field_additionals_1[$f];
