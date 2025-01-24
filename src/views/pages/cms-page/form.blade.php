@@ -60,10 +60,10 @@
                 @if ($page['preview_path'])
                     <button type="button" class="btn btn-sm btn-secondary ht-preview-mode">Preview</button>
                 @endif
+                <button type="submit" class="btn btn-sm btn-primary submit-draft-button">Submit</button>
                 @if ($page['single_record'] == 0)
                     <button type="submit" class="btn btn-secondary save-as-draft-button">Save As Draft</button>
                 @endif
-                <button type="submit" class="btn btn-sm btn-primary submit-draft-button">Submit</button>
             </div>
         </div>
 
