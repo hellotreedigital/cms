@@ -32,6 +32,24 @@ Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web'])->group(
 */
 
 Route::prefix(config('hellotree.cms_route_prefix'))->middleware(['web', 'admin'])->group(function () {
+    
+    Route::get('cms-media', 'Hellotreedigital\Cms\Controllers\CmsMediaController@showMedia')->name('cms-media');
+    Route::get('vendor-image/{filename}', function ($filename) {
+        $path = base_path("vendor/hellotreedigital/cms/src/assets/images/$filename");
+    
+        if (!file_exists($path)) {
+            abort(404);
+        }
+    
+        $mimeType = mime_content_type($path);
+        return response()->file($path, [
+            'Content-Type' => $mimeType
+        ]);
+    });
+
+    Route::delete('cms-media/destroy', 'Hellotreedigital\Cms\Controllers\CmsMediaController@destroy');
+    Route::post('/cms-media/upload', 'Hellotreedigital\Cms\Controllers\CmsMediaController@uploadFile');
+    
     Route::get('logout', 'Hellotreedigital\Cms\Controllers\CmsController@logout')->name('admin-logout');
     Route::get('home', 'Hellotreedigital\Cms\Controllers\CmsController@showHome')->name('admin-home');
     Route::get('profile', 'Hellotreedigital\Cms\Controllers\CmsController@showProfile')->name('admin-profile');
