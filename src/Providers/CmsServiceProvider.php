@@ -141,7 +141,6 @@ class CmsServiceProvider extends ServiceProvider
                 'apis' => null,
                 'parent_title' => null,
                 'parent_icon' => null,
-                'server_side_pagination' => 1,
             ],
             [
                 'icon' => 'fa-language',
