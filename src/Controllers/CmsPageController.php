@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Hellotreedigital\Cms\Models\CmsPage;
 use Hellotreedigital\Cms\Models\Language;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Hash;
 
@@ -29,6 +30,27 @@ class CmsPageController extends Controller
         if (request('custom_search')) $this->appends_to_query .= 'custom_search=' . request('custom_search') . '&';
         if (request('sort_by')) $this->appends_to_query .= 'sort_by=' . request('sort_by') . '&';
         if (request('sort_by_direction')) $this->appends_to_query .= 'sort_by_direction=' . request('sort_by_direction') . '&';
+    }
+    
+    public function triggerNextJsRevalidation()
+    {
+        
+        $nextJsConfig = config('hellotree.nextJs');
+        if (
+            isset($nextJsConfig) &&
+            isset($nextJsConfig['frontend'], $nextJsConfig['revalidate_key'], $nextJsConfig['revalidate_keys']) &&
+            !empty($nextJsConfig['frontend']) &&
+            !empty($nextJsConfig['revalidate_api']) &&
+            !empty($nextJsConfig['revalidate_key']) &&
+            is_array($nextJsConfig['revalidate_keys'])
+        ) {
+            foreach ($nextJsConfig['revalidate_keys'] as $tag) {
+                $resonse = Http::post($nextJsConfig['frontend'] . $nextJsConfig['revalidate_api'], [
+                    'secret' => $nextJsConfig['revalidate_key'],
+                    'tag' => $tag,
+                ]);
+            }
+        }
     }
 
     public function index($route)
@@ -299,6 +321,7 @@ class CmsPageController extends Controller
         }
         
         $this->translateOrNew($translatable_fields, $request, $row);
+        $this->triggerNextJsRevalidation();
 
         $request->session()->flash('success', 'Record added successfully');
         return url(config('hellotree.cms_route_prefix') . '/' . $route);
@@ -453,6 +476,7 @@ class CmsPageController extends Controller
         
         // Translatable update query
         $this->translateOrNew($translatable_fields, $request, $row);
+        $this->triggerNextJsRevalidation();
 
         $request->session()->flash('success', 'Record edited successfully');
         return url(config('hellotree.cms_route_prefix') . '/' . $route . $this->appends_to_query);
@@ -489,6 +513,7 @@ class CmsPageController extends Controller
         }
 
         $appends_to_query = $this->appends_to_query;
+        $this->triggerNextJsRevalidation();
 
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route . $appends_to_query)->with('success', 'Record deleted successfully');
     }
@@ -519,7 +544,8 @@ class CmsPageController extends Controller
             $row->ht_pos = $pos;
             $row->save();
         }
-
+        $this->triggerNextJsRevalidation();
+        
         return redirect(config('hellotree.cms_route_prefix') . '/' . $route)->with('success', 'Records ordered successfully');
     }
 
